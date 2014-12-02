@@ -1,0 +1,4 @@
+dft_site:
+    resource: "@dftSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
