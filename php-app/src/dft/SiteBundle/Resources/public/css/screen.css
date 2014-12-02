@@ -1,0 +1,21 @@
+
+.jquery-auto-geocoder-map {
+  width: 288px;
+  height: 198px;
+}
+
+div.full {
+  width: 100%;
+  float: none;
+}
+
+div.full input {
+  width: 100%;
+  margin: 4px 0;
+  padding: 4px;
+}
+
+div.full .jquery-auto-geocoder-map {
+  width: 100%;
+  height: 300px;
+}
