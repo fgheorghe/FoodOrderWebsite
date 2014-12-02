@@ -1,3 +1,3 @@
-dft_site_homepage:
-    path:     /hello/{name}
+dft_site:
+    path:     /
     defaults: { _controller: dftSiteBundle:Default:index }
