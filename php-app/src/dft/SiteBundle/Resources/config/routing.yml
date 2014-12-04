@@ -10,3 +10,6 @@ dft_site_menu:
 dft_site_cart:
     path:     /cart/
     defaults: { _controller: dftSiteBundle:Cart:index }
+dft_site_login:
+    path:     /login/
+    defaults: { _controller: dftSiteBundle:Login:index }
