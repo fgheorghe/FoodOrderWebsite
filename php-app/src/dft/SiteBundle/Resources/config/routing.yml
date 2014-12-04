@@ -4,3 +4,6 @@ dft_site:
 dft_site_contact:
     path:     /contact/
     defaults: { _controller: dftSiteBundle:Contact:index }
+dft_site_menu:
+    path:     /menu/
+    defaults: { _controller: dftSiteBundle:Menu:index }
