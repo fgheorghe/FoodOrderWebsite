@@ -7,3 +7,6 @@ dft_site_contact:
 dft_site_menu:
     path:     /menu/
     defaults: { _controller: dftSiteBundle:Menu:index }
+dft_site_cart:
+    path:     /cart/
+    defaults: { _controller: dftSiteBundle:Cart:index }
