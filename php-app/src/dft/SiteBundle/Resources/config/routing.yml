@@ -13,3 +13,6 @@ dft_site_cart:
 dft_site_login:
     path:     /login/
     defaults: { _controller: dftSiteBundle:Login:index }
+dft_site_forgot_password:
+    path:     /forgot-password/
+    defaults: { _controller: dftSiteBundle:ForgotPassword:index }

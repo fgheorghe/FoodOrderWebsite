@@ -986,6 +986,7 @@ font-family: 'MyriadPro-Bold';
 /* ================= Login Page ================= */
 
 .login_box { width:40%; border:1px solid #d8d8d8; border-radius:6px; padding:8px; float:left;}
+.forgot_password_box { width: 500px; border:1px solid #d8d8d8; border-radius:6px; padding:8px; float:left; }
 .login_box h2 { margin:5px 0; text-align:center;}
 .login_box h1.bottom_line { margin:5px 0 30px 0;}
 .login_box form { width:100%}
