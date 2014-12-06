@@ -1,7 +1,7 @@
 parameters:
-#    dft_site.example.class: dft\SiteBundle\Example
+    dft_site.api_client.class: dft\SiteBundle\Services\ApiClient
 
 services:
-#    dft_site.example:
-#        class: %dft_site.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    dft_site.api_client:
+        class: %dft_site.api_client.class%
+        arguments: [@service_container]

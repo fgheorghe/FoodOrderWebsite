@@ -34,15 +34,13 @@
 <section class="container clearfix">
     <div class=" menu_list small_screen">
         <select name="menu" class="hidden_list">
-            <option value="appetisers"><a href="">Appetisers</a></option>
-            <option value="biryani"><a href="">Biryani</a></option>
-            <option value="ovan"><a href="">From The Clay Ovan</a></option>
-            <option value="desi"><a href="">Desi Food</a></option>
-            <option value="chiness"><a href="">Chiness</a></option>
-            <option value="italians"><a href="">Italians</a></option>
+            {% for category in menu_item_categories %}
+                <option value="{{ category.category_name }}"><a href="">{{ category.category_name }}</a></option>
+            {% endfor %}
         </select>
     </div>
 </section>
+
 <section class="container clearfix">
 
     <div class="menu_list full_screen">
@@ -52,12 +50,9 @@
             <h1 class="regular brown bottom_line"></h1>
             <div class="menu_cat">
                 <ul>
-                    <li><a href="">Appetisers</a></li>
-                    <li><a href="">Biryani</a></li>
-                    <li><a href="">From The Clay Ovan</a></li>
-                    <li><a href="">Desi Food</a></li>
-                    <li><a href="">Chiness</a></li>
-                    <li><a href="">Italians</a></li>
+                    {% for category in menu_item_categories %}
+                        <li><a href="{{ category.category_name }}">{{ category.category_name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
 

@@ -9,7 +9,7 @@
         Options FollowSymLinks
         AllowOverride None
     </Directory>
-    <Directory /var/www/site/php-app/web>
+    <Directory /usr/local/www/apache24/data/php-app/web>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride all
         Order allow,deny
