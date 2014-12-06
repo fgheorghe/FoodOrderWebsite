@@ -3,7 +3,7 @@
     ServerName site.digitalfoodtechnologies.co.uk
     ServerAlias site
 
-    DocumentRoot /var/www/site/php-app/web
+    DocumentRoot /usr/local/www/apache24/data/php-app/web
 
     <Directory />
         Options FollowSymLinks
@@ -16,11 +16,11 @@
         allow from all
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/site-error.log
+    ErrorLog /var/log/httpd-error.log
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
     LogLevel debug
 
-    CustomLog ${APACHE_LOG_DIR}/site-access.log combined
+    CustomLog /var/log/httpd-access.log combined
 </VirtualHost>
