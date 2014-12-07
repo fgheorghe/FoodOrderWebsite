@@ -2,9 +2,7 @@
 
 namespace dft\SiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class CartController extends Controller
+class CartController extends BaseController
 {
     public function indexAction()
     {

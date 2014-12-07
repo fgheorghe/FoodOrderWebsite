@@ -2,9 +2,7 @@
 
 namespace dft\SiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class ContactController extends Controller
+class ContactController extends BaseController
 {
     public function indexAction()
     {

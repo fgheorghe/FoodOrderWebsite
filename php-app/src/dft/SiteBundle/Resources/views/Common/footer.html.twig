@@ -10,16 +10,21 @@
             <div class="clear padding20"></div>
             <p><a href="/">Home</a> | <a href="/menu/">Menu</a> | <a href="/contact/">Contact Us</a></p>
             <p>
-                &copy; 2014 All Rights Reserved. &nbsp; <a href="https://www.behance.net/shaikh-sahab">Design by Digital Food Technologies</a>
+                &copy; 2014 All Rights Reserved. &nbsp; <a target="_blank" href="http://www.digitalfoodtechnologies.co.uk/">Design by Digital Food Technologies.</a>
             </p>
 
         </div>
 
         <div class="col_1_4 footer_icons">
-            <a href="" class="icon_fb"></a>
-            <a href="" class="icon_twitter"></a>
-            <a href="" class="icon_in"></a>
-            <a href="" class="icon_google"></a>
+            {% if front_end_settings.facebook_page_url %}
+            <a href="{{ front_end_settings.facebook_page_url }}" target="_blank" class="icon_fb"></a>
+            {% endif %}
+            {% if front_end_settings.twitter_page_url %}
+            <a href="{{ front_end_settings.twitter_page_url }}" target="_blank" class="icon_twitter"></a>
+            {% endif %}
+            {% if front_end_settings.google_page_url %}
+            <a href="{{ front_end_settings.google_page_url }}" target="_blank" class="icon_google"></a>
+            {% endif %}
         </div>
 
         <div class="clear padding20"></div>

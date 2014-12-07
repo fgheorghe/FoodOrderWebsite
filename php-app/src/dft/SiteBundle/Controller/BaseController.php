@@ -9,6 +9,7 @@
 namespace dft\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller {
     /**
@@ -19,4 +20,25 @@ class BaseController extends Controller {
         // Get the customer service.
         return $this->container->get('dft_site.api_client');
     }
-} 
+
+    /**
+     * Renders a view.
+     *
+     * @param string   $view       The view name
+     * @param array    $parameters An array of parameters to pass to the view
+     * @param Response $response   A response instance
+     *
+     * @return Response A Response instance
+     */
+    public function render($view, array $parameters = array(), Response $response = null)
+    {
+        // Get the front end settings, and append to parameters array.
+        $parameters = array_merge($parameters, array(
+               "front_end_settings" => $this->getApiClientService()->getFrontEndSettings(),
+               "restaurant_settings" => $this->getApiClientService()->getRestaurantSettings()
+            )
+        );
+
+        return parent::render($view, $parameters, $response);
+    }
+}

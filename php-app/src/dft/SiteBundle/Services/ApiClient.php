@@ -27,6 +27,8 @@ class ApiClient {
     // To be appended to foapi_services_root_url configuration parameter.
     const SERVICE_MENU_ITEM_CATEGORIES_URL = "menu-item-categories/";
     const SERVICE_CATEGORY_MENU_ITEMS_URL = "menu-items/";
+    const SERVICE_FRONT_END_SETTINGS_URL = "front-end-settings/";
+    const SERVICE_RESTAURANT_SETTINGS_URL = "restaurant-settings/";
 
     /**
      * Method used for fetching menu item categories.
@@ -43,6 +45,11 @@ class ApiClient {
         );
     }
 
+    /**
+     * Method used for fetching menu item category items.
+     * @param $categoryId
+     * @return mixed
+     */
     public function getCategoryMenuItems($categoryId) {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
@@ -51,6 +58,36 @@ class ApiClient {
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2,
                 "category_id" => $categoryId
+            )
+        );
+    }
+
+    /**
+     * Get front end settings.
+     * @return mixed
+     */
+    public function getFrontEndSettings() {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_FRONT_END_SETTINGS_URL,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2
+            )
+        );
+    }
+
+    /**
+     * Get restaurant settings.
+     * @return mixed
+     */
+    public function getRestaurantSettings() {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_RESTAURANT_SETTINGS_URL,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2
             )
         );
     }

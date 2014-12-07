@@ -2,9 +2,7 @@
 
 namespace dft\SiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class ForgotPasswordController extends Controller
+class ForgotPasswordController extends BaseController
 {
     public function indexAction()
     {

@@ -1,7 +1,13 @@
 <section class="main_taglines">
 <div class="container main_taglines clearfix">
-    <h5>We will be available from 12 Noon to 12 Midnight</h5>
+    {% if restaurant_settings.open_all_day == 1 %}
+        <h5>We are available non-stop</h5>
+    {% else %}
+        <h5>We will be available from {{ restaurant_settings.opening_time }} to {{ restaurant_settings.closing_time }}</h5>
+    {% endif %}
     <div class="clear padding10"></div>
-    <h2>Call Us: 02072476606, 73778767</h2>
+    {% if front_end_settings.phone_numbers %}
+        <h2>Call Us: {{ front_end_settings.phone_numbers }}</h2>
+    {% endif %}
 </div>
 </section>
