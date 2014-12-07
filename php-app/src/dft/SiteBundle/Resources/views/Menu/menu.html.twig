@@ -51,7 +51,7 @@
             <div class="menu_cat">
                 <ul>
                     {% for category in menu_item_categories %}
-                        <li><a href="{{ category.category_name }}">{{ category.category_name }}</a></li>
+                        <li><a href="/menu/{{ category.id }}">{{ category.category_name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -69,10 +69,6 @@
             <h1 class="regular brown bottom_line"></h1>
 
         </div>
-        <div class="menu-h4-left"><h4>rosted apple tart</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
-
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
 
         <div class="clear padding{% include 'dftSiteBundle:Common:top.html.twig' %}
 
@@ -204,52 +200,17 @@
         {# Bottom. #}
         {% include 'dftSiteBundle:Common:bottom.html.twig' %}40"></div>
 
-        <div class="menu-h4-left"><h4>Cheese plate</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
+    {% if menu_items.data is defined %}
+        {% for menu_item in menu_items.data %}
+            <div class="menu-h4-left"><h4>{{ menu_item.item_name }}</h4></div><div class="menu-h4-right"><h3>£{{ menu_item.price }}</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
 
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
-
-        <div class="clear padding40"></div>
-
-        <div class="menu-h4-left"><h4>smoked ,bacon wrapped prawns</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
-
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
-
-
-        <div class="clear padding40"></div>
-
-        <div class="menu-h4-left"><h4>greek lamb sliders</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
-
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
-
-
-        <div class="clear padding40"></div>
-
-        <div class="menu-h4-left"><h4>rtichoke rosemary salmon</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
-
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
-
-
-        <div class="clear padding40"></div>
-
-        <div class="menu-h4-left"><h4>fresh fettuccini garlic alfredo</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
-
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
-
-
-        <div class="clear padding40"></div>
-
-        <div class="menu-h4-left"><h4>fresh fish of the night</h4></div><div class="menu-h4-right"><h3>£12,00</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
-
-        <div class="clear padding10"></div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. </p>
-
-        <div class="clear padding40"></div>
-
+            {% if menu_item.item_description %}
+                <div class="clear padding10"></div>
+                <p>{{ menu_item.item_description }}</p>
+            {% endif %}
+            <div class="clear padding40"></div>
+        {% endfor %}
+    {% endif %}
     </div>
 
     <div class="cart_box cart_hide">

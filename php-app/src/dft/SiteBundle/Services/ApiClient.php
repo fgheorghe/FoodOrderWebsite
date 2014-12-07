@@ -26,7 +26,12 @@ class ApiClient {
     // Some URL parts to append for different services, excluding leading /, including trailing /,
     // To be appended to foapi_services_root_url configuration parameter.
     const SERVICE_MENU_ITEM_CATEGORIES_URL = "menu-item-categories/";
+    const SERVICE_CATEGORY_MENU_ITEMS_URL = "menu-items/";
 
+    /**
+     * Method used for fetching menu item categories.
+     * @return mixed
+     */
     public function getMenuItemCategories() {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
@@ -34,6 +39,18 @@ class ApiClient {
             array(
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2
+            )
+        );
+    }
+
+    public function getCategoryMenuItems($categoryId) {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_CATEGORY_MENU_ITEMS_URL,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2,
+                "category_id" => $categoryId
             )
         );
     }
