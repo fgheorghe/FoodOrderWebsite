@@ -1,7 +1,11 @@
 parameters:
     dft_site.api_client.class: dft\SiteBundle\Services\ApiClient
+    dft_site.shopping_cart.class: dft\SiteBundle\Services\ShoppingCart
 
 services:
     dft_site.api_client:
         class: %dft_site.api_client.class%
+        arguments: [@service_container]
+    dft_site.shopping_cart:
+        class: %dft_site.shopping_cart.class%
         arguments: [@service_container]

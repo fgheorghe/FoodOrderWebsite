@@ -15,7 +15,6 @@ use dft\SiteBundle\Traits\Curl;
 
 class ApiClient {
     use ContainerAware;
-    use Database;
     use Logger;
     use Curl;
 
