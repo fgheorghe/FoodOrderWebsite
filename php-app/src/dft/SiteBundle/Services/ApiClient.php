@@ -48,10 +48,11 @@ class ApiClient {
 
     /**
      * Method used for fetching menu item category items.
-     * @param $categoryId String. If empty, it will select all menu items for this account.
+     * @param $categoryIdOrName Mixed. If empty, it will select all menu items for this account.
+     * If this is a number, then it will filter by category id, otherwise category url.
      * @return mixed
      */
-    public function getCategoryMenuItems($categoryId = null) {
+    public function getCategoryMenuItems($categoryIdOrName = null) {
         // Prepare service request parameters.
         $requestParameters = array(
             "token_1" => self::TOKEN_1,
@@ -59,8 +60,14 @@ class ApiClient {
         );
 
         // Add a category id.
-        if (!is_null($categoryId)) {
-            $requestParameters["category_id"] = $categoryId;
+        if (!is_null($categoryIdOrName)) {
+            // If a number, filter by category id.
+            if (is_numeric($categoryIdOrName)) {
+                $requestParameters["category_id"] = $categoryIdOrName;
+            } else {
+                // otherwise by url.
+                $requestParameters["category_url"] = $categoryIdOrName;
+            }
         }
 
         return $this->get(
