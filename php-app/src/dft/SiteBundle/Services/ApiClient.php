@@ -40,7 +40,8 @@ class ApiClient {
             self::SERVICE_MENU_ITEM_CATEGORIES_URL,
             array(
                 "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_2" => self::TOKEN_2,
+                "non_empty" => 1
             )
         );
     }
