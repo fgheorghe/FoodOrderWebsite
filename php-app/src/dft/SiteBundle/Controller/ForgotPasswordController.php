@@ -8,7 +8,7 @@ class ForgotPasswordController extends BaseController
     {
         // TODO: Implement.
         return $this->render('dftSiteBundle:ForgotPassword:forgot-password.html.twig', array(
-                "shopping_cart_item_count" => count($this->getShoppingCartService()->getItems())
+                "shopping_cart_item_count" => $this->getItemCount()
             )
         );
     }

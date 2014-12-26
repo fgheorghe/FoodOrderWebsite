@@ -8,7 +8,7 @@ class ContactController extends BaseController
     {
         // TODO: Implement.
         return $this->render('dftSiteBundle:Contact:contact.html.twig', array(
-                "shopping_cart_item_count" => count($this->getShoppingCartService()->getItems())
+                "shopping_cart_item_count" => $this->getItemCount()
             )
         );
     }

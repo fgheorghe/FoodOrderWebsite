@@ -19,6 +19,15 @@ class BaseController extends Controller {
     protected function getShoppingCartService() {
         return $this->container->get('dft_site.shopping_cart');
     }
+
+    /**
+     * Total number of items in shopping cart.
+     * @return Integer
+     */
+    protected function getItemCount() {
+        return array_sum($this->getShoppingCartService()->getItems());
+    }
+
     /**
      * Returns the API Client Service.
      * @return \dft\SiteBundle\Services\ApiClient

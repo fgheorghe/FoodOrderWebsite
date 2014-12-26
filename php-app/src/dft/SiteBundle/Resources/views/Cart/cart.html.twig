@@ -56,7 +56,11 @@
             <div class="clear"></div>
 
             <div class="dishes2">
+                {# Prepare a total price variable, and display items. #}
+                {% set total_price = 0 %}
                 {% for item in shopping_cart_items %}
+                    {# Compute total price. #}
+                    {% set total_price = total_price + item.price %}
                     <ul>
                         <li>{{ item.name|length > 15 ? item.name|slice(0, 15) ~ '...' : item.name  }}</li>
                         <li>{{ item.count }}</li>
@@ -64,6 +68,12 @@
                         <li><a href="?cart_remove_item={{ item.id }}"><img src="/images/pricing_remove.png" alt="" /></a></li>
                     </ul>
                 {% endfor %}
+                <ul>
+                    <li><b>TOTAL</b></li>
+                    <li><b>{{ shopping_cart_item_count }}</b></li>
+                    <li><b>£{{ total_price }}</b></li>
+                    <li>&nbsp;</li>
+                </ul>
             </div>
 
             <div class="clear"></div>
