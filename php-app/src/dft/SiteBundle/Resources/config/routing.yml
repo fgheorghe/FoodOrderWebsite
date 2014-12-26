@@ -13,6 +13,9 @@ dft_site_menu_items:
 dft_site_cart:
     path:     /cart/
     defaults: { _controller: dftSiteBundle:Cart:index }
+dft_site_payment:
+    path:     /payment/
+    defaults: { _controller: dftSiteBundle:Payment:index }
 dft_site_login:
     path:     /login/
     defaults: { _controller: dftSiteBundle:Login:index }
