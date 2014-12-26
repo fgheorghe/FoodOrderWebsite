@@ -48,18 +48,25 @@ class ApiClient {
 
     /**
      * Method used for fetching menu item category items.
-     * @param $categoryId
+     * @param $categoryId String. If empty, it will select all menu items for this account.
      * @return mixed
      */
-    public function getCategoryMenuItems($categoryId) {
+    public function getCategoryMenuItems($categoryId = null) {
+        // Prepare service request parameters.
+        $requestParameters = array(
+            "token_1" => self::TOKEN_1,
+            "token_2" => self::TOKEN_2
+        );
+
+        // Add a category id.
+        if (!is_null($categoryId)) {
+            $requestParameters["category_id"] = $categoryId;
+        }
+
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_CATEGORY_MENU_ITEMS_URL,
-            array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2,
-                "category_id" => $categoryId
-            )
+            $requestParameters
         );
     }
 

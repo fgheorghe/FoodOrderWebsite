@@ -12,7 +12,7 @@ class MenuController extends BaseController
                 // Get menu item categories.
                 "menu_item_categories" => $this->getApiClientService()->getMenuItemCategories(),
                 // Get category menu items.
-                "menu_items" => is_null($categoryId) ? array() : $this->getApiClientService()->getCategoryMenuItems(
+                "menu_items" => $this->getApiClientService()->getCategoryMenuItems(
                         $categoryId
                     )
             )
