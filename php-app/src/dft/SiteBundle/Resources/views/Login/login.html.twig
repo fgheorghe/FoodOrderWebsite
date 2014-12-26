@@ -38,27 +38,29 @@
         <div class="login_box">
             <h2>Login To Your Account</h2>
             <h1 class="regular brown bottom_line"></h1>
+            <div style="text-align: center; font-weight: bold;">Invalid email address or password. Please try again.</div>
+            <br/>
 
-            <form action="#" id="myForm">
+            <form action="" method="POST">
                 <ul>
-                    <li>User Name:</li>
-                    <li class="field"><input class="inputText" type="text" id="name" name="name" placeholder="" /></li>
+                    <li>Email:</li>
+                    <li class="field"><input class="inputText" type="text" id="email" name="email" placeholder="" /></li>
                     <li>Password:</li>
-                    <li class="field"><input class="inputText" type="password" id="pass" name="name" placeholder="" /></li>
+                    <li class="field"><input class="inputText" type="password" id="password" name="password" placeholder="" /></li>
 
                 </ul>
+
+                <div class="remember">
+                    <input type="checkbox"> Remember &nbsp; <span><a href="/forgot-password/">Forgot Password!</a></span>
+                </div>
+
+                <div class="clear"></div>
+                <div class="clear padding20"></div>
+                <div class="login">
+                    <input class="button" type="submit" value="Login" />
+                </div>
+
             </form>
-
-            <div class="remember">
-                <input type="checkbox"> Remember &nbsp; <span><a href="/forgot-password/">Forgot Password!</a></span>
-            </div>
-
-            <div class="clear"></div>
-            <div class="clear padding20"></div>
-            <div class="login">
-                <a href="#" class="button">Login</a>
-            </div>
-
             <div class="clear"></div>
         </div>
 

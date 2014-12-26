@@ -28,6 +28,7 @@ class ApiClient {
     const SERVICE_CATEGORY_MENU_ITEMS_URL = "menu-items/";
     const SERVICE_FRONT_END_SETTINGS_URL = "front-end-settings/";
     const SERVICE_RESTAURANT_SETTINGS_URL = "restaurant-settings/";
+    const SERVICE_VERIFY_CUSTOMER_PASSWORD = "customer/verify-password/";
 
     /**
      * Method used for fetching menu item categories.
@@ -102,6 +103,26 @@ class ApiClient {
             array(
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2
+            )
+        );
+    }
+
+    /**
+     * Verifies a password for a given email address.
+     * @param $email
+     * @param $password
+     */
+    public function verifyPassword($email, $password) {
+        return $this->post(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_VERIFY_CUSTOMER_PASSWORD,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2
+            ),
+            array(
+                "username" => $email,
+                "password" => $password
             )
         );
     }

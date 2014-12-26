@@ -14,6 +14,36 @@ namespace dft\SiteBundle\Traits;
  */
 trait Curl {
     /**
+     * Executes a post request. The GET params are required for authentication tokens.
+     * @param $servicesUrl
+     * @param $servicePath
+     * @param $getParams
+     * @param $postParams
+     * @return mixed
+     * @throws \Exception
+     */
+    public function post($servicesUrl, $servicePath, $getParams, $postParams) {
+        // Configure curl.
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_URL => $servicesUrl . $servicePath . "?" . http_build_query($getParams),
+                // TODO: Make configurable.
+                CURLOPT_USERAGENT => "Food Order Website v0.1.",
+                CURLOPT_POST => count($postParams),
+                CURLOPT_POSTFIELDS => http_build_query($postParams)
+            )
+        );
+
+        // Execute.
+        $response = curl_exec($curl);
+        // And close connection.
+        curl_close($curl);
+
+        return $this->decodeResponse($response);
+    }
+
+    /**
      * Executes a get request.
      * @param $servicesUrl
      * @param $servicePath
@@ -37,8 +67,13 @@ trait Curl {
         // And close connection.
         curl_close($curl);
 
-        // If the response is not JSON, throw an exception.
+        return $this->decodeResponse($response);
+    }
+
+    // Convenience method used for parsing a response.
+    private function decodeResponse($response) {
         $response = json_decode($response);
+        // If the response is not JSON, throw an exception.
         if (is_null($response)) {
             throw new \Exception("Invalid API response.");
         } else {
@@ -51,7 +86,6 @@ trait Curl {
                 throw new \Exception("Invalid API credentials.");
             }
         }
-
         return $response;
     }
 }
