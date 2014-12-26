@@ -202,7 +202,7 @@
 
     {% if menu_items.data is defined %}
         {% for menu_item in menu_items.data %}
-            <div class="menu-h4-left"><h4>{{ menu_item.item_name }}</h4></div><div class="menu-h4-right"><h3>£{{ menu_item.price }}</h3><a href=""><img src="/images/icon_cart_in.png" /></a></div>
+            <div class="menu-h4-left"><h4>{{ menu_item.item_name }}</h4></div><div class="menu-h4-right"><h3>£{{ menu_item.price }}</h3><a href="?cart_add_item={{ menu_item.id }}"><img src="/images/icon_cart_in.png" /></a></div>
 
             {% if menu_item.item_description %}
                 <div class="clear padding10"></div>
@@ -220,50 +220,35 @@
         </div>
         <div class="clear"></div>
 
-        <div class="box_heading">
-            <ul>
-                <li>Dish Name</li>
-                <li>Qty.</li>
-                <li>Price</li>
-                <li></li>
-            </ul>
-        </div>
+        {% if shopping_cart_items|length > 0 %}
+            <div class="box_heading">
+                <ul>
+                    <li>Dish Name</li>
+                    <li>Qty.</li>
+                    <li>Price</li>
+                    <li></li>
+                </ul>
+            </div>
 
-        <div class="clear"></div>
+            <div class="clear"></div>
 
-        <div class="dishes">
-            <ul>
-                <li>Biryani</li>
-                <li>2</li>
-                <li>£12,00</li>
-                <li><a href=""><img src="/images/pricing_remove.png" alt="" /></a></li>
-            </ul>
+            <div class="dishes">
+                {% for item in shopping_cart_items %}
+                    <ul>
+                        <li>{{ item.name|length > 15 ? item.name|slice(0, 15) ~ '...' : item.name  }}</li>
+                        <li>{{ item.count }}</li>
+                        <li>£{{ item.price }}</li>
+                        <li><a href="?cart_remove_item={{ item.id }}"><img src="/images/pricing_remove.png" alt="" /></a></li>
+                    </ul>
+                {% endfor %}
+            </div>
 
-            <ul>
-                <li>Biryani</li>
-                <li>2</li>
-                <li>£12,00</li>
-                <li><a href=""><img src="/images/pricing_remove.png" alt="" /></a></li>
-            </ul>
+            <div class="clear"></div>
 
-            <ul>
-                <li>Biryani</li>
-                <li>2</li>
-                <li>£12,00</li>
-                <li><a href=""><img src="/images/pricing_remove.png" alt="" /></a></li>
-            </ul>
-
-            <ul>
-                <li>Biryani</li>
-                <li>2</li>
-                <li>£12,00</li>
-                <li><a href=""><img src="/images/pricing_remove.png" alt="" /></a></li>
-            </ul>
-        </div>
-
-        <div class="clear"></div>
-
-        <div class="order_tbn"><a href="/cart/">ORDER NOW</a></div>
+            <div class="order_tbn"><a href="/cart/">ORDER NOW</a></div>
+        {% else %}
+            <div class="box_heading">You shopping cart is empty.</div>
+        {% endif %}
 
 
     </div>

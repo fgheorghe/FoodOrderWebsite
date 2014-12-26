@@ -6,6 +6,9 @@ class DefaultController extends BaseController
 {
     public function indexAction()
     {
-        return $this->render('dftSiteBundle:Default:index.html.twig');
+        return $this->render('dftSiteBundle:Default:index.html.twig', array(
+                "shopping_cart_item_count" => count($this->getShoppingCartService()->getItems())
+            )
+        );
     }
 }

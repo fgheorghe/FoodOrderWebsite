@@ -13,6 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller {
     /**
+     * Returns the Shopping Cart Service.
+     * @return \dft\SiteBundle\Services\ShoppingCart
+     */
+    protected function getShoppingCartService() {
+        return $this->container->get('dft_site.shopping_cart');
+    }
+    /**
      * Returns the API Client Service.
      * @return \dft\SiteBundle\Services\ApiClient
      */
