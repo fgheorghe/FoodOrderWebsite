@@ -9,6 +9,7 @@ class MenuController extends BaseController
         return $this->render(
             'dftSiteBundle:Menu:menu.html.twig',
             array(
+                "selected_category_id" => $categoryId,
                 // Get menu item categories.
                 "menu_item_categories" => $this->getApiClientService()->getMenuItemCategories(),
                 // Get category menu items.

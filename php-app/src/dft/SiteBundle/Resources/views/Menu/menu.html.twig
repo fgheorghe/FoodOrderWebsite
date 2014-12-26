@@ -65,7 +65,7 @@
 
         <div class="clearfix">
             <!--------left area--------->
-            <h2>Main Courses</h2>
+            <h2>{{ selected_category_id ? selected_category_id | replace({ '-': ' ' }) : 'All menu items' }}</h2>
             <h1 class="regular brown bottom_line"></h1>
 
         </div>
