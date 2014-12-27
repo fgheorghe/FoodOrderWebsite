@@ -106,21 +106,24 @@
             <h2>Contact Form</h2>
 
             <div class="padding20"></div>
-
+            {% if error_message %}
+                <div style="font-weight: bold;">{{ error_message }}</div>
+            {% endif %}
+            <br/>
 
             <!-- START CONTACT FORM -->
-            <form action="#" class="contact_form" id="myForm">
+            <form action="" class="contact_form" id="myForm" method="POST">
                 <ul>
                     <li>
-                        <input class="inputText" type="text" id="name" name="name" placeholder="Name:"/>
+                        <input value="{{ customer_data ? customer_data.name : "" }}" class="inputText" type="text" id="name" name="name" placeholder="Name" />
                     </li>
 
                     <li>
-                        <input class="inputText" type="text" id="email" name="email" placeholder="Email:"/>
+                        <input value="{{ customer_data ? customer_data.email : "" }}" class="inputText" type="text" id="email" name="email" placeholder="Email" />
                     </li>
 
                     <li>
-                        <input class="inputText" type="text" id="website" name="website" placeholder="Phone:"/>
+                        <input value="{{ customer_data ? customer_data.phone_number : "" }}" class="inputText" type="text" id="phone_number" name="phone_number" placeholder="Phone" />
                     </li>
 
                     <li>
@@ -129,11 +132,11 @@
                     </li>
                     <div class="clear"></div>
                     <li class="submit">
-                        <a href="javascript:void(0);" class="button" onclick="myFunction();">Reset</a>
+                        <input type="reset" value="RESET" class="inputbutton"/>
                     </li>
 
                     <li class="submit">
-                        <a href="javascript:void(0);" class="button" onclick="$('.contact_form').submit();">Send</a>
+                        <input type="submit" value="SEND" class="inputbutton"/>
                     </li>
 
                 </ul>
