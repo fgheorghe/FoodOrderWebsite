@@ -1,0 +1,76 @@
+{% include 'dftSiteBundle:Common:top.html.twig' %}
+
+{# Include opening time and contact. #}
+{% include 'dftSiteBundle:Common:opening-time-contact.html.twig' %}
+
+<!-- Header -->
+<header class="header_bg clearfix">
+    <div class="top-menu clearfix">
+        {# Include menu logo. #}
+        {% include 'dftSiteBundle:Common:menu-logo.html.twig' %}
+        {# Include top menu. #}
+        {% include 'dftSiteBundle:Common:top-menu.html.twig' %}
+    </div>
+</header>
+<!-- /Header -->
+
+<div class="clear"></div>
+
+
+<section class="banner_login_bg clearfix">
+
+    <header class="container clearfix">
+        <div class="banner_contact">
+            <h1>Orders</h1>
+            <p class="text-white">Home > Orders</p>
+        </div>
+
+        <div class="clear"></div>
+    </header>
+</section>
+
+<div class="clear padding40"></div>
+
+<section class="container clearfix">
+
+
+    <div class="cart_box2">
+        <div>
+            <h2>Your Orders</h2>
+            <h1 class="regular brown bottom_line"></h1>
+
+            <div class="clear"></div>
+
+            {% if orders|length > 0 %}
+                <div class="box_heading2">
+                {% for order in orders %}
+                    <div style="font-size: 16px; font-weight: 600;">Order date: {{ order.create_date }}</div>
+                    <div style="font-size: 16px; font-weight: 600;">Status: {{ status_codes[order.status] }}</div>
+                    <div style="font-size: 16px;">Number of items: {{ order.item_count }}</div>
+                    <div style="font-size: 16px;">Price: £{{ order.final_price }}</div>
+                    <div style="font-size: 16px;">Post code: £{{ order.post_code }}</div>
+                    <div style="font-size: 16px;">Address: {{ order.delivery_address }}</div>
+                    <div style="font-size: 16px;">Phone number: {{ order.customer_phone_number }}</div>
+                    <br/>
+                {% endfor %}
+
+                </div>
+
+                <div class="clear"></div>
+            {% else %}
+                <div class="box_heading">Your order list is empty. Click <a href="/menu/">here</a> to browse our <a href="/menu/">Food Menu</a>.</div>
+            {% endif %}
+        </div>
+        </div>
+
+</section>
+<!--------right area end--------->
+
+
+<div class="clear padding40"></div>
+
+{# Footer. #}
+{% include 'dftSiteBundle:Common:footer.html.twig' %}
+
+{# Bottom. #}
+{% include 'dftSiteBundle:Common:bottom.html.twig' %}

@@ -43,6 +43,7 @@ class ApiClient {
     const SERVICE_VERIFY_CUSTOMER_PASSWORD = "customer/verify-password/";
     const SERVICE_UPDATE_CUSTOMER_DATA = "customer/"; // The customer id is appended here.
     const SERVICE_CREATE_ORDER = "order/";
+    const SERVICE_GET_ORDERS = "orders/";
 
     /**
      * Method used for fetching menu item categories.
@@ -210,6 +211,23 @@ class ApiClient {
                 "customer_name" => $customerName,
                 "delivery_type" => $deliveryType,
                 "discount" => $discount
+            )
+        );
+    }
+
+    /**
+     * Method used for fetching customer orders.
+     * @param $customerId
+     * @return Mixed
+     */
+    public function getCustomerOrders($customerId) {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_GET_ORDERS,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2,
+                "customer_id" => $customerId
             )
         );
     }
