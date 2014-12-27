@@ -24,8 +24,8 @@ class OrdersController extends BaseController
             0 => "Pending",
             1 => "Pending",
             2 => "Accepted",
-            3 => "Rejected",
-            99 => "Rejected"
+            3 => "Declined",
+            99 => "Declined"
         );
 
         return $this->render('dftSiteBundle:Orders:orders.html.twig', array(
