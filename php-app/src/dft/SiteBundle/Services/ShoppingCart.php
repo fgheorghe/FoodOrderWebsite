@@ -94,4 +94,11 @@ class ShoppingCart {
 
         return $response;
     }
+
+    /**
+     * Empties the shopping cart - typically after an order has been placed.
+     */
+    public function emptyCart() {
+        $this->getContainer()->get('session')->set('cart_item_ids', array());
+    }
 }

@@ -1,1 +1,60 @@
-{# TODO: Implement. #}
+{% include 'dftSiteBundle:Common:top.html.twig' %}
+
+{# Include opening time and contact. #}
+{% include 'dftSiteBundle:Common:opening-time-contact.html.twig' %}
+
+<!-- Header -->
+<header class="header_bg clearfix">
+    <div class="container clearfix">
+        {# Include menu logo. #}
+        {% include 'dftSiteBundle:Common:menu-logo.html.twig' %}
+        {# Include top menu. #}
+        {% include 'dftSiteBundle:Common:top-menu.html.twig' %}
+    </div>
+</header>
+<!-- /Header -->
+
+<div class="clear"></div>
+
+
+<section class="banner_login_bg clearfix">
+
+    <header class="container clearfix">
+        <div class="banner_contact">
+            <h1>Order</h1>
+
+            <p class="text-white">Home > Order</p>
+        </div>
+
+        <div class="clear"></div>
+    </header>
+</section>
+
+<div class="clear padding40"></div>
+
+<section class="container clearfix">
+
+
+    <div class="review">
+        <div class="forgot_password_box" style="width: 700px;">
+            <h2>Order</h2>
+
+            <h1 class="regular brown bottom_line"></h1>
+            {% if error_message %}
+                <b>{{ error_message }}</b>
+            {% endif %}
+            <br/><br/>
+        </div>
+    </div>
+
+</section>
+<!--------right area end--------->
+
+
+<div class="clear padding40"></div>
+
+{# Footer. #}
+{% include 'dftSiteBundle:Common:footer.html.twig' %}
+
+{# Bottom. #}
+{% include 'dftSiteBundle:Common:bottom.html.twig' %}

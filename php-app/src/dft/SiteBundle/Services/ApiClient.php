@@ -22,6 +22,18 @@ class ApiClient {
     const TOKEN_1 = "c51f7c3426684daad001927e6508ec90";
     const TOKEN_2 = "cd5d1ea27cb6ed0b60405aa2a1f2bdbb";
 
+    // Order creation constants.
+    const ORDER_TYPE_OFFLINE = 0x00;
+    const ORDER_TYPE_ONLINE = 0x01;
+    const ORDER_TYPE_PHONE = 0x02;
+    const ORDER_TYPE_TABLE = 0x03;
+    const ORDER_PAYMENT_STATUS_PAID = 0x06;
+    const ORDER_PAYMENT_STATUS_NOT_PAID = 0x07;
+    const ORDER_CUSTOMER_TYPE_VERIFIED = 0x04;
+    const ORDER_CUSTOMER_TYPE_NOT_VERIFIED = 0x05;
+    const ORDER_DELIVERY_TYPE_DELIVERY = 0x01;
+    const ORDER_DELIVERY_TYPE_COLLECTION = 0x02;
+
     // Some URL parts to append for different services, excluding leading /, including trailing /,
     // To be appended to foapi_services_root_url configuration parameter.
     const SERVICE_MENU_ITEM_CATEGORIES_URL = "menu-item-categories/";
@@ -30,6 +42,7 @@ class ApiClient {
     const SERVICE_RESTAURANT_SETTINGS_URL = "restaurant-settings/";
     const SERVICE_VERIFY_CUSTOMER_PASSWORD = "customer/verify-password/";
     const SERVICE_UPDATE_CUSTOMER_DATA = "customer/"; // The customer id is appended here.
+    const SERVICE_CREATE_ORDER = "order/";
 
     /**
      * Method used for fetching menu item categories.
@@ -156,6 +169,47 @@ class ApiClient {
                 "phone_number" => $phoneNumber,
                 "password" => $password,
                 "verified" => 0 // Reset back to not verified.
+            )
+        );
+    }
+
+    /**
+     * Creates an order.
+     * @param $customerId
+     * @param $itemsJsonString String I.e.: items:[{"id":35,"size_id":1,"count":1},{"id":59,"size_id":2,"count":1},{"id":48,"size_id":4,"count":1}]
+     * @param $deliveryAddress
+     * @param $postCode
+     * @param $notes
+     * @param $orderType
+     * @param $paymentStatus
+     * @param $customerType
+     * @param $customerPhoneNumber
+     * @param $customerName
+     * @param $deliveryType
+     * @param $discount
+     * @return Mixed
+     */
+    public function createOrder($customerId, $itemsJsonString, $deliveryAddress, $postCode, $notes, $orderType, $paymentStatus, $customerType, $customerPhoneNumber, $customerName, $deliveryType, $discount) {
+        return $this->post(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_CREATE_ORDER,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2
+            ),
+            array(
+                "customer_id" => $customerId,
+                "items" => $itemsJsonString,
+                "delivery_address" => $deliveryAddress,
+                "post_code" => $postCode,
+                "notes" => $notes,
+                "order_type" => $orderType,
+                "payment_status" => $paymentStatus,
+                "customer_type" => $customerType,
+                "customer_phone_number" => $customerPhoneNumber,
+                "customer_name" => $customerName,
+                "delivery_type" => $deliveryType,
+                "discount" => $discount
             )
         );
     }

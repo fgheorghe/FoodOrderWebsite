@@ -6,7 +6,19 @@ class LoginController extends BaseController
 {
     public function loginAction()
     {
+        // _GET values.
+        $query = $this->container->get("request")->query;
+
         $errorMessage = "";
+        // Return url.
+        $returnUrl = $query->get("return", "menu");
+
+        // If the user tried making a payment, and is not logged in, then display an
+        // error message.
+        if ($returnUrl == "payment") {
+            $errorMessage = "Please login to make a payment.";
+        }
+
         // Check if form data is posted, and if so, try and authenticate.
         if ($this->getRequest()->isMethod('POST')) {
             // _POST values.
@@ -25,9 +37,18 @@ class LoginController extends BaseController
                 if (!$success) {
                     $errorMessage = "Invalid email address or password.";
                 } else {
+                    switch ($returnUrl) {
+                        case "payment":
+                            $redirect = $this->generateUrl('dft_site_payment');
+                            break;
+                        case "menu":
+                        default:
+                            $redirect = $this->generateUrl('dft_site_menu');
+                            break;
+                    }
                     // Redirect to menu page.
                     return $this->redirect(
-                        $this->generateUrl('dft_site_menu')
+                        $redirect
                     );
                 }
             }
