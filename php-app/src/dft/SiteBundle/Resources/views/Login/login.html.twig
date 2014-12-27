@@ -39,7 +39,7 @@
             <h2>Login To Your Account</h2>
             <h1 class="regular brown bottom_line"></h1>
             {% if error_message %}
-            <div style="text-align: center; font-weight: bold;">{{ error_message }}</div>
+                <div style="text-align: center; font-weight: bold;">{{ error_message }}</div>
             {% endif %}
             <br/>
 
@@ -70,28 +70,38 @@
         <div class="login_box signup_box">
             <h2>Create New Account</h2>
             <h1 class="regular brown bottom_line"></h1>
+            {% if registration_error_message %}
+                <div style="text-align: center; font-weight: bold;">{{ registration_error_message }}</div>
+            {% endif %}
 
-            <form action="#" id="myForm">
+            <form action="" id="myForm" method="POST">
                 <ul>
-                    <li>User Name:</li>
+                    <li>Name:</li>
                     <li class="field"><input class="inputText" type="text" id="name" name="name" placeholder="" /></li>
                     <li>Email:</li>
-                    <li class="field"><input class="inputText" type="text" id="name" name="email" placeholder="" /></li>
+                    <li class="field"><input class="inputText" type="text" id="email" name="email" placeholder="" /></li>
+                    <li>Post code:</li>
+                    <li class="field"><input class="inputText" type="text" id="post_code" name="post_code" placeholder="" /></li>
+                    <li>Address:</li>
+                    <li class="field"><input class="inputText" type="text" id="address" name="address" placeholder="" /></li>
+                    <li>Phone:</li>
+                    <li class="field"><input class="inputText" type="text" id="phone_number" name="phone_number" placeholder="" /></li>
                     <li>Password:</li>
-                    <li class="field"><input class="inputText" type="password" id="pass" name="pass" placeholder="" /></li>
+                    <li class="field"><input class="inputText" type="password" id="password" name="password" placeholder="" /></li>
                     <li class="confirm_pass">Confirm:</li>
-                    <li class="field"><input class="inputText" type="password" id="pass" name="pass" placeholder="" /></li>
+                    <li class="field"><input class="inputText" type="password" id="password" name="confirm_password" placeholder="" /></li>
 
                     <!--<li>Contact:</li>
                  <li class="field"><input class="inputText" type="password" id="pass" name="contact" placeholder="" /></li>-->
 
                 </ul>
-            </form>
 
-            <div class="clear padding20"></div>
-            <div class="login">
-                <a href="#" class="button">Signup Now!</a>
-            </div>
+                <div class="clear padding20"></div>
+                <div class="login">
+                    <input type="hidden" name="action" value="register" />
+                    <input class="inputbutton" style="width: 240px;" type="submit" value="Sign up" />
+                </div>
+            </form>
 
             <div class="clear"></div>
         </div>

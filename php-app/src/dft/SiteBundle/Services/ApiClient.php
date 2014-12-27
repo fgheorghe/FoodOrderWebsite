@@ -231,4 +231,34 @@ class ApiClient {
             )
         );
     }
+
+    /**
+     * Method used for creating a customer.
+     * @param $name
+     * @param $email
+     * @param $postCode
+     * @param $address
+     * @param $phoneNumber
+     * @param $password
+     * @return Mixed
+     */
+     public function createCustomer($name, $email, $postCode, $address, $phoneNumber, $password) {
+         return $this->post(
+             $this->getContainer()->getParameter('foapi_services_root_url'),
+             self::SERVICE_UPDATE_CUSTOMER_DATA,
+             array(
+                 "token_1" => self::TOKEN_1,
+                 "token_2" => self::TOKEN_2
+             ),
+             array(
+                 "name" => $name,
+                 "post_code" => $postCode,
+                 "email" => $email,
+                 "address" => $address,
+                 "phone_number" => $phoneNumber,
+                 "password" => $password,
+                 "verified" => 0 // Defaults to not verified.
+             )
+         );
+     }
 }
