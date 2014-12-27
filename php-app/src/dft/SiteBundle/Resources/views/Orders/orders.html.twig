@@ -48,7 +48,7 @@
                     <div style="font-size: 16px; font-weight: 600;">Status: {{ status_codes[order.status] }}</div>
                     <div style="font-size: 16px;">Number of items: {{ order.item_count }}</div>
                     <div style="font-size: 16px;">Price: £{{ order.final_price }}</div>
-                    <div style="font-size: 16px;">Post code: £{{ order.post_code }}</div>
+                    <div style="font-size: 16px;">Post code: {{ order.post_code }}</div>
                     <div style="font-size: 16px;">Address: {{ order.delivery_address }}</div>
                     <div style="font-size: 16px;">Phone number: {{ order.customer_phone_number }}</div>
                     <br/>
