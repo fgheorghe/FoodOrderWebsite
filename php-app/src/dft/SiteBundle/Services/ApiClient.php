@@ -111,6 +111,7 @@ class ApiClient {
      * Verifies a password for a given email address.
      * @param $email
      * @param $password
+     * @return Mixed
      */
     public function verifyPassword($email, $password) {
         return $this->post(

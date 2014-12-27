@@ -38,6 +38,14 @@ class BaseController extends Controller {
     }
 
     /**
+     * Returns the Login Service.
+     * @return \dft\SiteBundle\Services\Login
+     */
+    protected function getLoginService() {
+        return $this->container->get('dft_site.login');
+    }
+
+    /**
      * Renders a view.
      *
      * @param string   $view       The view name
@@ -48,10 +56,12 @@ class BaseController extends Controller {
      */
     public function render($view, array $parameters = array(), Response $response = null)
     {
-        // Get the front end settings, and append to parameters array.
+        // Get the front end settings and cart items count, and append to parameters array.
         $parameters = array_merge($parameters, array(
                "front_end_settings" => $this->getApiClientService()->getFrontEndSettings(),
-               "restaurant_settings" => $this->getApiClientService()->getRestaurantSettings()
+               "restaurant_settings" => $this->getApiClientService()->getRestaurantSettings(),
+               "shopping_cart_item_count" => $this->getItemCount(),
+               "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData()
             )
         );
 

@@ -1665,6 +1665,25 @@ a.button {
 	min-width:88px;
 	text-transform:uppercase;
 }
+.inputbutton {
+    height: 35px;
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0 5px 20px 5px;
+    text-decoration: none;
+    font-size: 14px;
+    text-align:center;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.08);
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.08);
+    background-color:#c6050b;
+    color:#fff;
+    min-width:88px;
+    text-transform:uppercase;
+}
 a.button.large {
 	height: 24px;
 	padding: 11px 10px 0 10px;

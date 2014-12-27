@@ -2,7 +2,11 @@
 <div class="nav_icons">
     <ul>
         <li><a href="/cart/"><img src="/images/icon_cart.png" alt="">&nbsp;{{ (shopping_cart_item_count > 0 ? shopping_cart_item_count ~ "&nbsp;items in cart"  : "Shopping cart is empty.")|raw }}</a></li>
-        <li><a href="/login/"><img src="/images/icon_login.png" alt=""> Login / Signup</a></li>
+        {% if customer_data %}
+            <li><a href="/profile/"><img src="/images/icon_login.png" alt="">&nbsp;User: {{ customer_data.name }}</a></li>
+        {% else %}
+            <li><a href="/login/"><img src="/images/icon_login.png" alt="">&nbsp;Login / Signup</a></li>
+        {% endif %}
     </ul>
 </div>
 <div class="nav_seprator"></div>

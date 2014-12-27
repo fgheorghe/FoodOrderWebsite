@@ -38,7 +38,9 @@
         <div class="login_box">
             <h2>Login To Your Account</h2>
             <h1 class="regular brown bottom_line"></h1>
-            <div style="text-align: center; font-weight: bold;">Invalid email address or password. Please try again.</div>
+            {% if error_message %}
+            <div style="text-align: center; font-weight: bold;">{{ error_message }}</div>
+            {% endif %}
             <br/>
 
             <form action="" method="POST">
@@ -57,7 +59,7 @@
                 <div class="clear"></div>
                 <div class="clear padding20"></div>
                 <div class="login">
-                    <input class="button" type="submit" value="Login" />
+                    <input class="inputbutton" style="width: 240px;" type="submit" value="Login" />
                 </div>
 
             </form>

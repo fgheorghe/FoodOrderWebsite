@@ -33,8 +33,7 @@ class CartController extends BaseController
                         $shoppingCartService->getItems(),
                         // TODO: Optimise this bit.
                         $this->getApiClientService()->getCategoryMenuItems(null)
-                ),
-                "shopping_cart_item_count" => $this->getItemCount()
+                )
             )
         );
     }

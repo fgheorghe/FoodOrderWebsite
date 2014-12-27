@@ -46,7 +46,6 @@ class MenuController extends BaseController
                         // TODO: Optimise this bit.
                         $this->getApiClientService()->getCategoryMenuItems(null)
                 ),
-                "shopping_cart_item_count" => $this->getItemCount(),
                 "selected_category_id" => $categoryId,
                 // Get menu item categories.
                 "menu_item_categories" => $this->getApiClientService()->getMenuItemCategories(),
