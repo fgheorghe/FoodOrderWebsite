@@ -25,3 +25,6 @@ dft_site_logout:
 dft_site_forgot_password:
     path:     /forgot-password/
     defaults: { _controller: dftSiteBundle:ForgotPassword:index }
+dft_site_account:
+    path:     /account/
+    defaults: { _controller: dftSiteBundle:Account:index }

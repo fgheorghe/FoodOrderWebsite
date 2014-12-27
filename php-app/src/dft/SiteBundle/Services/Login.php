@@ -11,16 +11,17 @@ class Login {
 
     /**
      * Check if a username (email address) and password are valid, using the API.
-     * If success, it stores the customer id in the session.
+     * If success, it stores the customer id in the session (unless skipSession is set to true).
      * @param $username
      * @param $password
+     * @param $skipSession
      * @return Boolean
      */
-    public function login($username, $password) {
+    public function login($username, $password, $skipSession = false) {
         $apiClientService = $this->container->get('dft_site.api_client');
         $response = $apiClientService->verifyPassword($username, $password);
 
-        if ($response->success === true) {
+        if ($response->success === true && $skipSession !== true) {
             $this->storeCustomerDataInSession($response->customer);
         }
 

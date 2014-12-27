@@ -1,0 +1,147 @@
+{% include 'dftSiteBundle:Common:top.html.twig' %}
+
+{# Include opening time and contact. #}
+{% include 'dftSiteBundle:Common:opening-time-contact.html.twig' %}
+
+<!-- Header -->
+<header class="header_bg clearfix">
+    <div class="container clearfix">
+        {# Include menu logo. #}
+        {% include 'dftSiteBundle:Common:menu-logo.html.twig' %}
+        {# Include top menu. #}
+        {% include 'dftSiteBundle:Common:top-menu.html.twig' %}
+    </div>
+</header>
+<!-- /Header -->
+
+<div class="clear"></div>
+
+
+<section class="banner_login_bg clearfix">
+
+    <header class="container clearfix">
+        <div class="banner_contact">
+            <h1>Login</h1>
+
+            <p class="text-white">Home > Account</p>
+        </div>
+
+        <div class="clear"></div>
+    </header>
+</section>
+
+<div class="clear padding40"></div>
+
+<section class="container clearfix">
+
+
+    <div class="review">
+        <div class="forgot_password_box" style="width: 700px;">
+            <h2>Your Account</h2>
+
+            <h1 class="regular brown bottom_line"></h1>
+            <form action="" id="myForm" method="POST">
+                <table style="width: 600px;">
+                    {% if error_message %}
+                        <tr>
+                            <td colspan="2" style="vertical-align: top; padding-right: 10px; font-size: 14px; text-align: center; font-weight: bold;">
+                                {{ error_message }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td style="vertical-align: top; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Account status:
+                        </td>
+                        <td style="vertical-align: top; padding-right: 10px; font-size: 14px; text-align: left;">
+                            {{ customer_data.verified ? "Verified" : "Not verified" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Name:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="text" id="name" name="name"
+                                   placeholder="" value="{{ customer_data.name }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Email:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="text" id="email" name="email"
+                                   placeholder="" value="{{ customer_data.email }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Post code:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="text" id="post_code" name="post_code"
+                                   placeholder="" value="{{ customer_data.post_code }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Address:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="text" id="address" name="address"
+                                   placeholder="" value="{{ customer_data.address }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Phone number:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="text" id="phone_number" name="phone_number"
+                                   placeholder="" value="{{ customer_data.phone_number }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Current password:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="password" id="current_password" name="current_password"
+                                   placeholder="" value=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            New password:
+                        </td>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: left;">
+                            <input class="inputText resetPassEmailInput" type="password" id="new_password" name="new_password"
+                                   placeholder="" value=""/>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <div class="clear"></div>
+                <div class="clear padding20"></div>
+                <div class="login">
+                    <input type="submit" class="inputbutton" style="width: 240px;" value="Update profile"/>
+                </div>
+
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+
+</section>
+<!--------right area end--------->
+
+
+<div class="clear padding40"></div>
+
+{# Footer. #}
+{% include 'dftSiteBundle:Common:footer.html.twig' %}
+
+{# Bottom. #}
+{% include 'dftSiteBundle:Common:bottom.html.twig' %}
