@@ -18,7 +18,10 @@ dft_site_payment:
     defaults: { _controller: dftSiteBundle:Payment:index }
 dft_site_login:
     path:     /login/
-    defaults: { _controller: dftSiteBundle:Login:index }
+    defaults: { _controller: dftSiteBundle:Login:login }
+dft_site_logout:
+    path:     /logout/
+    defaults: { _controller: dftSiteBundle:Login:logout }
 dft_site_forgot_password:
     path:     /forgot-password/
     defaults: { _controller: dftSiteBundle:ForgotPassword:index }

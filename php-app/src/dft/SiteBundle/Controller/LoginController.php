@@ -4,7 +4,7 @@ namespace dft\SiteBundle\Controller;
 
 class LoginController extends BaseController
 {
-    public function indexAction()
+    public function loginAction()
     {
         $errorMessage = "";
         // Check if form data is posted, and if so, try and authenticate.
@@ -24,6 +24,11 @@ class LoginController extends BaseController
                 $success = $loginService->login($username, $password);
                 if (!$success) {
                     $errorMessage = "Invalid email address or password.";
+                } else {
+                    // Redirect to menu page.
+                    return $this->redirect(
+                        $this->generateUrl('dft_site_menu')
+                    );
                 }
             }
         }
@@ -31,6 +36,14 @@ class LoginController extends BaseController
         return $this->render('dftSiteBundle:Login:login.html.twig', array(
                 "error_message" => $errorMessage
             )
+        );
+    }
+
+    public function logoutAction() {
+        $this->getLoginService()->doLogout();
+        // Redirect to menu page.
+        return $this->redirect(
+            $this->generateUrl('dft_site_menu')
         );
     }
 }

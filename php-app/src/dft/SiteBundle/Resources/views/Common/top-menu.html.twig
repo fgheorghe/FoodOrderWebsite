@@ -3,7 +3,7 @@
     <ul>
         <li><a href="/cart/"><img src="/images/icon_cart.png" alt="">&nbsp;{{ (shopping_cart_item_count > 0 ? shopping_cart_item_count ~ "&nbsp;items in cart"  : "Shopping cart is empty.")|raw }}</a></li>
         {% if customer_data %}
-            <li><a href="/profile/"><img src="/images/icon_login.png" alt="">&nbsp;User: {{ customer_data.name }}</a></li>
+            <li><a href="/logout/"><img src="/images/icon_login.png" alt="">&nbsp;Logout: {{ customer_data.name }}</a></li>
         {% else %}
             <li><a href="/login/"><img src="/images/icon_login.png" alt="">&nbsp;Login / Signup</a></li>
         {% endif %}
@@ -15,6 +15,9 @@
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/menu/">Menu</a></li>
+        {% if customer_data %}
+            <li><a href="/account/">Account</a></li>
+        {% endif %}
         <li><a href="/contact/">Contact Us</a></li>
     </ul>
 </nav>

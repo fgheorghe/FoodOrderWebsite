@@ -51,4 +51,11 @@ class Login {
             ->get('session')
             ->get("customer", false);
     }
+
+    /**
+     * Method used for logging the user out.
+     */
+    public function doLogout() {
+        $this->storeCustomerDataInSession(false);
+    }
 }
