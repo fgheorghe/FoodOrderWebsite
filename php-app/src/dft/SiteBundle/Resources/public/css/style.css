@@ -413,6 +413,11 @@ margin: 0 auto;}
 	color:#15afa5;
 	font-family: 'Libre Baskerville', 'serif';
 }
+.top-menu {
+    width: 90%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
 .logo_slogon {
 	font-size:14px;
 	letter-spacing:2px;
@@ -424,6 +429,7 @@ margin: 0 auto;}
 	line-height:90px;
 	height:90px;
 	float:right;
+    width: 450px;
 }
 .main-menu ul {
 	margin:0;

@@ -2580,3 +2580,12 @@ padding: 0 0 10px 0;}
 	font-weight:bold;
 	font-family:Helvetica, Arial, sans-serif;
 }
+
+.account-table tr td {
+    text-align: right;
+    font-size: ;
+}
+
+.account-table tr td td {
+    text-align: left;
+}
