@@ -29,7 +29,7 @@ class Login {
     }
 
     // Method used for storing the customer data in the session.
-    private function storeCustomerDataInSession($customer) {
+    public function storeCustomerDataInSession($customer) {
         $this
             ->getContainer()
             ->get('session')

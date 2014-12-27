@@ -29,6 +29,7 @@ class ApiClient {
     const SERVICE_FRONT_END_SETTINGS_URL = "front-end-settings/";
     const SERVICE_RESTAURANT_SETTINGS_URL = "restaurant-settings/";
     const SERVICE_VERIFY_CUSTOMER_PASSWORD = "customer/verify-password/";
+    const SERVICE_UPDATE_CUSTOMER_DATA = "customer/"; // The customer id is appended here.
 
     /**
      * Method used for fetching menu item categories.
@@ -124,6 +125,37 @@ class ApiClient {
             array(
                 "username" => $email,
                 "password" => $password
+            )
+        );
+    }
+
+    /**
+     * Updates customer data.
+     * @param $customerId
+     * @param $name
+     * @param $email
+     * @param $postCode
+     * @param $address
+     * @param $phoneNumber
+     * @param $password
+     * @return Mixed
+     */
+    public function updateCustomerProfile($customerId, $name, $email, $postCode, $address, $phoneNumber, $password) {
+        return $this->post(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_UPDATE_CUSTOMER_DATA . $customerId,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2
+            ),
+            array(
+                "name" => $name,
+                "post_code" => $postCode,
+                "email" => $email,
+                "address" => $address,
+                "phone_number" => $phoneNumber,
+                "password" => $password,
+                "verified" => 0 // Reset back to not verified.
             )
         );
     }

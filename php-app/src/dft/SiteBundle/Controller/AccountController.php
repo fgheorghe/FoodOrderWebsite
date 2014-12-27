@@ -29,6 +29,8 @@ class AccountController extends BaseController
             $currentPassword = $request->get('current_password');
             $newPassword = $request->get('new_password');
 
+            $customerData = $this->getLoginService()->getAuthenticatedCustomerData();
+
             // If any of the fields are empty (except for current password and password), display and error message.
             if (empty($name) || empty($email) || empty($postCode) || empty($address) || empty($phoneNumber)) {
                 $errorMessage = "All input fields are mandatory, except Current and New Password.";
@@ -38,20 +40,36 @@ class AccountController extends BaseController
                 if (!empty($newPassword) && empty($currentPassword)) {
                     $errorMessage = "Please input your current password.";
                     $canUpdate = false; // User can not update profile;
-                } else {
+                } elseif (!empty($newPassword) && !empty($currentPassword)) {
                     // Validate the current user password.
-                    $customerData = $this->getLoginService()->getAuthenticatedCustomerData();
                     if (!$this->getLoginService()->login($customerData->email, $currentPassword)) {
                         $errorMessage = "Invalid current password.";
                         $canUpdate = false; // User can not update profile;
                     }
                 }
-                if ($canUpdate) {
-                    // TODO: Implement.
-                }
+            }
+
+            // Update the customer data.
+            if ($canUpdate) {
+                $response = $this->getApiClientService()->updateCustomerProfile(
+                    $customerData->id,
+                    $name,
+                    $email,
+                    $postCode,
+                    $address,
+                    $phoneNumber,
+                    $newPassword
+                );
+
+                // Update session data.
+                $this->getLoginService()->storeCustomerDataInSession($response->data);
+                // Redirect to profile page.
+                return $this->redirect(
+                    $this->generateUrl('dft_site_account')
+                );
             }
         }
 
-        return $this->render('dftSiteBundle:Account:account.html.twig', array( "error_message" => $errorMessage ));
+        return $this->render('dftSiteBundle:Account:account.html.twig', array("error_message" => $errorMessage));
     }
 }
