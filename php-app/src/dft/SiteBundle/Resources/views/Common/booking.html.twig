@@ -7,7 +7,17 @@
         </div>
 
         <div class="notice">
-            <br/><h2>{% if front_end_settings.info_text %}{{ front_end_settings.info_text }}{% endif %}</h2>
+            {% if restaurant_settings.open_all_day == 1 %}
+                <h5>We are available non-stop</h5>
+            {% else %}
+                <h5>We will be available from {{ restaurant_settings.opening_time }} to {{ restaurant_settings.closing_time }}</h5>
+            {% endif %}
+            {% if front_end_settings.phone_numbers %}
+                <h2>Call Us: {{ front_end_settings.phone_numbers }}</h2>
+            {% endif %}
+            {% if front_end_settings.info_text %}
+                <h2>{{ front_end_settings.info_text }}</h2>
+            {% endif %}
         </div>
     </div>
 </section>
