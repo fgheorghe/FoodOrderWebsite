@@ -46,11 +46,10 @@ class ApiClient {
     const SERVICE_CATEGORY_MENU_ITEMS_URL = "menu-items/";
     const SERVICE_FRONT_END_SETTINGS_URL = "front-end-settings/";
     const SERVICE_RESTAURANT_SETTINGS_URL = "restaurant-settings/";
-    // TODO: Add the _URL string for consistency.
-    const SERVICE_VERIFY_CUSTOMER_PASSWORD = "customer/verify-password/";
-    const SERVICE_UPDATE_CUSTOMER_DATA = "customer/"; // The customer id is appended here.
-    const SERVICE_CREATE_ORDER = "order/";
-    const SERVICE_GET_ORDERS = "orders/";
+    const SERVICE_VERIFY_CUSTOMER_PASSWORD_URL = "customer/verify-password/";
+    const SERVICE_UPDATE_CUSTOMER_DATA_URL = "customer/"; // The customer id is appended here.
+    const SERVICE_CREATE_ORDER_URL = "order/";
+    const SERVICE_GET_ORDERS_URL = "orders/";
     const SERVICE_IMAGES_URL = "images/";
 
     /**
@@ -154,7 +153,7 @@ class ApiClient {
     public function verifyPassword($email, $password) {
         return $this->post(
             $this->getContainer()->getParameter('foapi_services_root_url'),
-            self::SERVICE_VERIFY_CUSTOMER_PASSWORD,
+            self::SERVICE_VERIFY_CUSTOMER_PASSWORD_URL,
             array(
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2
@@ -180,7 +179,7 @@ class ApiClient {
     public function updateCustomerProfile($customerId, $name, $email, $postCode, $address, $phoneNumber, $password) {
         return $this->post(
             $this->getContainer()->getParameter('foapi_services_root_url'),
-            self::SERVICE_UPDATE_CUSTOMER_DATA . $customerId,
+            self::SERVICE_UPDATE_CUSTOMER_DATA_URL . $customerId,
             array(
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2
@@ -216,7 +215,7 @@ class ApiClient {
     public function createOrder($customerId, $itemsJsonString, $deliveryAddress, $postCode, $notes, $orderType, $paymentStatus, $customerType, $customerPhoneNumber, $customerName, $deliveryType, $discount) {
         return $this->post(
             $this->getContainer()->getParameter('foapi_services_root_url'),
-            self::SERVICE_CREATE_ORDER,
+            self::SERVICE_CREATE_ORDER_URL,
             array(
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2
@@ -246,7 +245,7 @@ class ApiClient {
     public function getCustomerOrders($customerId) {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
-            self::SERVICE_GET_ORDERS,
+            self::SERVICE_GET_ORDERS_URL,
             array(
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2,
@@ -268,7 +267,7 @@ class ApiClient {
      public function createCustomer($name, $email, $postCode, $address, $phoneNumber, $password) {
          return $this->post(
              $this->getContainer()->getParameter('foapi_services_root_url'),
-             self::SERVICE_UPDATE_CUSTOMER_DATA,
+             self::SERVICE_UPDATE_CUSTOMER_DATA_URL,
              array(
                  "token_1" => self::TOKEN_1,
                  "token_2" => self::TOKEN_2
