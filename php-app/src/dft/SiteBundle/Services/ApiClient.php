@@ -10,6 +10,7 @@ namespace dft\SiteBundle\Services;
 
 use dft\SiteBundle\Traits\ContainerAware;
 use dft\SiteBundle\Traits\Database;
+use dft\SiteBundle\Traits\InternalServiceApiClient;
 use dft\SiteBundle\Traits\Logger;
 use dft\SiteBundle\Traits\Curl;
 
@@ -17,10 +18,11 @@ class ApiClient {
     use ContainerAware;
     use Logger;
     use Curl;
+    use InternalServiceApiClient;
 
     // Store here temporary API tokens. These will be selected based on domain name.
-    const TOKEN_1 = "c51f7c3426684daad001927e6508ec90";
-    const TOKEN_2 = "cd5d1ea27cb6ed0b60405aa2a1f2bdbb";
+    public static $TOKEN_1;
+    public static $TOKEN_2;
 
     // Order creation constants.
     const ORDER_TYPE_OFFLINE = 0x00;
@@ -52,6 +54,18 @@ class ApiClient {
     const SERVICE_GET_ORDERS_URL = "orders/";
     const SERVICE_IMAGES_URL = "images/";
 
+    // Fetch api tokens upon instantiation.
+    // If this code is made public, remove this.
+    public function __construct($container) {
+        $this->setContainer($container);
+
+        if (is_null(self::$TOKEN_1) || is_null(self::$TOKEN_2)) {
+            $tokens = $this->getApiTokens();
+            $this::$TOKEN_1 = $tokens->token_1;
+            $this::$TOKEN_2 = $tokens->token_2;
+        }
+    }
+
     /**
      * Method used for fetching menu item categories.
      * @return mixed
@@ -61,8 +75,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_MENU_ITEM_CATEGORIES_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2,
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2,
                 "non_empty" => 1
             )
         );
@@ -77,8 +91,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_IMAGES_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
             )
         );
     }
@@ -92,8 +106,8 @@ class ApiClient {
     public function getCategoryMenuItems($categoryIdOrName = null) {
         // Prepare service request parameters.
         $requestParameters = array(
-            "token_1" => self::TOKEN_1,
-            "token_2" => self::TOKEN_2
+            "token_1" => self::$TOKEN_1,
+            "token_2" => self::$TOKEN_2
         );
 
         // Add a category id.
@@ -123,8 +137,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_FRONT_END_SETTINGS_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
             )
         );
     }
@@ -138,8 +152,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_RESTAURANT_SETTINGS_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
             )
         );
     }
@@ -155,8 +169,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_VERIFY_CUSTOMER_PASSWORD_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
             ),
             array(
                 "username" => $email,
@@ -181,8 +195,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_UPDATE_CUSTOMER_DATA_URL . $customerId,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
             ),
             array(
                 "name" => $name,
@@ -217,8 +231,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_CREATE_ORDER_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
             ),
             array(
                 "customer_id" => $customerId,
@@ -247,8 +261,8 @@ class ApiClient {
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_GET_ORDERS_URL,
             array(
-                "token_1" => self::TOKEN_1,
-                "token_2" => self::TOKEN_2,
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2,
                 "customer_id" => $customerId
             )
         );
@@ -269,8 +283,8 @@ class ApiClient {
              $this->getContainer()->getParameter('foapi_services_root_url'),
              self::SERVICE_UPDATE_CUSTOMER_DATA_URL,
              array(
-                 "token_1" => self::TOKEN_1,
-                 "token_2" => self::TOKEN_2
+                 "token_1" => self::$TOKEN_1,
+                 "token_2" => self::$TOKEN_2
              ),
              array(
                  "name" => $name,
