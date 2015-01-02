@@ -10,6 +10,7 @@ namespace dft\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use dft\SiteBundle\Services\ApiClient;
 
 class BaseController extends Controller {
     /**
@@ -45,6 +46,47 @@ class BaseController extends Controller {
         return $this->container->get('dft_site.login');
     }
 
+    // Helper method used for constructing the logo and fact images.
+    private function constructLogoAndFactImages($imagesArray) {
+        // Each type may have multiple images, which are then randomly selected
+        // for display.
+        $facts1 = array();
+        $facts2 = array();
+        $facts3 = array();
+        $logos = array();
+        $images = array(
+            "logo" => null,
+            "fact_1" => null,
+            "fact_2" => null,
+            "fact_3" => null
+        );
+
+        foreach ($imagesArray as $image) {
+            switch ($image->type) {
+                case ApiClient::IMAGE_TYPE_LOGO:
+                    $logos[] = $image;
+                    break;
+                case ApiClient::IMAGE_TYPE_FACT_1:
+                    $facts1[] = $image;
+                    break;
+                case ApiClient::IMAGE_TYPE_FACT_2:
+                    $facts2[] = $image;
+                    break;
+                case ApiClient::IMAGE_TYPE_FACT_3:
+                    $facts3[] = $image;
+                    break;
+            }
+        }
+
+        // Now select one of them for each type.
+        $images["logo"] = count($logos) ? $logos[rand(0, count($logos) - 1)] : null;
+        $images["fact_1"] = count($facts1) ? $facts1[rand(0, count($facts1) - 1)] : null;
+        $images["fact_2"] = count($facts2) ? $facts2[rand(0, count($facts2) - 1)] : null;
+        $images["fact_3"] = count($facts3) ? $facts3[rand(0, count($facts3) - 1)] : null;
+
+        return $images;
+    }
+
     /**
      * Renders a view.
      *
@@ -61,7 +103,9 @@ class BaseController extends Controller {
                "front_end_settings" => $this->getApiClientService()->getFrontEndSettings(),
                "restaurant_settings" => $this->getApiClientService()->getRestaurantSettings(),
                "shopping_cart_item_count" => $this->getItemCount(),
-               "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData()
+               "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData(),
+               "images" => $this->constructLogoAndFactImages($this->getApiClientService()->getImages()),
+               "image_store_url" => $this->container->getParameter('foapi_image_store_url')
             )
         );
 

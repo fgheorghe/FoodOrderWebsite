@@ -1,12 +1,17 @@
 <section class="container facts clearfix">
     <div class="col_1_2">
-        <img src="/images/img_delivery.jpg" alt="" />
-
+        {% if images.fact_1 %}
+            <a href="{{ images.fact_1.link }}"><img src="{{ image_store_url }}{{ images.fact_1.id }}" alt="" /></a>
+        {% endif %}
     </div>
     <div class="col_1_2">
-        <img src="/images/img_discount.jpg" alt="" />
+        {% if images.fact_2 %}
+            <a href="{{ images.fact_2.link }}"><img src="{{ image_store_url }}{{ images.fact_2.id }}" alt="" /></a>
+        {% endif %}
     </div>
     <div class="col_1_2 col_1_2_1">
-        <img src="/images/img_drink.jpg" alt="" />
+        {% if images.fact_3 %}
+            <a href="{{ images.fact_3.link }}"><img src="{{ image_store_url }}{{ images.fact_3.id }}" alt="" /></a>
+        {% endif %}
     </div>
 </section>

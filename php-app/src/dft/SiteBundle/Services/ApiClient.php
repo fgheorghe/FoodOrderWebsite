@@ -34,16 +34,24 @@ class ApiClient {
     const ORDER_DELIVERY_TYPE_DELIVERY = 0x01;
     const ORDER_DELIVERY_TYPE_COLLECTION = 0x02;
 
+    // Image constants.
+    const IMAGE_TYPE_LOGO = 0x01;
+    const IMAGE_TYPE_FACT_1 = 0x02;
+    const IMAGE_TYPE_FACT_2 = 0x03;
+    const IMAGE_TYPE_FACT_3 = 0x04;
+
     // Some URL parts to append for different services, excluding leading /, including trailing /,
     // To be appended to foapi_services_root_url configuration parameter.
     const SERVICE_MENU_ITEM_CATEGORIES_URL = "menu-item-categories/";
     const SERVICE_CATEGORY_MENU_ITEMS_URL = "menu-items/";
     const SERVICE_FRONT_END_SETTINGS_URL = "front-end-settings/";
     const SERVICE_RESTAURANT_SETTINGS_URL = "restaurant-settings/";
+    // TODO: Add the _URL string for consistency.
     const SERVICE_VERIFY_CUSTOMER_PASSWORD = "customer/verify-password/";
     const SERVICE_UPDATE_CUSTOMER_DATA = "customer/"; // The customer id is appended here.
     const SERVICE_CREATE_ORDER = "order/";
     const SERVICE_GET_ORDERS = "orders/";
+    const SERVICE_IMAGES_URL = "images/";
 
     /**
      * Method used for fetching menu item categories.
@@ -57,6 +65,21 @@ class ApiClient {
                 "token_1" => self::TOKEN_1,
                 "token_2" => self::TOKEN_2,
                 "non_empty" => 1
+            )
+        );
+    }
+
+    /**
+     * Method used for fetching images.
+     * @return mixed
+     */
+    public function getImages() {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_IMAGES_URL,
+            array(
+                "token_1" => self::TOKEN_1,
+                "token_2" => self::TOKEN_2
             )
         );
     }
