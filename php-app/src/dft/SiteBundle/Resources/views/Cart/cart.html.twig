@@ -62,7 +62,7 @@
                     {# Compute total price. #}
                     {% set total_price = total_price + item.price %}
                     <ul>
-                        <li>{{ item.name|length > 15 ? item.name|slice(0, 15) ~ '...' : item.name  }}</li>
+                        <li>{{ item.name }}</li>
                         <li>{{ item.count }}</li>
                         <li>£{{ item.price }}</li>
                         <li><a href="?cart_remove_item={{ item.id }}"><img src="/images/pricing_remove.png" alt="" /></a></li>
