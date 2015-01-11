@@ -9,6 +9,9 @@ class ShoppingCart {
     use ContainerAware;
     use Logger;
 
+    // TODO: Ensure that items added while a peyment is in progress are captured!
+    // This can be done by hashing cart item ids and quantities.
+
     /**
      * Adds a menu item to the shopping cart.
      * @param $menuItemId
@@ -66,6 +69,19 @@ class ShoppingCart {
             $cartItemsArray = array();
         }
         return $cartItemsArray;
+    }
+
+    /**
+     * Gets the total of cart items.
+     * @param $shoppingCartMenuItems Array returned by mapCartItemsToMenuItems
+     * @return Double
+     */
+    public function getTotal($shoppingCartMenuItems) {
+        $total = 0;
+        foreach ($shoppingCartMenuItems as $item) {
+            $total += $item->price;
+        }
+        return $total;
     }
 
     /**

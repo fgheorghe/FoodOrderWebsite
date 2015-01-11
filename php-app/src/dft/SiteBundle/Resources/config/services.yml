@@ -2,6 +2,7 @@ parameters:
     dft_site.api_client.class: dft\SiteBundle\Services\ApiClient
     dft_site.shopping_cart.class: dft\SiteBundle\Services\ShoppingCart
     dft_site.login.class: dft\SiteBundle\Services\Login
+    dft_site.barclays_payment.class: dft\SiteBundle\Services\BarclaysPayment
 
 services:
     dft_site.api_client:
@@ -12,4 +13,7 @@ services:
         arguments: [@service_container]
     dft_site.login:
         class: %dft_site.login.class%
+        arguments: [@service_container]
+    dft_site.barclays_payment:
+        class: %dft_site.barclays_payment.class%
         arguments: [@service_container]

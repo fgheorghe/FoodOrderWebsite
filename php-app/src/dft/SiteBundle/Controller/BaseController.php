@@ -34,8 +34,24 @@ class BaseController extends Controller {
      * @return \dft\SiteBundle\Services\ApiClient
      */
     protected function getApiClientService() {
-        // Get the customer service.
         return $this->container->get('dft_site.api_client');
+    }
+
+    /**
+     * Returns the Barclays Payment Service.
+     * @return \dft\SiteBundle\Services\BarclaysPayment
+     */
+    protected function getBarclaysPaymentService() {
+        $service = $this->container->get('dft_site.barclays_payment');
+        // TODO: Make this configurable through payment settings.
+        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+
+        // Configure this service.
+        $service->setSHA("12345678901234567890az");
+        $service->setPSPID('gro4an');
+        $service->setPaymentReturnUrl("http://" . $restaurantSettings->domain_name . "/payment/");
+
+        return $service;
     }
 
     /**
@@ -107,6 +123,7 @@ class BaseController extends Controller {
         // Get the front end settings and cart items count, and append to parameters array.
         $parameters = array_merge($parameters, array(
                "front_end_settings" => $this->getApiClientService()->getFrontEndSettings(),
+                // TODO: Optimise duplicate calls to this service!
                "restaurant_settings" => $this->getApiClientService()->getRestaurantSettings(),
                "shopping_cart_item_count" => $this->getItemCount(),
                "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData(),

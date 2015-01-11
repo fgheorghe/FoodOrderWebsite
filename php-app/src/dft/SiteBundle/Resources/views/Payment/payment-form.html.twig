@@ -1,0 +1,19 @@
+<FORM METHOD="post" ACTION="https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp">
+    <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
+    <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
+    <INPUT type="hidden" NAME="AMOUNT" value="{{ amount }}">
+    <INPUT type="hidden" NAME="CURRENCY" value="{{ currency }}">
+    <INPUT type="hidden" NAME="LANGUAGE" value="{{ language }}">
+    <INPUT type="hidden" NAME="SHASIGN" value="{{ shasign }}">
+
+    <INPUT type="hidden" NAME="ACCEPTURL" VALUE="{{ accepturl }}">
+    <INPUT type="hidden" NAME="DECLINEURL" VALUE="{{ declineurl }}">
+    <INPUT type="hidden" NAME="EXCEPTIONURL" VALUE="{{ exceptionurl }}">
+    <INPUT type="hidden" NAME="CANCELURL" VALUE="{{ cancelurl }}">
+    <INPUT type="hidden" NAME="BACKURL" VALUE="{{ backurl }}">
+
+    <br/>
+    <div style="text-align: center;">
+        <input  class="inputbutton" style="width: 240px;" type="submit" value="CONTINUE TO PAYMENT">
+    </div>
+</form>
