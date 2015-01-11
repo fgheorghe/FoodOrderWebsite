@@ -41,6 +41,7 @@ class ApiClient {
     const IMAGE_TYPE_FACT_1 = 0x02;
     const IMAGE_TYPE_FACT_2 = 0x03;
     const IMAGE_TYPE_FACT_3 = 0x04;
+    const IMAGE_TYPE_BANNER = 0x05;
 
     // Some URL parts to append for different services, excluding leading /, including trailing /,
     // To be appended to foapi_services_root_url configuration parameter.

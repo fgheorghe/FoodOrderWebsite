@@ -54,11 +54,13 @@ class BaseController extends Controller {
         $facts2 = array();
         $facts3 = array();
         $logos = array();
+        $banners = array();
         $images = array(
             "logo" => null,
             "fact_1" => null,
             "fact_2" => null,
-            "fact_3" => null
+            "fact_3" => null,
+            "banner" => null
         );
 
         foreach ($imagesArray as $image) {
@@ -75,11 +77,15 @@ class BaseController extends Controller {
                 case ApiClient::IMAGE_TYPE_FACT_3:
                     $facts3[] = $image;
                     break;
+                case ApiClient::IMAGE_TYPE_BANNER:
+                    $banners[] = $image;
+                    break;
             }
         }
 
         // Now select one of them for each type.
         $images["logo"] = count($logos) ? $logos[rand(0, count($logos) - 1)] : null;
+        $images["banner"] = count($banners) ? $banners[rand(0, count($banners) - 1)] : null;
         $images["fact_1"] = count($facts1) ? $facts1[rand(0, count($facts1) - 1)] : null;
         $images["fact_2"] = count($facts2) ? $facts2[rand(0, count($facts2) - 1)] : null;
         $images["fact_3"] = count($facts3) ? $facts3[rand(0, count($facts3) - 1)] : null;

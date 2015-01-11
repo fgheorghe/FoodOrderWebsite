@@ -1,1 +1,7 @@
-<div style="height: 90px;">&nbsp;</div>
+{% if images.banner %}
+    <ul class="rslides" id="slider1">
+        <li><a href="{{ images.banner.link }}"><img src="{{ image_store_url }}{{ images.banner.id }}" alt="" /></a></li>
+    </ul>
+{% else %}
+    <div style="height: 90px;">&nbsp;</div>
+{% endif %}
