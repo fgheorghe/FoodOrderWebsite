@@ -43,13 +43,13 @@ class BaseController extends Controller {
      */
     protected function getBarclaysPaymentService() {
         $service = $this->container->get('dft_site.barclays_payment');
-        // TODO: Make this configurable through payment settings.
-        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+        $barclaysPaymentSettings = $this->getApiClientService()->getBarclaysPaymentSettings();
 
         // Configure this service.
-        $service->setSHA("12345678901234567890az");
-        $service->setPSPID('gro4an');
-        $service->setPaymentReturnUrl("http://" . $restaurantSettings->domain_name . "/payment/");
+        $service->setSHA($barclaysPaymentSettings->sha1);
+        $service->setPSPID($barclaysPaymentSettings->pspid);
+        $service->setRestaurantDomainName($barclaysPaymentSettings->domain_name);
+        $service->setLive($barclaysPaymentSettings->live_payment_system == 1 ? true : false);
 
         return $service;
     }

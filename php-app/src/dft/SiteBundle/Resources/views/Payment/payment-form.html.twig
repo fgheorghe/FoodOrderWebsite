@@ -1,4 +1,4 @@
-<FORM METHOD="post" ACTION="https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp">
+<FORM METHOD="post" ACTION="https://mdepayments.epdq.co.uk/ncol/{{ live_payment_system ? 'prod' : 'test' }}/orderstandard.asp">
     <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
     <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
     <INPUT type="hidden" NAME="AMOUNT" value="{{ amount }}">

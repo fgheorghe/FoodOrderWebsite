@@ -59,7 +59,8 @@ class CartController extends BaseController
                 "declineurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
                 "exceptionurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
                 "cancelurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
-                "backurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl()
+                "backurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
+                "live_payment_system" => $this->getBarclaysPaymentService()->getLive()
             )
         );
     }

@@ -14,11 +14,14 @@ class BarclaysPayment {
     // Defaults.
     const DEFAULT_CURRENCY = "GBP";
     const DEFAULT_LANGUAGE = "en_GB";
+    const DEFAULT_SCHEMA = "http";
+    const DEFAULT_PAYMENT_PAGE = "payment/";
 
     // Stores configuration.
-    private $paymentReturnUrl;
     private $psPid;
     private $sha;
+    private $domainName;
+    private $live;
 
     /**
      * Generates a Barclays specific SHA1 signature.
@@ -52,19 +55,11 @@ class BarclaysPayment {
     }
 
     /**
-     * Method used for setting the return url.
-     * @param $url
-     */
-    public function setPaymentReturnUrl($url) {
-        $this->paymentReturnUrl = $url;
-    }
-
-    /**
      * Method used for constructing the return payment url.
      * @return string
      */
     public function getPaymentReturnUrl() {
-        return $this->paymentReturnUrl;
+        return self::DEFAULT_SCHEMA . "://" . $this->getRestaurantDomainName() . "/" . self::DEFAULT_PAYMENT_PAGE;
     }
 
     /**
@@ -97,5 +92,39 @@ class BarclaysPayment {
      */
     public function getSHA() {
         return $this->sha;
+    }
+
+    /**
+     * Sets the restaurant domain name, for constructing the return url in getPaymentReturnUrl.
+     * This value is part of the restaurant settings service, but returned by the payment configuration
+     * service as a convenience.
+     * @param $domainName
+     */
+    public function setRestaurantDomainName($domainName) {
+        $this->domainName = $domainName;
+    }
+
+    /**
+     * Fetches the
+     * @return mixed
+     */
+    public function getRestaurantDomainName() {
+        return $this->domainName;
+    }
+
+    /**
+     * Set the payment system to live or not.
+     * @param $live
+     */
+    public function setLive($live) {
+        $this->live = $live;
+    }
+
+    /**
+     * Fetches the system live configuration.
+     * @return mixed
+     */
+    public function getLive() {
+        return $this->live;
     }
 }

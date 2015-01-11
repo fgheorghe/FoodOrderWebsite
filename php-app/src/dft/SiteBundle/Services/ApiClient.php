@@ -54,6 +54,7 @@ class ApiClient {
     const SERVICE_CREATE_ORDER_URL = "order/";
     const SERVICE_GET_ORDERS_URL = "orders/";
     const SERVICE_IMAGES_URL = "images/";
+    const SERVICE_BARCLAYS_PAYMENT_SETTINGS_URL = "barclays-payment-settings/";
 
     // Fetch api tokens upon instantiation.
     // If this code is made public, remove this.
@@ -152,6 +153,21 @@ class ApiClient {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_RESTAURANT_SETTINGS_URL,
+            array(
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
+            )
+        );
+    }
+
+    /**
+     * Get barclays payment settings.
+     * @return mixed
+     */
+    public function getBarclaysPaymentSettings() {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_BARCLAYS_PAYMENT_SETTINGS_URL,
             array(
                 "token_1" => self::$TOKEN_1,
                 "token_2" => self::$TOKEN_2
