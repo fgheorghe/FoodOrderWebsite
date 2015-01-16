@@ -8,7 +8,6 @@ class PaymentController extends BaseController
 {
     public function indexAction()
     {
-        $errorMessage = "";
         // Check if the user is logged in. If not, then redirect to login page.
         if (!$this->getLoginService()->isAuthenticated()) {
             // Redirect to menu page.

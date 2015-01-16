@@ -20,8 +20,16 @@ class LoginController extends BaseController
 
         // If the user tried making a payment, and is not logged in, then display an
         // error message.
-        if ($returnUrl == "payment") {
-            $errorMessage = "Please login to make a payment.";
+        switch ($returnUrl) {
+            case "payment":
+                $errorMessage = "Please login to make a payment.";
+                break;
+            case "cart":
+                $errorMessage = "Please login to view your shopping cart.";
+                break;
+            default:
+                // Do nothing.
+                break;
         }
 
         // Check if form data is posted, and if so, try and authenticate.
@@ -42,6 +50,9 @@ class LoginController extends BaseController
                     switch ($returnUrl) {
                         case "payment":
                             $redirect = $this->generateUrl('dft_site_payment');
+                            break;
+                        case "cart":
+                            $redirect = $this->generateUrl('dft_site_cart');
                             break;
                         case "menu":
                         default:
