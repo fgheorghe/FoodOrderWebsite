@@ -82,28 +82,53 @@
             {% endif %}
 
             <form action="" id="myForm" method="POST">
-                <ul>
-                    <li>Name:</li>
-                    <li class="field"><input class="inputText" type="text" id="name" name="name" placeholder="" /></li>
-                    <li>Email:</li>
-                    <li class="field"><input class="inputText" type="text" id="email" name="email" placeholder="" /></li>
-                    <li>Post code:</li>
-                    <li class="field"><input class="inputText" type="text" id="post_code" name="post_code" placeholder="" /></li>
-                    <li>Address:</li>
-                    <li class="field"><input class="inputText" type="text" id="address" name="address" placeholder="" /></li>
-                    <li>Phone:</li>
-                    <li class="field"><input class="inputText" type="text" id="phone_number" name="phone_number" placeholder="" /></li>
-                    <li>Password:</li>
-                    <li class="field"><input class="inputText" type="password" id="password" name="password" placeholder="" /></li>
-                    <li class="confirm_pass">Confirm:</li>
-                    <li class="field"><input class="inputText" type="password" id="password" name="confirm_password" placeholder="" /></li>
-
-                    <!--<li>Contact:</li>
-                 <li class="field"><input class="inputText" type="password" id="pass" name="contact" placeholder="" /></li>-->
-
-                </ul>
+                <table style="width: 401px;">
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Name:
+                            <input class="inputText" type="text" style="font-size: 14px; width: 300px;" id="name" name="name" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Email:
+                            <input class="inputText" type="text" style="font-size: 14px; width: 300px;" id="email" name="email" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Post code:
+                            <input class="inputText" type="text" style="font-size: 14px; width: 300px;" id="post_code" name="post_code" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Address:
+                            <input class="inputText" type="text" style="font-size: 14px; width: 300px;" id="address" name="address" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Phone:
+                            <input class="inputText" type="text" style="font-size: 14px; width: 300px;" id="phone_number" name="phone_number" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Password:
+                            <input class="inputText" type="password" style="font-size: 14px; width: 300px;" id="password" name="password" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Confirm:
+                            <input class="inputText" type="password" style="font-size: 14px; width: 300px;" id="password" name="confirm_password" placeholder="" />
+                        </td>
+                    </tr>
+                </table>
 
                 <div class="clear padding20"></div>
+                <hr style="width: 400px;">
                 <div class="login">
                     <input type="hidden" name="action" value="register" />
                     <input class="inputbutton" style="width: 240px;" type="submit" value="Sign up" />
