@@ -34,15 +34,15 @@
 <section class="container clearfix">
 
 
-    <div class="cart_box2">
+    <div class="cart_box2" style="width: 1000px;">
         <div>
-            <h2>Your Orders</h2>
+            <h2 style="width: 100%; text-align: center;">Your Previous Orders</h2>
             <h1 class="regular brown bottom_line"></h1>
 
             <div class="clear"></div>
 
             {% if orders|length > 0 %}
-                <div class="box_heading2">
+                <div class="box_heading2" style="padding: 10px;">
                 {% for order in orders %}
                     <div style="font-size: 16px; font-weight: 600;">Order date: {{ order.create_date }}</div>
                     <div style="font-size: 16px; font-weight: 600;">Status: {{ status_codes[order.status] }}</div>
@@ -52,6 +52,7 @@
                     <div style="font-size: 16px;">Address: {{ order.delivery_address }}</div>
                     <div style="font-size: 16px;">Phone number: {{ order.customer_phone_number }}</div>
                     <br/>
+                    <hr style="width: 98%;">
                 {% endfor %}
 
                 </div>
