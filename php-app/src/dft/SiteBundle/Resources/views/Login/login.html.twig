@@ -36,28 +36,35 @@
 
     <div class="review">
         <div class="login_box">
-            <h2>Login To Your Account</h2>
-            <h1 class="regular brown bottom_line"></h1>
-            {% if error_message %}
-                <div style="text-align: center; font-weight: bold;">{{ error_message }}</div>
-            {% endif %}
-            <br/>
-
+            <h2>Existing Account</h2>
+            <h1 class="regular brown bottom_line" style="margin-bottom: 10px;"></h1>
             <form action="" method="POST">
-                <ul>
-                    <li>Email:</li>
-                    <li class="field"><input class="inputText" type="text" id="email" name="email" placeholder="" /></li>
-                    <li>Password:</li>
-                    <li class="field"><input class="inputText" type="password" id="password" name="password" placeholder="" /></li>
-
-                </ul>
-
-                <div class="remember">
-                    <input type="checkbox"> Remember &nbsp; <span><a href="/forgot-password/">Forgot Password!</a></span>
-                </div>
+                <table>
+                    <tr>
+                        <td style="padding-bottom: 10px;vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: center;">
+                            {% if error_message %}
+                                <b>{{ error_message }}</b>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Email:
+                            <input class="inputText" style="font-size: 14px; width: 300px;" type="text" id="email" name="email" placeholder="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Password:
+                            <input class="inputText" style="font-size: 14px; width: 300px;" type="password" id="password" name="password" placeholder="" />
+                        </td>
+                    </tr>
+                </table>
 
                 <div class="clear"></div>
                 <div class="clear padding20"></div>
+                <hr style="width: 400px;">
+
                 <div class="login">
                     <input class="inputbutton" style="width: 240px;" type="submit" value="Login" />
                 </div>
