@@ -1,0 +1,106 @@
+{% include 'dftSiteBundle:Common:top.html.twig' %}
+
+{# Include opening time and contact. #}
+{% include 'dftSiteBundle:Common:opening-time-contact.html.twig' %}
+
+<!-- Header -->
+<header class="header_bg clearfix">
+    <div class="top-menu clearfix">
+        {# Include menu logo. #}
+        {% include 'dftSiteBundle:Common:menu-logo.html.twig' %}
+        {# Include top menu. #}
+        {% include 'dftSiteBundle:Common:top-menu.html.twig' %}
+    </div>
+</header>
+<!-- /Header -->
+
+<div class="clear"></div>
+
+
+<section class="banner_about_bg clearfix">
+
+    <header class="container clearfix">
+        <div class="banner_about">
+            <h1>Delivery Details</h1>
+            <p class="text-white">Home > Cart > Delivery Details</p>
+        </div>
+
+        <div class="clear"></div>
+    </header>
+</section>
+
+<div class="clear padding40"></div>
+
+
+<section class="container clearfix">
+    <div class="review" style="width: 1000px;">
+        <div class="forgot_password_box" style="width: 100%;">
+            <h2 style="width: 100%; text-align: center;">Delivery Details</h2>
+            <hr style="width: 998px; margin-bottom: 10px;">
+
+            <form action="" id="myForm" method="POST">
+                <table style="width: 600px; margin: 0px auto;">
+                    {% if error_message %}
+                        <tr>
+                            <td colspan="2" style="padding-bottom: 10px; vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: center; font-weight: bold;">
+                                {{ error_message }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
+                            Delivery type:
+                            <select name="delivery_type" id="delivery_type" class="inputText resetPassEmailInput" style="font-size: 14px; width: 445px;" >
+                                <option value="1" {{ delivery_type == 1 ? "selected" : '' }}>Delivery (Estimated: 40 minutes)</option>
+                                <option value="2" {{ delivery_type == 2 ? "selected" : '' }}>Collection (Estimated: 20 minutes)</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr style="height: 46px;">
+                        <td style="vertical-align: middle;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Post code:
+                            <input class="inputText resetPassEmailInput" type="text"  style="font-size: 14px;" id="post_code" name="post_code"
+                                   placeholder="" value="{{ post_code }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Address:
+                            <input class="inputText resetPassEmailInput" type="text" style="font-size: 14px;" id="address" name="address"
+                                   placeholder="" value="{{ address }}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-right: 10px; font-size: 14px; text-align: right;">
+                            Notes:
+                            <textarea class="inputText resetPassEmailInput"  style="font-size: 14px; height: 100px;" cols="10" rows="20" id="notes" name="notes"
+                                      placeholder="Delivery notes">{{ notes }}</textarea>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="clear"></div>
+                <div class="clear padding20"></div>
+                <hr style="width: 998px;">
+
+                <div style="text-align: center;">
+                    <input type="submit" class="inputbutton" style="width: 240px;" value="Update Delivery Details"/>
+                </div>
+            </form>
+
+            {% if continue_to_payment %}
+                {# Payment form. #}
+                {% include 'dftSiteBundle:Payment:payment-form.html.twig' %}
+            {% endif %}
+            <div class="clear"></div>
+        </div>
+    </div>
+</section>
+
+<div class="clear padding40"></div>
+
+{# Footer. #}
+{% include 'dftSiteBundle:Common:footer.html.twig' %}
+
+{# Bottom. #}
+{% include 'dftSiteBundle:Common:bottom.html.twig' %}

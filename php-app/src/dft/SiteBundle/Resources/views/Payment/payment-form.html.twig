@@ -1,3 +1,4 @@
+<div style="text-align: center;">OR</div>
 <FORM METHOD="post" ACTION="https://mdepayments.epdq.co.uk/ncol/{{ live_payment_system ? 'prod' : 'test' }}/orderstandard.asp">
     <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
     <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
@@ -14,6 +15,6 @@
 
     <br/>
     <div style="text-align: center;">
-        <input  class="inputbutton" style="width: 240px;" type="submit" value="CONTINUE TO PAYMENT">
+        <input class="inputbutton" style="width: 240px;" type="submit" value="CONTINUE TO PAYMENT">
     </div>
 </form>

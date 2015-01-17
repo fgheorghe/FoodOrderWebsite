@@ -31,3 +31,7 @@ dft_site_account:
 dft_site_orders:
     path:     /orders/
     defaults: { _controller: dftSiteBundle:Orders:index }
+dft_site_delivery:
+    path:     /delivery/
+    methods:     [POST]
+    defaults: { _controller: dftSiteBundle:Delivery:index }
