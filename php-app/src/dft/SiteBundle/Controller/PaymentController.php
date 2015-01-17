@@ -97,7 +97,7 @@ class PaymentController extends BaseController
                                 $errorMessage = "Your cart is empty. Please add items.";
                             }
                         } else {
-                            $errorMessage = "Your order has already been placed. Please check your inbox for delivery and time confirmation.";
+                            $errorMessage = "Your order has been placed. Please check your inbox for delivery and time confirmation.";
                         }
                     }
 
