@@ -36,6 +36,43 @@ class ShoppingCart {
     }
 
     /**
+     * This function puts items in a 'limbo' state, to ensure cart items do not change
+     * when the user has started a payment process. This should be called once the user
+     * views the shopping cart, for each order.
+     *
+     * @param $orderId Which order id the items are stored for.
+     */
+    public function storeItemsInLimbo($orderId) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        // Get existing items.
+        $limboCartItemsArray = $this->getItemsInLimbo();
+
+        // Update or add items for this order.
+        $limboCartItemsArray[$orderId] = $this->getItems();
+
+        // Put back in session.
+        $sessionService->set('limbo_cart_item_ids', $limboCartItemsArray);
+    }
+
+    /**
+     * Fetches items in limbo for all orders.
+     * @return array
+     */
+    public function getItemsInLimbo() {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        // Get the shopping cart items array. If none set, create one.
+        $limboCartItemsArray = $sessionService->get('limbo_cart_item_ids');
+        if (!is_array($limboCartItemsArray)) {
+            $limboCartItemsArray = array();
+        }
+        return $limboCartItemsArray;
+    }
+
+    /**
      * Removes an item from the shopping cart.
      * @param $menuItemId
      */
@@ -57,16 +94,21 @@ class ShoppingCart {
 
     /**
      * Gets all items added to basket.
+     * @param $limbo Boolean Fetch items from limbo.
      * @return Array
      */
-    public function getItems() {
+    public function getItems($limbo = false) {
         // Get the session service.
         $sessionService = $this->getContainer()->get('session');
 
-        // Get the shopping cart items array. If none set, create one.
-        $cartItemsArray = $sessionService->get('cart_item_ids');
-        if (!is_array($cartItemsArray)) {
-            $cartItemsArray = array();
+        if ($limbo == true) {
+            $cartItemsArray = $this->getItemsInLimbo();
+        } else {
+            // Get the shopping cart items array. If none set, create one.
+            $cartItemsArray = $sessionService->get('cart_item_ids');
+            if (!is_array($cartItemsArray)) {
+                $cartItemsArray = array();
+            }
         }
         return $cartItemsArray;
     }
@@ -116,5 +158,44 @@ class ShoppingCart {
      */
     public function emptyCart() {
         $this->getContainer()->get('session')->set('cart_item_ids', array());
+    }
+
+    /**
+     * Method used for storing delivery details for each ongoing order.
+     * @param $orderId
+     * @param $deliveryType
+     * @param $postCode
+     * @param $address
+     * @param $notes
+     */
+    public function setDeliveryOptionsForOrder($orderId, $deliveryType, $postCode, $address, $notes) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        $deliveryOptions = $this->getDeliveryOptions();
+        $deliveryOptions[$orderId] = array(
+            "delivery_type" => $deliveryType,
+            "post_code" => $postCode,
+            "address" => $address,
+            "notes" => $notes
+        );
+
+        $sessionService->set('delivery_options', $deliveryOptions);
+    }
+
+    /**
+     * Method used for fetching all active orders options.
+     * @return array
+     */
+    public function getDeliveryOptions() {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        // Get the delivery options array. If none set, create one.
+        $deliveryOptions = $sessionService->get('delivery_options');
+        if (!is_array($deliveryOptions)) {
+            $deliveryOptions = array();
+        }
+        return $deliveryOptions;
     }
 }

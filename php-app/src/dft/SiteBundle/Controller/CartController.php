@@ -41,10 +41,18 @@ class CartController extends BaseController
             $this->getApiClientService()->getCategoryMenuItems(null)
         );
 
+        // Create an order id.
+        // TODO: Add order unique identifier!
+        $orderId = time();
+
+        // Update the 'limbo' mode.
+        $shoppingCartService->storeItemsInLimbo($orderId);
+
         return $this->render('dftSiteBundle:Cart:cart.html.twig',
             array(
                 // Shopping cart items.
-                "shopping_cart_items" => $shoppingCartItems
+                "shopping_cart_items" => $shoppingCartItems,
+                "order_id" => $orderId
             )
         );
     }

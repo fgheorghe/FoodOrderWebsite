@@ -11,7 +11,7 @@ class DeliveryController extends BaseController
     {
         // Check if the user is logged in. If not, then redirect to login page.
         if (!$this->getLoginService()->isAuthenticated()) {
-            // Redirect to menu page.
+            // Redirect to login page.
             return $this->redirect(
                 $this->generateUrl('dft_site_login') . "?return=cart"
             );
@@ -27,6 +27,17 @@ class DeliveryController extends BaseController
         // TODO: Load estimated delivery times.
         // _POST values.
         $request = $this->container->get("request");
+
+        // First, check if an order id is set.
+        $orderId = $request->get('order_id');
+        // If not, stop the process and redirect the user to the shopping menu,
+        // as she should not open this page directly.
+        if (!$orderId) {
+            // Redirect to menu page.
+            return $this->redirect(
+                $this->generateUrl('dft_site_menu')
+            );
+        }
 
         $postCode = $request->get('post_code', $customerData->post_code);
         $address = $request->get('address', $customerData->address);
@@ -45,17 +56,23 @@ class DeliveryController extends BaseController
         // Load the shopping cart. Items can be added through this page.
         $shoppingCartService = $this->getShoppingCartService();
 
+        // Update delivery options in session.
+        $shoppingCartService->setDeliveryOptionsForOrder($orderId, $deliveryType, $postCode, $address, $notes);
+
+        // Get shopping cart items, for this order.
+        $allLimboItems = $shoppingCartService->getItems(true);
+        $limboItems = $allLimboItems[$orderId];
+
         // Prepare items to include.
         $shoppingCartItems = $shoppingCartService->mapCartItemsToMenuItems(
-            $shoppingCartService->getItems(),
+            $limboItems,
             // TODO: Optimise this bit.
             $this->getApiClientService()->getCategoryMenuItems(null)
         );
 
         // Prepare payment parameters.
         $paymentParameters = array(
-            // TODO: Add order unique identifier!
-            "ORDERID" => microtime(true),
+            "ORDERID" => $orderId,
             "AMOUNT" => $this->getShoppingCartService()->getTotal($shoppingCartItems) * 100
         );
 
@@ -71,7 +88,10 @@ class DeliveryController extends BaseController
                 "delivery_type" => $deliveryType,
                 "continue_to_payment" => $continueToPayment,
                 "shasign" => $shaSignature,
+                // Barclays input field.
                 "orderid" => $paymentParameters["ORDERID"],
+                // Details input field.
+                "order_id" => $paymentParameters["ORDERID"],
                 "amount" => $paymentParameters["AMOUNT"],
                 "currency" => BarclaysPayment::DEFAULT_CURRENCY,
                 "language" => BarclaysPayment::DEFAULT_LANGUAGE,
