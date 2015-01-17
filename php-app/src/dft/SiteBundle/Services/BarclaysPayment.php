@@ -11,6 +11,13 @@ class BarclaysPayment {
     use ContainerAware;
     use Logger;
 
+    // Barclays specific constants.
+    const PAYMENT_INVALID_OR_INCOMPLETE = 0x00;
+    const PAYMENT_CANCELLED_BY_CUSTOMER = 0x01;
+    const PAYMENT_AUTHORISATION_DECLINED = 0x02;
+    const PAYMENT_AUTHORISED = 0x05;
+    const PAYMENT_PAYMENT_REQUESTED = 0x09;
+
     // Defaults.
     const DEFAULT_CURRENCY = "GBP";
     const DEFAULT_LANGUAGE = "en_GB";

@@ -40,7 +40,7 @@ class ShoppingCart {
      * when the user has started a payment process. This should be called once the user
      * views the shopping cart, for each order.
      *
-     * @param $orderId Which order id the items are stored for.
+     * @param $orderId Integer Which order id the items are stored for.
      */
     public function storeItemsInLimbo($orderId) {
         // Get the session service.
@@ -70,6 +70,23 @@ class ShoppingCart {
             $limboCartItemsArray = array();
         }
         return $limboCartItemsArray;
+    }
+
+    /**
+     * Removed order items from limbo.
+     * @param $orderId
+     */
+    public function removeItemsFromLimbo($orderId) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        $limboItems = $this->getItemsInLimbo();
+        if (array_key_exists($orderId, $limboItems)) {
+            unset($limboItems[$orderId]);
+        }
+
+        // Put back in session.
+        $sessionService->set('limbo_cart_item_ids', $limboItems);
     }
 
     /**
@@ -197,5 +214,38 @@ class ShoppingCart {
             $deliveryOptions = array();
         }
         return $deliveryOptions;
+    }
+
+    /**
+     * Adds an order id (reference) to processed list.
+     * @param $orderId
+     */
+    public function setOrderAsProcessed($orderId) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+        // Get existing.
+        $processedOrderIds = $this->getProcessedOrderIds();
+        // Add order id.
+        $processedOrderIds[] = $orderId;
+        // Put back in session.
+        $sessionService->set('processed_order_ids', $processedOrderIds);
+    }
+
+    /**
+     * Returns a list of processed order ids, typically used to avoid processing the
+     * same order type.
+     * @return array
+     */
+    public function getProcessedOrderIds() {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        // Get session items.
+        $processedOrderIds = $sessionService->get('processed_order_ids');
+        if (!is_array($processedOrderIds)) {
+            $processedOrderIds = array();
+        }
+
+        return $processedOrderIds;
     }
 }

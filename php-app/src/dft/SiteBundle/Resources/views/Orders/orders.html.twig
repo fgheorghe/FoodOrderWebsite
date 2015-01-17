@@ -52,6 +52,7 @@
                     <div style="font-size: 16px;">Post code: {{ order.post_code }}</div>
                     <div style="font-size: 16px;">Address: {{ order.delivery_address }}</div>
                     <div style="font-size: 16px;">Phone number: {{ order.customer_phone_number }}</div>
+                    <div style="font-size: 16px;">Notes: {{ order.notes ? order.notes : '-' }}</div>
                     <br/>
                     <hr style="width: 98%;">
                 {% endfor %}

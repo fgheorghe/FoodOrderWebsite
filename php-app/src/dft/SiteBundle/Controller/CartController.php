@@ -41,7 +41,7 @@ class CartController extends BaseController
             $this->getApiClientService()->getCategoryMenuItems(null)
         );
 
-        // Create an order id.
+        // Create an order id - AKA reference.
         // TODO: Add order unique identifier!
         $orderId = time();
 

@@ -3,6 +3,7 @@
 namespace dft\SiteBundle\Controller;
 
 use dft\SiteBundle\Services\ApiClient;
+use dft\SiteBundle\Services\BarclaysPayment;
 
 class PaymentController extends BaseController
 {
@@ -10,55 +11,103 @@ class PaymentController extends BaseController
     {
         // Check if the user is logged in. If not, then redirect to login page.
         if (!$this->getLoginService()->isAuthenticated()) {
-            // Redirect to menu page.
+            // Redirect to login page.
             return $this->redirect(
                 $this->generateUrl('dft_site_login') . "?return=payment"
             );
         } else {
-            // TODO: Add payment step.
-            // Prepare customer data.
-            $customer = $this->getLoginService()->getAuthenticatedCustomerData();
+            // _GET values.
+            $query = $this->container->get("request")->query;
 
-            $cartItems = $this->getShoppingCartService()->getItems();
-            $items = array();
-            if (count($cartItems)) {
-                foreach ($cartItems as $id => $count) {
-                    $items[] = array(
-                        "id" => $id,
-                        "size_id" => 1, // TODO: Add size ids.
-                        "count" => $count
+            // If no payment id (reference) is set, redirect the user to menu page.
+            $orderId = $query->get('orderID');
+            if (!$orderId) {
+                // Redirect to menu page.
+                return $this->redirect(
+                    $this->generateUrl('dft_site_menu')
+                );
+            } else {
+                // Check if the order exists in 'limbo'.
+                $limboOrders = $this->getShoppingCartService()->getItemsInLimbo();
+                $processedOrderIds = $this->getShoppingCartService()->getProcessedOrderIds();
+
+                // If it does not exist, redirect the user to menu page.
+                if (!in_array($orderId, $processedOrderIds) && !array_key_exists($orderId, $limboOrders)) {
+                    // Redirect to menu page.
+                    return $this->redirect(
+                        $this->generateUrl('dft_site_menu')
+                    );
+                } else {
+                    // Check the payment status. If not 'Requested' or 'Authorised' then notify the user,
+                    // and do not place an order.
+                    $paymentStatus = $query->get('STATUS', 0);
+                    if (!in_array($paymentStatus, array( BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED ))) {
+                        $errorMessage = "Can not process payment. Please try again later.";
+                    } else {
+                        // Verify if the order has already been processed.
+                        if (!in_array($orderId, $processedOrderIds)) {
+                            // Get items and construct order.
+                            $cartItems = $limboOrders[$orderId];
+
+                            // Get order delivery details.
+                            $deliveryOptions = $this->getShoppingCartService()->getDeliveryOptions();
+
+                            // And options for the current order id.
+                            $orderDeliveryOptions = $deliveryOptions[$orderId];
+
+                            // Prepare customer data.
+                            $customer = $this->getLoginService()->getAuthenticatedCustomerData();
+
+                            $items = array();
+                            if (count($cartItems)) {
+                                foreach ($cartItems as $id => $count) {
+                                    $items[] = array(
+                                        "id" => $id,
+                                        "size_id" => 1, // TODO: Add size ids.
+                                        "count" => $count
+                                    );
+                                }
+
+                                // Place the order.
+                                $this->getApiClientService()->createOrder(
+                                    $customer->id,
+                                    json_encode($items, JSON_NUMERIC_CHECK),
+                                    $orderDeliveryOptions["address"],
+                                    $orderDeliveryOptions["post_code"],
+                                    $orderDeliveryOptions["notes"],
+                                    ApiClient::ORDER_TYPE_ONLINE,
+                                    ApiClient::ORDER_PAYMENT_STATUS_PAID,
+                                    $customer->verified,
+                                    $customer->phone_number,
+                                    $customer->name,
+                                    $orderDeliveryOptions["delivery_type"],
+                                    0, // TODO: Add discounts.
+                                    $orderId
+                                );
+
+                                // Empty the cart.
+                                $this->getShoppingCartService()->emptyCart();
+                                // Remove order from limbo.
+                                $this->getShoppingCartService()->removeItemsFromLimbo($orderId);
+                                $this->getShoppingCartService()->setOrderAsProcessed($orderId);
+
+                                // Set message.
+                                $errorMessage = "Your order has been placed. Please check your inbox for delivery confirmation.";
+                            } else {
+                                $errorMessage = "Your cart is empty. Please add items.";
+                            }
+                        } else {
+                            $errorMessage = "Your order has already been placed. Please check your inbox for delivery confirmation.";
+                        }
+                    }
+
+                    return $this->render('dftSiteBundle:Payment:payment.html.twig', array(
+                            "error_message" => $errorMessage,
+                            "order_id" => $orderId
+                        )
                     );
                 }
-
-                // Place the order.
-                $this->getApiClientService()->createOrder(
-                    $customer->id,
-                    json_encode($items, JSON_NUMERIC_CHECK),
-                    $customer->address,
-                    $customer->post_code,
-                    "", // TODO: Add notes.
-                    ApiClient::ORDER_TYPE_ONLINE,
-                    ApiClient::ORDER_PAYMENT_STATUS_PAID,
-                    $customer->verified,
-                    $customer->phone_number,
-                    $customer->name,
-                    ApiClient::ORDER_DELIVERY_TYPE_DELIVERY,
-                    0 // TODO: Add discounts.
-                );
-
-                // Empty the cart.
-                $this->getShoppingCartService()->emptyCart();
-
-                // Set message.
-                $errorMessage = "Your order has been placed. Please check your inbox for delivery confirmation.";
-            } else {
-                $errorMessage = "Your cart is empty. Please add items.";
             }
         }
-
-        return $this->render('dftSiteBundle:Payment:payment.html.twig', array(
-                "error_message" => $errorMessage
-            )
-        );
     }
 }
