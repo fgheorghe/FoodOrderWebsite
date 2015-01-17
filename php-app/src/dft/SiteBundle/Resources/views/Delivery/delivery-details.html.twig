@@ -51,8 +51,8 @@
                         <td style="vertical-align: middle; padding-right: 10px; font-size: 14px; text-align: right;">
                             Delivery type:
                             <select name="delivery_type" id="delivery_type" class="inputText resetPassEmailInput" style="font-size: 14px; width: 445px;" >
-                                <option value="1" {{ delivery_type == 1 ? "selected" : '' }}>Delivery (Estimated: 40 minutes)</option>
-                                <option value="2" {{ delivery_type == 2 ? "selected" : '' }}>Collection (Estimated: 20 minutes)</option>
+                                <option value="1" {{ delivery_type == 1 ? "selected" : '' }}>Delivery (Estimated: {{ restaurant_settings.default_delivery_time }} minutes)</option>
+                                <option value="2" {{ delivery_type == 2 ? "selected" : '' }}>Collection (Estimated: {{ restaurant_settings.default_collection_time }} minutes)</option>
                             </select>
                         </td>
                     </tr>
