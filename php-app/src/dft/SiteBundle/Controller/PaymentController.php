@@ -92,12 +92,12 @@ class PaymentController extends BaseController
                                 $this->getShoppingCartService()->setOrderAsProcessed($orderId);
 
                                 // Set message.
-                                $errorMessage = "Your order has been placed. Please check your inbox for delivery confirmation.";
+                                $errorMessage = "Your order has been placed. Please check your inbox for delivery and time confirmation.";
                             } else {
                                 $errorMessage = "Your cart is empty. Please add items.";
                             }
                         } else {
-                            $errorMessage = "Your order has already been placed. Please check your inbox for delivery confirmation.";
+                            $errorMessage = "Your order has already been placed. Please check your inbox for delivery and time confirmation.";
                         }
                     }
 
