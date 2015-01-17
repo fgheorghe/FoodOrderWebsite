@@ -77,7 +77,7 @@ class PaymentController extends BaseController
                                     $orderDeliveryOptions["notes"],
                                     ApiClient::ORDER_TYPE_ONLINE,
                                     ApiClient::ORDER_PAYMENT_STATUS_PAID,
-                                    $customer->verified,
+                                    $customer->verified ? ApiClient::ORDER_CUSTOMER_TYPE_VERIFIED : ApiClient::ORDER_CUSTOMER_TYPE_NOT_VERIFIED,
                                     $customer->phone_number,
                                     $customer->name,
                                     $orderDeliveryOptions["delivery_type"],
