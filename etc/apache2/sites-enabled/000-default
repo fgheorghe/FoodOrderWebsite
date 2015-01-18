@@ -1,26 +1,24 @@
 <VirtualHost *:80>
     ServerAdmin fgheorghe@grosan.co.uk
-    ServerName site.digitalfoodtechnologies.co.uk
-    ServerAlias site
 
-    DocumentRoot /usr/local/www/apache24/data/php-app/web
-
+    DocumentRoot /var/www/
+    Alias /api /var/www/api/php-app/web
     <Directory />
         Options FollowSymLinks
         AllowOverride None
     </Directory>
-    <Directory /usr/local/www/apache24/data/php-app/web>
+    <Directory /var/www/>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride all
         Order allow,deny
         allow from all
     </Directory>
 
-    ErrorLog /var/log/httpd-error.log
+    ErrorLog ${APACHE_LOG_DIR}/error.log
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
     LogLevel debug
 
-    CustomLog /var/log/httpd-access.log combined
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
