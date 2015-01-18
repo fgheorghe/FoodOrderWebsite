@@ -1,13 +1,12 @@
 <VirtualHost *:80>
     ServerAdmin fgheorghe@grosan.co.uk
 
-    DocumentRoot /var/www/
-    Alias /api /var/www/api/php-app/web
+    DocumentRoot /var/www/php-app/web
     <Directory />
         Options FollowSymLinks
         AllowOverride None
     </Directory>
-    <Directory /var/www/>
+    <Directory /var/www/php-app/web>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride all
         Order allow,deny
@@ -18,7 +17,7 @@
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
-    LogLevel debug
+    LogLevel info
 
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
