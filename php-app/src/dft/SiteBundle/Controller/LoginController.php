@@ -91,7 +91,7 @@ class LoginController extends BaseController
             }
             if ($canRegister) {
                 // Create a new account.
-                $this->getApiClientService()->createCustomer(
+                $response = $this->getApiClientService()->createCustomer(
                     $name,
                     $email,
                     $postCode,
@@ -99,7 +99,7 @@ class LoginController extends BaseController
                     $phoneNumber,
                     $password
                 );
-                $registrationErrorMessage = "Account created. Please login to continue.";
+                $registrationErrorMessage = $response->success == true ? "Account created. Please login to continue." : $response->reason;
             }
         }
 
