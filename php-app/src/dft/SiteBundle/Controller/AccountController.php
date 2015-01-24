@@ -61,12 +61,16 @@ class AccountController extends BaseController
                     $newPassword
                 );
 
-                // Update session data.
-                $this->getLoginService()->storeCustomerDataInSession($response->data);
-                // Redirect to profile page.
-                return $this->redirect(
-                    $this->generateUrl('dft_site_account')
-                );
+                if ($response->success == true) {
+                    // Update session data.
+                    $this->getLoginService()->storeCustomerDataInSession($response->data);
+                    // Redirect to profile page, if success.
+                    return $this->redirect(
+                        $this->generateUrl('dft_site_account')
+                    );
+                } else {
+                    $errorMessage = "Can not update account: " . $response->reason;
+                }
             }
         }
 

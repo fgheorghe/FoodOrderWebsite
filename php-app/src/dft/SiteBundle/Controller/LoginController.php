@@ -79,7 +79,8 @@ class LoginController extends BaseController
 
             // Check if all fields are set. If not, display an error message.
             if (empty($name) || empty($email) || empty($postCode) || empty($address)
-                || empty($phoneNumber) || empty($password) || empty($confirmPassword)) {
+                || empty($phoneNumber) || empty($password) || empty($confirmPassword)
+            ) {
                 $registrationErrorMessage = "All fields are mandatory.";
                 $canRegister = false;
             } else {
@@ -99,7 +100,9 @@ class LoginController extends BaseController
                     $phoneNumber,
                     $password
                 );
-                $registrationErrorMessage = $response->success == true ? "Account created. Please login to continue." : $response->reason;
+                $registrationErrorMessage = $response->success == true ?
+                    "Account created. Please login to continue."
+                    : "Can not create account: " . $response->reason;
             }
         }
 
