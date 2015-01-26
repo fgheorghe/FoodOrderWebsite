@@ -42,10 +42,14 @@
             <div class="clear"></div>
 
             <div class="box_heading" style="width: 100%; text-align: center;">
-                {% if service_coverage.success %}
-                    Our services are available for {{ post_code }}. Click <a href="/menu/">here</a> to browse our <a href="/menu/">Food Menu</a>.
+                {% if post_code %}
+                    {% if service_coverage.success %}
+                        Our services are available for {{ post_code }}. Click <a href="/menu/">here</a> to browse our <a href="/menu/">Food Menu</a>.
+                    {% else %}
+                        Unfortunately we do not deliver to {{ post_code }}.
+                    {% endif %}
                 {% else %}
-                    Unfortunately we do not deliver to {{ post_code }}.
+                    Please input a post code.
                 {% endif %}
             </div>
         </div>
