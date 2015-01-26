@@ -89,7 +89,7 @@
                 </div>
             </form>
 
-            {% if continue_to_payment %}
+            {% if continue_to_payment and service_coverage.success %}
                 {# Payment form. #}
                 {% include 'dftSiteBundle:Payment:payment-form.html.twig' %}
             {% endif %}

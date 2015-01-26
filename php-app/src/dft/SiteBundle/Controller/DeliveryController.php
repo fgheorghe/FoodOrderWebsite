@@ -79,7 +79,18 @@ class DeliveryController extends BaseController
         // Create hash.
         $shaSignature = $this->getBarclaysPaymentService()->generateSignature($paymentParameters);
 
-        // TODO: Implement.
+        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+        $serviceCoverage = $this->getApiClientService()->getServiceCoverage(
+            $restaurantSettings->restaurant_post_code,
+            $postCode,
+            $restaurantSettings->delivery_range
+        );
+        // Check if we can deliver to the given post code. If not, overwrite the error message, and let the UI disable
+        // the continue button.
+        if ($serviceCoverage->success == false) {
+            $errorMessage = "Unfortunately we do not deliver at this post code.";
+        }
+
         return $this->render('dftSiteBundle:Delivery:delivery-details.html.twig', array(
                 "error_message" => $errorMessage,
                 "post_code" => $postCode,
@@ -101,7 +112,8 @@ class DeliveryController extends BaseController
                 "exceptionurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
                 "cancelurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
                 "backurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
-                "live_payment_system" => $this->getBarclaysPaymentService()->getLive()
+                "live_payment_system" => $this->getBarclaysPaymentService()->getLive(),
+                "service_coverage" => $serviceCoverage
             )
         );
     }
