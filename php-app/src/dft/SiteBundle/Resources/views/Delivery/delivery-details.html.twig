@@ -89,10 +89,57 @@
                 </div>
             </form>
 
+            <script language="JavaScript">
+                function processDeliveryForm(which) {
+                    var deliveryType = {{ delivery_type|json_encode|raw }},
+                            postCode = {{ post_code|json_encode|raw }},
+                            address = {{ address|json_encode|raw }},
+                            notes = {{ notes|json_encode|raw }};
+
+                    // Check if anything has changed.
+                    if (deliveryType != $('#delivery_type').val()
+                            || postCode != $('#post_code').val()
+                            || address != $('#address').val()
+                            || notes != ($('#notes').val())) {
+                        // If so, let the user know.
+                        alert("Please click 'Update Delivery Details' to save your changes.");
+                    } else {
+                        // Submit form.
+                        if (which === 0) {
+                            $('#paymentform').submit();
+                        } else {
+                            $('#deliveryform').submit();
+                        }
+                    }
+                }
+            </script>
+
             {% if continue_to_payment and service_coverage.success %}
                 {# Payment form. #}
                 {% include 'dftSiteBundle:Payment:payment-form.html.twig' %}
             {% endif %}
+            {% if customer_data.verified %}
+                <div style="text-align: center;">OR</div><br/>
+                <div style="text-align: center;">
+                    <form name="deliveryform" id="deliveryform" method="POST" action="{{ accepturl }}?pod=true&orderID={{ orderid }}">
+                        <input style="visibility: hidden;" id="submitform" name="submitform" onclick="processDeliveryForm(1);" class="inputbutton" style="width: 240px;" type="button" value="PAYMENT ON DELIVERY / COLLECTION">
+                        <noscript>
+                            <div name="enablejavascript" id="enablejavascript" style="font-weight: bold;">
+                                For full functionality of this site it is necessary to enable JavaScript.
+                                Here are the <a href="http://www.enable-javascript.com/" target="_blank">
+                                    instructions how to enable JavaScript in your web browser</a>.
+                            </div>
+                        </noscript>
+                    </form>
+                </div>
+            {% endif %}
+
+            <script language="JavaScript">
+                $(document).ready(function() {
+                    $('#submitpaymentform').css('visibility', 'visible');
+                    $('#submitform').css('visibility', 'visible');
+                });
+            </script>
             <div class="clear"></div>
         </div>
     </div>

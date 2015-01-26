@@ -1,5 +1,5 @@
 <div style="text-align: center;">OR</div>
-<FORM name="paymentform" id="paymentform" METHOD="post" ACTION="https://mdepayments.epdq.co.uk/ncol/{{ live_payment_system ? 'prod' : 'test' }}/orderstandard.asp">
+<FORM name="paymentform" id="paymentform" METHOD="POST" ACTION="https://mdepayments.epdq.co.uk/ncol/{{ live_payment_system ? 'prod' : 'test' }}/orderstandard.asp">
     <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
     <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
     <INPUT type="hidden" NAME="AMOUNT" value="{{ amount }}">
@@ -15,27 +15,7 @@
 
     <br/>
     <div style="text-align: center;">
-        <script language="JavaScript">
-            function processPaymentForm() {
-                var deliveryType = {{ delivery_type|json_encode|raw }},
-                    postCode = {{ post_code|json_encode|raw }},
-                    address = {{ address|json_encode|raw }},
-                    notes = {{ notes|json_encode|raw }};
-
-                    // Check if anything has changed.
-                    if (deliveryType !== $('#delivery_type').val()
-                            || postCode !== $('#post_code').val()
-                            || address !== $('#address').val()
-                            || notes !== $('#notes').val()) {
-                        // If so, let the user know.
-                        alert("Please click 'Update Delivery Details' to save your changes.");
-                    } else {
-                        // Submit form.
-                        $('#paymentform').submit();
-                    }
-            }
-        </script>
-        <input style="visibility: hidden;" id="submitpaymentform" name="submitpaymentform" onclick="processPaymentForm();" class="inputbutton" style="width: 240px;" type="button" value="CONTINUE TO PAYMENT">
+        <input style="visibility: hidden;" id="submitpaymentform" name="submitpaymentform" onclick="processDeliveryForm(0);" class="inputbutton" style="width: 240px;" type="button" value="CONTINUE TO PAYMENT">
         <noscript>
             <div name="enablejavascript" id="enablejavascript" style="font-weight: bold;">
                     For full functionality of this site it is necessary to enable JavaScript.
@@ -43,10 +23,5 @@
                         instructions how to enable JavaScript in your web browser</a>.
             </div>
         </noscript>
-        <script language="JavaScript">
-            $(document).ready(function() {
-                $('#submitpaymentform').css('visibility', 'visible');
-            });
-        </script>
     </div>
 </form>

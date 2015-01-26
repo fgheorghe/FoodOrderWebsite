@@ -19,6 +19,9 @@ class PaymentController extends BaseController
             // _GET values.
             $query = $this->container->get("request")->query;
 
+            // Check if payment on delivery.
+            $pod = $query->get('pod') == 'true' ? true : false;
+
             // If no payment id (reference) is set, redirect the user to menu page.
             $orderId = $query->get('orderID');
             if (!$orderId) {
@@ -38,10 +41,11 @@ class PaymentController extends BaseController
                         $this->generateUrl('dft_site_menu')
                     );
                 } else {
-                    // Check the payment status. If not 'Requested' or 'Authorised' then notify the user,
+                    // Check the payment status. If not a verified customer, and 'Requested' or 'Authorised' then notify the user,
                     // and do not place an order.
                     $paymentStatus = $query->get('STATUS', 0);
-                    if (!in_array($paymentStatus, array( BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED ))) {
+                    if (($pod && !$this->getLoginService()->getAuthenticatedCustomerData()->verified) &&
+                        !in_array($paymentStatus, array( BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED))) {
                         $errorMessage = "Can not process payment. Please try again later.";
                     } else {
                         // Verify if the order has already been processed.
@@ -76,7 +80,7 @@ class PaymentController extends BaseController
                                     $orderDeliveryOptions["post_code"],
                                     $orderDeliveryOptions["notes"],
                                     ApiClient::ORDER_TYPE_ONLINE,
-                                    ApiClient::ORDER_PAYMENT_STATUS_PAID,
+                                    $pod ? ApiClient::ORDER_PAYMENT_STATUS_NOT_PAID : ApiClient::ORDER_PAYMENT_STATUS_PAID,
                                     $customer->verified ? ApiClient::ORDER_CUSTOMER_TYPE_VERIFIED : ApiClient::ORDER_CUSTOMER_TYPE_NOT_VERIFIED,
                                     $customer->phone_number,
                                     $customer->name,
@@ -90,7 +94,6 @@ class PaymentController extends BaseController
                                 // Remove order from limbo.
                                 $this->getShoppingCartService()->removeItemsFromLimbo($orderId);
                                 $this->getShoppingCartService()->setOrderAsProcessed($orderId);
-
                                 // Set message.
                                 $errorMessage = "Your order has been placed. Please check your inbox for delivery and time confirmation.";
                             } else {
