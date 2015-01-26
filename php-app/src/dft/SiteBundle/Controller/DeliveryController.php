@@ -42,7 +42,6 @@ class DeliveryController extends BaseController
         $postCode = $request->get('post_code', $customerData->post_code, "");
         $address = $request->get('address', $customerData->address, "");
         $notes = $request->get('notes', "");
-        // TODO: Configurable default.
         $deliveryType = $request->get('delivery_type', ApiClient::ORDER_DELIVERY_TYPE_DELIVERY);
 
         // Validate form data.
@@ -51,6 +50,15 @@ class DeliveryController extends BaseController
             $continueToPayment = true;
             // Let the user know she can continue with placing an order.
             $errorMessage = "Please review your delivery details or continue to payment.";
+        }
+
+        // Validate form data.
+        if (!$this->getFormValidatorsService()->isValidUkPostCode($postCode)) {
+            $continueToPayment = false;
+            $errorMessage = "Please input a valid UK post code.";
+        } elseif (!$this->getFormValidatorsService()->isValidUkAddress($address)) {
+            $continueToPayment = false;
+            $errorMessage = "Please input a valid UK address.";
         }
 
         // Load the shopping cart. Items can be added through this page.

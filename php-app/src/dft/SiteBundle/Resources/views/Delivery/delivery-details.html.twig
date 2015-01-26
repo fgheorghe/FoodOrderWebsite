@@ -118,7 +118,7 @@
                 {# Payment form. #}
                 {% include 'dftSiteBundle:Payment:payment-form.html.twig' %}
             {% endif %}
-            {% if customer_data.verified %}
+            {% if continue_to_payment and customer_data.verified %}
                 <div style="text-align: center;">OR</div><br/>
                 <div style="text-align: center;">
                     <form name="deliveryform" id="deliveryform" method="POST" action="{{ accepturl }}?pod=true&orderID={{ orderid }}">

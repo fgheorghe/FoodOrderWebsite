@@ -38,6 +38,14 @@ class BaseController extends Controller {
     }
 
     /**
+     * Returns the Form Validators Service.
+     * @return \dft\SiteBundle\Services\FormValidators
+     */
+    protected function getFormValidatorsService() {
+        return $this->container->get('dft_site.form_validators');
+    }
+
+    /**
      * Returns the Barclays Payment Service.
      * @return \dft\SiteBundle\Services\BarclaysPayment
      */

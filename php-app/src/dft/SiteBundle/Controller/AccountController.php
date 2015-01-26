@@ -31,7 +31,7 @@ class AccountController extends BaseController
 
             $customerData = $this->getLoginService()->getAuthenticatedCustomerData();
 
-            // If any of the fields are empty (except for current password and password), display and error message.
+            // If any of the fields are empty (except for current password and password), display an error message.
             if (empty($name) || empty($email) || empty($postCode) || empty($address) || empty($phoneNumber)) {
                 $errorMessage = "All input fields are mandatory, except Current and New Password.";
                 $canUpdate = false; // User can not update profile;
@@ -47,6 +47,27 @@ class AccountController extends BaseController
                         $canUpdate = false; // User can not update profile;
                     }
                 }
+            }
+
+            // Validate form data.
+            if (!$this->getFormValidatorsService()->isValidEmailAddress($email)) {
+                $canUpdate = false;
+                $errorMessage = "Please input a valid email address.";
+            } elseif (!$this->getFormValidatorsService()->isValidName($name)) {
+                $canUpdate = false;
+                $errorMessage = "Please input a valid name.";
+            } elseif (!$this->getFormValidatorsService()->isValidUkPostCode($postCode)) {
+                $canUpdate = false;
+                $errorMessage = "Please input a valid UK post code.";
+            } elseif (!$this->getFormValidatorsService()->isValidUkAddress($address)) {
+                $canUpdate = false;
+                $errorMessage = "Please input a valid UK address.";
+            } elseif (!$this->getFormValidatorsService()->isValidUkPhoneNumber($phoneNumber)) {
+                $canUpdate = false;
+                $errorMessage = "Please input a valid UK phone number.";
+            } elseif (!empty($newPassword) && !empty($currentPassword) && !$this->getFormValidatorsService()->isValidPassword($newPassword)) {
+                $canUpdate = false;
+                $errorMessage = "Please input a valid password (minimum 7 characters long).";
             }
 
             // Update the customer data.

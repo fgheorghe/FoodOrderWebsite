@@ -18,6 +18,13 @@ class LoginController extends BaseController
         // Action type. This may be 'register' or it defaults to login.
         $action = $request->get('action');
 
+        // Initialize registration form values to be populated on page load. Defaults to "".
+        $name = "";
+        $email = "";
+        $postCode = "";
+        $address = "";
+        $phoneNumber = "";
+
         // If the user tried making a payment, and is not logged in, then display an
         // error message.
         switch ($returnUrl) {
@@ -90,6 +97,29 @@ class LoginController extends BaseController
                     $canRegister = false;
                 }
             }
+
+            // Validate form data.
+            if (!$this->getFormValidatorsService()->isValidEmailAddress($email)) {
+                $canRegister = false;
+                $registrationErrorMessage = "Please input a valid email address.";
+            } elseif (!$this->getFormValidatorsService()->isValidName($name)) {
+                $canRegister = false;
+                $registrationErrorMessage = "Please input a valid name.";
+            } elseif (!$this->getFormValidatorsService()->isValidUkPostCode($postCode)) {
+                $canRegister = false;
+                $registrationErrorMessage = "Please input a valid UK post code.";
+            } elseif (!$this->getFormValidatorsService()->isValidUkAddress($address)) {
+                $canRegister = false;
+                $registrationErrorMessage = "Please input a valid UK address.";
+            } elseif (!$this->getFormValidatorsService()->isValidUkPhoneNumber($phoneNumber)) {
+                $canRegister = false;
+                $registrationErrorMessage = "Please input a valid UK phone number.";
+            } elseif (!$this->getFormValidatorsService()->isValidPassword($password)) {
+                $canRegister = false;
+                $registrationErrorMessage = "Please input a valid password (minimum 7 characters long).";
+            }
+
+            // Register.
             if ($canRegister) {
                 // Create a new account.
                 $response = $this->getApiClientService()->createCustomer(
@@ -110,7 +140,14 @@ class LoginController extends BaseController
             'dftSiteBundle:Login:login.html.twig',
             array(
                 "error_message" => $errorMessage,
-                "registration_error_message" => $registrationErrorMessage
+                "registration_error_message" => $registrationErrorMessage,
+                "registration_form" => array(
+                    "name" => $name,
+                    "post_code" => $postCode,
+                    "address" => $address,
+                    "email" => $email,
+                    "phone_number" => $phoneNumber
+                )
             )
         );
     }
