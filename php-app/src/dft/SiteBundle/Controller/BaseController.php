@@ -131,7 +131,7 @@ class BaseController extends Controller {
                "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData(),
                "images" => $this->constructLogoAndFactImages($this->getApiClientService()->getImages()),
                "image_store_url" => $this->container->getParameter('foapi_image_store_url'),
-               "restaurant_closed" => $restaurantSettings->open_all_day != 1 && (microtime() < strtotime($restaurantSettings->opening_time) || microtime() > strtotime($restaurantSettings->closing_time))
+               "restaurant_closed" => $restaurantSettings->open_all_day == 1 ? false : (microtime() < strtotime($restaurantSettings->opening_time) || microtime() > strtotime($restaurantSettings->closing_time))
             )
         );
 
