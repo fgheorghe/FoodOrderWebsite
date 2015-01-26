@@ -120,15 +120,18 @@ class BaseController extends Controller {
      */
     public function render($view, array $parameters = array(), Response $response = null)
     {
+        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+
         // Get the front end settings and cart items count, and append to parameters array.
         $parameters = array_merge($parameters, array(
                "front_end_settings" => $this->getApiClientService()->getFrontEndSettings(),
                 // TODO: Optimise duplicate calls to this service!
-               "restaurant_settings" => $this->getApiClientService()->getRestaurantSettings(),
+               "restaurant_settings" => $restaurantSettings,
                "shopping_cart_item_count" => $this->getItemCount(),
                "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData(),
                "images" => $this->constructLogoAndFactImages($this->getApiClientService()->getImages()),
-               "image_store_url" => $this->container->getParameter('foapi_image_store_url')
+               "image_store_url" => $this->container->getParameter('foapi_image_store_url'),
+               "restaurant_closed" => $restaurantSettings->open_all_day != 1 && (microtime() < strtotime($restaurantSettings->opening_time) || microtime() > strtotime($restaurantSettings->closing_time))
             )
         );
 

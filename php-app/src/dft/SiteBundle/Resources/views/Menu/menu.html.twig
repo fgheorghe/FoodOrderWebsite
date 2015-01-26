@@ -41,6 +41,11 @@
     </div>
 </section>
 
+{% if restaurant_closed %}
+    <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our restaurant is now closed. We will be open between {{ restaurant_settings.opening_time }} and {{ restaurant_settings.closing_time }}.</div>
+    <br/>
+{% endif %}
+
 <section class="container clearfix">
 
     <div class="menu_list full_screen">
@@ -58,8 +63,6 @@
 
         </div>
     </div>
-
-
 
     <div class="menu_detail">
 
@@ -258,7 +261,7 @@
 
             <div class="clear"></div>
 
-            {% if total_price >= restaurant_settings.minimum_website_order_value %}
+            {% if not restaurant_closed and total_price >= restaurant_settings.minimum_website_order_value %}
                 <div class="order_tbn"><a href="/cart/">ORDER NOW</a></div>
             {% endif %}
         {% else %}

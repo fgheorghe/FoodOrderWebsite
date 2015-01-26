@@ -31,6 +31,10 @@
 
 <div class="clear padding40"></div>
 
+{% if restaurant_closed %}
+    <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our restaurant is now closed. We will be open between {{ restaurant_settings.opening_time }} and {{ restaurant_settings.closing_time }}.</div>
+    <br/>
+{% endif %}
 
 <section class="container clearfix">
 
@@ -83,7 +87,7 @@
             <div class="clear"></div>
             <br/>
             <div style="text-align: center;">
-                {% if total_price >= restaurant_settings.minimum_website_order_value %}
+                {% if not restaurant_closed and total_price >= restaurant_settings.minimum_website_order_value %}
                     <form method="POST" action="/delivery/">
                         <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}"/>
                         <input type="submit" class="inputbutton" style="width: 340px;" value="Continue to Delivery Details"/>
