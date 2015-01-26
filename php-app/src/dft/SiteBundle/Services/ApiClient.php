@@ -171,7 +171,7 @@ class ApiClient {
     public function getServiceCoverage($restaurantPostCode, $customerPostCode, $deliveryRange) {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
-            sprintf(self::SERVICE_SERVICE_COVERAGE, $restaurantPostCode, $customerPostCode, $deliveryRange),
+            str_replace(" ", "", sprintf(self::SERVICE_SERVICE_COVERAGE, $restaurantPostCode, $customerPostCode, $deliveryRange)),
             array(
                 "token_1" => self::$TOKEN_1,
                 "token_2" => self::$TOKEN_2
