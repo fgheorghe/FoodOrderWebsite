@@ -2,8 +2,10 @@
     <div class="container">
         <div class="postcode">
             <h5>Postcode to Order</h5>
-            <input type="text" name="code" placeholder="eg: W6 OSP">
-            <input type="submit" value="Check Services" class="post_btn">
+            <form action="/check-services/">
+                <input type="text" name="postcode" placeholder="">
+                <input type="submit" value="Check Services" class="post_btn">
+            </form>
         </div>
 
         <div class="notice">

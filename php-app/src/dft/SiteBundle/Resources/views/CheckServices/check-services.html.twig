@@ -1,0 +1,63 @@
+{% include 'dftSiteBundle:Common:top.html.twig' %}
+
+{# Include opening time and contact. #}
+{% include 'dftSiteBundle:Common:opening-time-contact.html.twig' %}
+
+<!-- Header -->
+<header class="header_bg clearfix">
+    <div class="top-menu clearfix">
+        {# Include menu logo. #}
+        {% include 'dftSiteBundle:Common:menu-logo.html.twig' %}
+        {# Include top menu. #}
+        {% include 'dftSiteBundle:Common:top-menu.html.twig' %}
+    </div>
+</header>
+<!-- /Header -->
+
+<div class="clear"></div>
+
+
+<section class="banner_login_bg clearfix">
+
+    <header class="container clearfix">
+        <div class="banner_contact">
+            <h1>Check Services</h1>
+            <p class="text-white">Home > Check Services</p>
+        </div>
+
+        <div class="clear"></div>
+    </header>
+</section>
+
+<div class="clear padding40"></div>
+
+<section class="container clearfix">
+
+
+    <div class="cart_box2" style="width: 1000px;">
+        <div>
+            <h2 style="width: 100%; text-align: center;">Check service coverage</h2>
+            <h1 class="regular brown bottom_line"></h1>
+
+            <div class="clear"></div>
+
+            <div class="box_heading" style="width: 100%; text-align: center;">
+                {% if service_coverage.success %}
+                    Our services are available for {{ post_code }}. Click <a href="/menu/">here</a> to browse our <a href="/menu/">Food Menu</a>.
+                {% else %}
+                    Unfortunately we do not deliver to {{ post_code }}.
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<!--------right area end--------->
+
+
+<div class="clear padding40"></div>
+
+{# Footer. #}
+{% include 'dftSiteBundle:Common:footer.html.twig' %}
+
+{# Bottom. #}
+{% include 'dftSiteBundle:Common:bottom.html.twig' %}

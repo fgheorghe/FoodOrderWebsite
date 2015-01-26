@@ -54,6 +54,7 @@ class ApiClient {
     const SERVICE_CREATE_ORDER_URL = "order/";
     const SERVICE_GET_ORDERS_URL = "orders/";
     const SERVICE_IMAGES_URL = "images/";
+    const SERVICE_SERVICE_COVERAGE = 'service-coverage/check/%s/%s/%s';
     const SERVICE_BARCLAYS_PAYMENT_SETTINGS_URL = "barclays-payment-settings/";
 
     // Fetch api tokens upon instantiation.
@@ -153,6 +154,24 @@ class ApiClient {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_RESTAURANT_SETTINGS_URL,
+            array(
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
+            )
+        );
+    }
+
+    /**
+     * Gets service coverage.
+     * @param $restaurantPostCode
+     * @param $customerPostCode
+     * @param $deliveryRange
+     * @return mixed
+     */
+    public function getServiceCoverage($restaurantPostCode, $customerPostCode, $deliveryRange) {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            sprintf(self::SERVICE_SERVICE_COVERAGE, $restaurantPostCode, $customerPostCode, $deliveryRange),
             array(
                 "token_1" => self::$TOKEN_1,
                 "token_2" => self::$TOKEN_2
