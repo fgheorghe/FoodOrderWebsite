@@ -115,20 +115,20 @@
             <form action="" class="contact_form" id="myForm" method="POST">
                 <ul>
                     <li>
-                        <input  style="font-size: 14px;" value="{{ customer_data ? customer_data.name : "" }}" class="inputText" type="text" id="name" name="name" placeholder="Name" />
+                        <input  style="font-size: 14px;" value="{{ form_input.name or customer_data ? form_input.name ? form_input.name : customer_data.name : "" }}" class="inputText" type="text" id="name" name="name" placeholder="Name" />
                     </li>
 
                     <li>
-                        <input style="font-size: 14px;" value="{{ customer_data ? customer_data.email : "" }}" class="inputText" type="text" id="email" name="email" placeholder="Email" />
+                        <input style="font-size: 14px;" value="{{ form_input.email or customer_data ? form_input.email ? form_input.email : customer_data.email : "" }}" class="inputText" type="text" id="email" name="email" placeholder="Email" />
                     </li>
 
                     <li>
-                        <input style="font-size: 14px;" value="{{ customer_data ? customer_data.phone_number : "" }}" class="inputText" type="text" id="phone_number" name="phone_number" placeholder="Phone" />
+                        <input style="font-size: 14px;" value="{{ form_input.phone_number or customer_data ? form_input.phone_number ? form_input.phone_number : customer_data.phone_number : "" }}" class="inputText" type="text" id="phone_number" name="phone_number" placeholder="Phone" />
                     </li>
 
                     <li>
                         <textarea style="font-size: 14px;" class="inputTextarea" cols="88" rows="6" id="message" name="message"
-                                  placeholder="Message:"></textarea>
+                                  placeholder="Message:">{{ form_input.message ? form_input.message : "" }}</textarea>
                     </li>
                     <div class="clear"></div>
                     <li class="submit">
