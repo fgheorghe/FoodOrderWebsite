@@ -46,7 +46,7 @@ class LoginController extends BaseController
 
             // If any of these two are empty, display an error message.
             if (empty($username) || empty($password)) {
-                $errorMessage = "Please input you email address and password.";
+                $errorMessage = "Please input your email address and password.";
             } else {
                 // Authenticate the user.
                 $loginService = $this->getLoginService();
