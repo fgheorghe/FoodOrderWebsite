@@ -39,9 +39,9 @@ class DeliveryController extends BaseController
             );
         }
 
-        $postCode = $request->get('post_code', $customerData->post_code);
-        $address = $request->get('address', $customerData->address);
-        $notes = $request->get('notes');
+        $postCode = $request->get('post_code', $customerData->post_code, "");
+        $address = $request->get('address', $customerData->address, "");
+        $notes = $request->get('notes', "");
         // TODO: Configurable default.
         $deliveryType = $request->get('delivery_type', ApiClient::ORDER_DELIVERY_TYPE_DELIVERY);
 
