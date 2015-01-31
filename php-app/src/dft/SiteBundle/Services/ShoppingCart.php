@@ -178,6 +178,23 @@ class ShoppingCart {
     }
 
     /**
+     * Stores the selected delivery type.
+     * @param $deliveryType
+     */
+    public function setDeliveryType($deliveryType) {
+        $this->getContainer()->get('session')->set('delivery_type', $deliveryType);
+    }
+
+    /**
+     * Fetches the delivery type. Defaults to restaurant default if not set.
+     * @return Integer
+     */
+    public function getDeliveryType() {
+        $deliveryType = $this->getContainer()->get('session')->get('delivery_type');
+        return !is_null($deliveryType) ? $deliveryType : ApiClient::ORDER_DELIVERY_TYPE_DELIVERY;
+    }
+
+    /**
      * Method used for storing delivery details for each ongoing order.
      * @param $orderId
      * @param $deliveryType

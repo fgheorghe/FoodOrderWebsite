@@ -39,10 +39,21 @@ class DeliveryController extends BaseController
             );
         }
 
+        // Load the shopping cart. Items can be added through this page.
+        $shoppingCartService = $this->getShoppingCartService();
+
         $postCode = $request->get('post_code', $customerData->post_code, "");
         $address = $request->get('address', $customerData->address, "");
         $notes = $request->get('notes', "");
-        $deliveryType = $request->get('delivery_type', ApiClient::ORDER_DELIVERY_TYPE_DELIVERY);
+        $deliveryType = $request->get('delivery_type');
+
+        // If the user updates the delivery type, then update the cart as well.
+        if (!is_null($deliveryType)) {
+            $shoppingCartService->setDeliveryType($deliveryType);
+        } else {
+            // Otherwise, load the value already stored.
+            $deliveryType = $shoppingCartService->getDeliveryType();
+        }
 
         // Validate form data.
         $continueToPayment = false; // Assume we can't continue.
@@ -60,9 +71,6 @@ class DeliveryController extends BaseController
             $continueToPayment = false;
             $errorMessage = "Please input a valid UK address.";
         }
-
-        // Load the shopping cart. Items can be added through this page.
-        $shoppingCartService = $this->getShoppingCartService();
 
         // Update delivery options in session.
         $shoppingCartService->setDeliveryOptionsForOrder($orderId, $deliveryType, $postCode, $address, $notes);
@@ -97,6 +105,13 @@ class DeliveryController extends BaseController
         // the continue button.
         if ($serviceCoverage->success == false) {
             $errorMessage = "Unfortunately we do not deliver at this post code.";
+        }
+
+        // Final check...if restaurant just closed, or delivery type is 'delivery' and the minimum value has not been met.
+        if ($this->isRestaurantClosed() ||
+            $deliveryType == ApiClient::ORDER_DELIVERY_TYPE_DELIVERY
+            && $paymentParameters["AMOUNT"] < $restaurantSettings->minimum_website_order_value) {
+            $continueToPayment = false;
         }
 
         return $this->render('dftSiteBundle:Delivery:delivery-details.html.twig', array(

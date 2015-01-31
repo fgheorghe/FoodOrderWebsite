@@ -12,20 +12,25 @@ class MenuController extends BaseController
         // Load the shopping cart. Items can be added through this page.
         $shoppingCartService = $this->getShoppingCartService();
 
-        // Check if we should add or remove an item.
+        // Check if we should add or remove an item, or update the delivery type.
         // TODO: Redundant with shopping cart controller logic.
         $cartAddItemId = $query->get('cart_add_item', false);
         $cartRemoveItemId = $query->get('cart_remove_item', false);
+        $deliveryType = $query->get('delivery_type', false);
         if ($cartAddItemId
-            || $cartRemoveItemId) {
+            || $cartRemoveItemId
+            || $deliveryType) {
             if ($cartAddItemId) {
                 $shoppingCartService->addItem($cartAddItemId);
             }
             if ($cartRemoveItemId) {
                 $shoppingCartService->removeItem($cartRemoveItemId);
             }
+            if ($deliveryType) {
+                $shoppingCartService->setDeliveryType($deliveryType);
+            }
 
-            // Once an item is added or removed, redirect the user back to this page, excluding
+            // Once an item is added or removed or delivery type changed, redirect the user back to this page, excluding
             // the cart_add_item and cart_remove_item parameters.
             if (is_null($categoryId)) {
                 $response = $this->redirect($this->generateUrl('dft_site_menu'));
@@ -52,7 +57,8 @@ class MenuController extends BaseController
                 // Get category menu items.
                 "menu_items" => $this->getApiClientService()->getCategoryMenuItems(
                         $categoryId
-                    )
+                    ),
+                "delivery_type" => $shoppingCartService->getDeliveryType()
             )
         );
     }

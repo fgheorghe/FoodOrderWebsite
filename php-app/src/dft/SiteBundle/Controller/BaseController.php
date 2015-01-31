@@ -117,6 +117,13 @@ class BaseController extends Controller {
         return $images;
     }
 
+    // Convenience method used for checking if a restaurant is closed or not.
+    protected function isRestaurantClosed() {
+        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+
+        return $restaurantSettings->open_all_day == 1 ? false : (time() < strtotime($restaurantSettings->opening_time) || time() > strtotime($restaurantSettings->closing_time));
+    }
+
     /**
      * Renders a view.
      *
@@ -139,7 +146,7 @@ class BaseController extends Controller {
                "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData(),
                "images" => $this->constructLogoAndFactImages($this->getApiClientService()->getImages()),
                "image_store_url" => $this->container->getParameter('foapi_image_store_url'),
-               "restaurant_closed" => $restaurantSettings->open_all_day == 1 ? false : (time() < strtotime($restaurantSettings->opening_time) || time() > strtotime($restaurantSettings->closing_time))
+               "restaurant_closed" => $this->isRestaurantClosed()
             )
         );
 

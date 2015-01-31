@@ -38,6 +38,10 @@
             <h2 style="width: 100%; text-align: center;">Delivery Details</h2>
             <hr style="width: 998px; margin-bottom: 10px;">
 
+            {% if delivery_type == 1 and restaurant_settings.minimum_website_order_value %}
+                <div style="font-weight: bold; text-align: center; width: 100%;">Minimum delivery order value: {{ restaurant_settings.minimum_website_order_value }} GBP. Your cart value is {{ amount }} GBP.</div>
+            {% endif %}
+
             <form action="" id="myForm" method="POST">
                 <table style="width: 600px; margin: 0px auto;">
                     {% if error_message %}

@@ -46,7 +46,7 @@
         </div>
         <div class="clear"></div>
 
-        {% if restaurant_settings.minimum_website_order_value %}
+        {% if delivery_type == 1 and restaurant_settings.minimum_website_order_value %}
             <div style="font-weight: bold; text-align: center; width: 100%;">Minimum order: {{ restaurant_settings.minimum_website_order_value }} GBP</div>
         {% endif %}
 
@@ -87,7 +87,7 @@
             <div class="clear"></div>
             <br/>
             <div style="text-align: center;">
-                {% if not restaurant_closed and total_price >= restaurant_settings.minimum_website_order_value %}
+                {% if not restaurant_closed and (delivery_type == 2 or total_price >= restaurant_settings.minimum_website_order_value) %}
                     <form method="POST" action="/delivery/">
                         <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}"/>
                         <input type="submit" class="inputbutton" style="width: 340px;" value="Continue to Delivery Details"/>

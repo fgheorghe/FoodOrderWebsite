@@ -52,7 +52,8 @@ class CartController extends BaseController
             array(
                 // Shopping cart items.
                 "shopping_cart_items" => $shoppingCartItems,
-                "order_id" => $orderId
+                "order_id" => $orderId,
+                "delivery_type" => $shoppingCartService->getDeliveryType()
             )
         );
     }

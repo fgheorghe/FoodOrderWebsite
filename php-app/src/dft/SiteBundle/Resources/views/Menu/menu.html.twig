@@ -223,7 +223,28 @@
         </div>
         <div class="clear"></div>
 
-        {% if restaurant_settings.minimum_website_order_value %}
+        <div style="text-align: center; width: 100%;">
+            <br/>
+            <noscript>
+                <div name="enablejavascript" id="enablejavascript" style="font-weight: bold;">
+                    For full functionality of this site it is necessary to enable JavaScript.
+                    Here are the <a href="http://www.enable-javascript.com/" target="_blank">
+                        instructions how to enable JavaScript in your web browser</a>.
+                </div>
+            </noscript>
+            <select name="delivery_type" id="delivery_type" class="inputText resetPassEmailInput" style="font-size: 12px; width: 240px;" >
+                <option value="1" {{ delivery_type == 1 ? "selected" : '' }}>Delivery (Est: {{ restaurant_settings.default_delivery_time }} minutes)</option>
+                <option value="2" {{ delivery_type == 2 ? "selected" : '' }}>Collection (Est: {{ restaurant_settings.default_collection_time }} minutes)</option>
+            </select>
+            <script language="JavaScript">
+                // Handle delivery type changes.
+                $('#delivery_type').change(function() {
+                    document.location = document.location + "?delivery_type=" + $('#delivery_type').val();
+                });
+            </script>
+        </div>
+
+        {% if delivery_type == 1 and restaurant_settings.minimum_website_order_value %}
             <div style="font-weight: bold; text-align: center; width: 100%;">Minimum order: {{ restaurant_settings.minimum_website_order_value }} GBP</div>
         {% endif %}
         {% if shopping_cart_items|length > 0 %}
@@ -261,7 +282,7 @@
 
             <div class="clear"></div>
 
-            {% if not restaurant_closed and total_price >= restaurant_settings.minimum_website_order_value %}
+            {% if not restaurant_closed and (delivery_type == 2 or total_price >= restaurant_settings.minimum_website_order_value) %}
                 <div class="order_tbn"><a href="/cart/">ORDER NOW</a></div>
             {% endif %}
         {% else %}
