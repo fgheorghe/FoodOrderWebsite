@@ -96,7 +96,7 @@ class DeliveryController extends BaseController
         $shaSignature = $this->getBarclaysPaymentService()->generateSignature($paymentParameters);
 
         $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
-        $serviceCoverage = $this->getApiClientService()->getServiceCoverage(
+        $serviceCoverage = $deliveryType == ApiClient::ORDER_DELIVERY_TYPE_COLLECTION ? true : $this->getApiClientService()->getServiceCoverage(
             $restaurantSettings->restaurant_post_code,
             $postCode,
             $restaurantSettings->delivery_range
