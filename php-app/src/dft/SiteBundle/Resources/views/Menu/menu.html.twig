@@ -45,6 +45,10 @@
     <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our restaurant is now closed. We will be open between {{ restaurant_settings.opening_time }} and {{ restaurant_settings.closing_time }}.</div>
     <br/>
 {% endif %}
+{% if lunch_break %}
+    <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our team is on lunch break between {{ restaurant_settings.lunch_break_start }} and {{ restaurant_settings.lunch_break_end }}.</div>
+    <br/>
+{% endif %}
 
 <section class="container clearfix">
 
@@ -282,7 +286,7 @@
 
             <div class="clear"></div>
 
-            {% if not restaurant_closed and (delivery_type == 2 or total_price >= restaurant_settings.minimum_website_order_value) %}
+            {% if not lunch_break and not restaurant_closed and (delivery_type == 2 or total_price >= restaurant_settings.minimum_website_order_value) %}
                 <div class="order_tbn"><a href="/cart/">ORDER NOW</a></div>
             {% endif %}
         {% else %}

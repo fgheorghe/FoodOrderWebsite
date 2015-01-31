@@ -38,6 +38,14 @@
             <h2 style="width: 100%; text-align: center;">Delivery Details</h2>
             <hr style="width: 998px; margin-bottom: 10px;">
 
+            {% if restaurant_closed %}
+                <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our restaurant is now closed. We will be open between {{ restaurant_settings.opening_time }} and {{ restaurant_settings.closing_time }}.</div>
+                <br/>
+            {% endif %}
+            {% if lunch_break %}
+                <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our team is on lunch break between {{ restaurant_settings.lunch_break_start }} and {{ restaurant_settings.lunch_break_end }}.</div>
+                <br/>
+            {% endif %}
             {% if delivery_type == 1 and restaurant_settings.minimum_website_order_value %}
                 <div style="font-weight: bold; text-align: center; width: 100%;">Minimum delivery order value: {{ restaurant_settings.minimum_website_order_value }} GBP. Your cart value is {{ amount }} GBP.</div>
             {% endif %}

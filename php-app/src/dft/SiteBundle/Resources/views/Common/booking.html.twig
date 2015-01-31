@@ -8,11 +8,14 @@
             </form>
         </div>
 
-        <div class="notice">
+        <div class="notice" style="margin-top: 10px !important;">
             {% if restaurant_settings.open_all_day == 1 %}
                 <h5>We are available non-stop</h5>
             {% else %}
                 <h5>We are available from {{ restaurant_settings.opening_time }} to {{ restaurant_settings.closing_time }}</h5>
+            {% endif %}
+            {% if restaurant_settings.lunch_break == 1 %}
+                <h5 style="font-size: 15px;">Lunch break between {{ restaurant_settings.lunch_break_start }} and {{ restaurant_settings.lunch_break_end }}</h5>
             {% endif %}
             {% if front_end_settings.phone_numbers %}
                 <h2>Call Us: {{ front_end_settings.phone_numbers }}</h2>

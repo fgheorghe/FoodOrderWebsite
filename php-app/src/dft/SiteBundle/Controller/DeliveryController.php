@@ -109,6 +109,7 @@ class DeliveryController extends BaseController
 
         // Final check...if restaurant just closed, or delivery type is 'delivery' and the minimum value has not been met.
         if ($this->isRestaurantClosed() ||
+            $this->isOnLunch() ||
             $deliveryType == ApiClient::ORDER_DELIVERY_TYPE_DELIVERY
             && $paymentParameters["AMOUNT"] < $restaurantSettings->minimum_website_order_value) {
             $continueToPayment = false;

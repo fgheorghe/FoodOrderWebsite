@@ -35,6 +35,10 @@
     <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our restaurant is now closed. We will be open between {{ restaurant_settings.opening_time }} and {{ restaurant_settings.closing_time }}.</div>
     <br/>
 {% endif %}
+{% if lunch_break %}
+    <div style="width: 100%; font-weight: bold; font-size: 23px; text-align: center;">Our team is on lunch break between {{ restaurant_settings.lunch_break_start }} and {{ restaurant_settings.lunch_break_end }}.</div>
+    <br/>
+{% endif %}
 
 <section class="container clearfix">
 
@@ -87,7 +91,7 @@
             <div class="clear"></div>
             <br/>
             <div style="text-align: center;">
-                {% if not restaurant_closed and (delivery_type == 2 or total_price >= restaurant_settings.minimum_website_order_value) %}
+                {% if not lunch_break and not restaurant_closed and (delivery_type == 2 or total_price >= restaurant_settings.minimum_website_order_value) %}
                     <form method="POST" action="/delivery/">
                         <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}"/>
                         <input type="submit" class="inputbutton" style="width: 340px;" value="Continue to Delivery Details"/>

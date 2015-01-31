@@ -117,6 +117,13 @@ class BaseController extends Controller {
         return $images;
     }
 
+    // Convenience method used for checking if the team is on lunch break.
+    protected function isOnLunch() {
+        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+
+        return $restaurantSettings->lunch_break == 0 ? false : (time() >= strtotime($restaurantSettings->lunch_break_start) && time() <= strtotime($restaurantSettings->lunch_break_end));
+    }
+
     // Convenience method used for checking if a restaurant is closed or not.
     protected function isRestaurantClosed() {
         $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
@@ -146,7 +153,8 @@ class BaseController extends Controller {
                "customer_data" => $this->getLoginService()->getAuthenticatedCustomerData(),
                "images" => $this->constructLogoAndFactImages($this->getApiClientService()->getImages()),
                "image_store_url" => $this->container->getParameter('foapi_image_store_url'),
-               "restaurant_closed" => $this->isRestaurantClosed()
+               "restaurant_closed" => $this->isRestaurantClosed(),
+               "lunch_break" => $this->isOnLunch()
             )
         );
 
