@@ -100,9 +100,13 @@ class ShoppingCart {
         // Get the shopping cart items array. If none set, create one.
         $cartItemsArray = $this->getItems();
 
-        // Remove from the items array.
+        // Remove one from the items array.
         if (array_key_exists($menuItemId, $cartItemsArray)) {
-            unset($cartItemsArray[$menuItemId]);
+            $cartItemsArray[$menuItemId]--;
+            // If cart is now empty, remove item from the array.
+            if ($cartItemsArray[$menuItemId] <= 0) {
+                unset($cartItemsArray[$menuItemId]);
+            }
         }
 
         // Put back in session.
