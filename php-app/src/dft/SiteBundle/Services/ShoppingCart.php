@@ -9,9 +9,6 @@ class ShoppingCart {
     use ContainerAware;
     use Logger;
 
-    // TODO: Ensure that items added while a peyment is in progress are captured!
-    // This can be done by hashing cart item ids and quantities.
-
     /**
      * Adds a menu item to the shopping cart.
      * @param $menuItemId
