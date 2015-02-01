@@ -154,7 +154,8 @@ class BaseController extends Controller {
                "images" => $this->constructLogoAndFactImages($this->getApiClientService()->getImages()),
                "image_store_url" => $this->container->getParameter('foapi_image_store_url'),
                "restaurant_closed" => $this->isRestaurantClosed(),
-               "lunch_break" => $this->isOnLunch()
+               "lunch_break" => $this->isOnLunch(),
+               "discounts" => $this->getApiClientService()->getDiscounts()
             )
         );
 

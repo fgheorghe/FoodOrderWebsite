@@ -220,6 +220,29 @@
     {% endif %}
     </div>
 
+    {% if discounts|length > 0 %}
+        <div class="cart_box cart_hide" style="margin-bottom: 30px !important;">
+            <div>
+                <h4>Discounts</h4>
+                <h1 class="regular brown bottom_line"></h1>
+            </div>
+            <div class="clear"></div>
+
+            <div class="box_heading">
+                <form>
+                    <table>
+                        {% for discount in discounts %}
+                            <tr>
+                                <td>{{ (discount.discount_type == 0 ? '<input type="checkbox" checked disabled />' : '<input type="radio" name="discount" value="{discount.discount_type}" />')|raw }}</td>
+                                <td style="text-align: left; padding-left: 3px; font-family: 'Open Sans', sans-serif; font-size: 12px;">{{ discount.discount_name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="cart_box cart_hide">
         <div>
             <h4>Your Cart</h4>
