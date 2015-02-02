@@ -149,12 +149,14 @@ class ShoppingCart {
      * This is more of a convenience method.
      * @param $cartItems
      * @param $menuItems
+     * @param $discounts
      * @return Array
      */
-    public function mapCartItemsToMenuItems($cartItems, $menuItems) {
+    public function mapCartItemsToMenuItems($cartItems, $menuItems, $discounts = array()) {
         $response = array();
 
         // TODO: Optimize.
+        $total = 0; // Used for applying 'generic' discounts.
         foreach ($cartItems as $itemId => $count) {
             foreach ($menuItems->data as $menuItem) {
                 if ($menuItem->id == $itemId) {
@@ -163,6 +165,39 @@ class ShoppingCart {
                         "price" => $count * $menuItem->price,
                         "name" => $menuItem->item_name,
                         "count" => $count
+                    );
+                    $total += $count * $menuItem->price;
+                    // Check if discounts are set. If so, and applies to this item add a 'negative'
+                    // value of the same item to the list.
+                    foreach ($discounts as $discount) {
+                        // TODO: Use constants.
+                        if ($this->getOptionDiscountId() == $discount->id
+                            && $discount->discount_type == 1
+                            && $discount->discount_item_id == $itemId) {
+                            $response[] = (object) array(
+                                "id" => $itemId,
+                                "price" => -1 * $menuItem->price,
+                                "name" => $discount->discount_name,
+                                "count" => 1
+                            );
+                            $total -= $menuItem->price;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Now apply 'generic' discount types, as items, to make them visible.
+        // TODO: Optimize!!!
+        if (count($response)) {
+            foreach ($discounts as $discount) {
+                // TODO: Use constants.
+                if ($discount->discount_type == 0) {
+                    $response[] = (object) array(
+                        "id" => $itemId,
+                        "price" => "-" . number_format(($total * $discount->value/100), 2),
+                        "name" => $discount->discount_name,
+                        "count" => 1
                     );
                 }
             }

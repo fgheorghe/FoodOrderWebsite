@@ -38,7 +38,8 @@ class CartController extends BaseController
         $shoppingCartItems = $shoppingCartService->mapCartItemsToMenuItems(
             $shoppingCartService->getItems(),
             // TODO: Optimise this bit.
-            $this->getApiClientService()->getCategoryMenuItems(null)
+            $this->getApiClientService()->getCategoryMenuItems(null),
+            $this->getApiClientService()->getDiscounts()
         );
 
         // Create an order id - AKA reference.

@@ -60,7 +60,8 @@ class MenuController extends BaseController
                 "shopping_cart_items" => $shoppingCartService->mapCartItemsToMenuItems(
                         $shoppingCartService->getItems(),
                         // TODO: Optimise this bit.
-                        $this->getApiClientService()->getCategoryMenuItems(null)
+                        $this->getApiClientService()->getCategoryMenuItems(null),
+                        $this->getApiClientService()->getDiscounts()
                 ),
                 "selected_category_id" => $categoryId,
                 // Get menu item categories.
