@@ -156,7 +156,17 @@ class ShoppingCart {
         $response = array();
 
         // TODO: Optimize.
-        $total = 0; // Used for applying 'generic' discounts.
+        // First, compute raw totals.
+        $total = 0;
+        foreach ($cartItems as $itemId => $count) {
+            foreach ($menuItems->data as $menuItem) {
+                if ($menuItem->id == $itemId) {
+                    $total += $count * $menuItem->price;
+                }
+            }
+        }
+
+        // Then construct items and apply discounts.
         foreach ($cartItems as $itemId => $count) {
             foreach ($menuItems->data as $menuItem) {
                 if ($menuItem->id == $itemId) {
@@ -166,14 +176,14 @@ class ShoppingCart {
                         "name" => $menuItem->item_name,
                         "count" => $count
                     );
-                    $total += $count * $menuItem->price;
                     // Check if discounts are set. If so, and applies to this item add a 'negative'
                     // value of the same item to the list.
                     foreach ($discounts as $discount) {
                         // TODO: Use constants.
                         if ($this->getOptionDiscountId() == $discount->id
                             && $discount->discount_type == 1
-                            && $discount->discount_item_id == $itemId) {
+                            && $discount->discount_item_id == $itemId
+                            && $total > $discount->value ) {
                             $response[] = (object) array(
                                 "id" => $itemId,
                                 "price" => -1 * $menuItem->price,
