@@ -4,6 +4,17 @@ namespace dft\SiteBundle\Controller;
 
 class MenuController extends BaseController
 {
+    private function getRedirectResponseType($categoryId) {
+        if (is_null($categoryId)) {
+            $response = $this->redirect($this->generateUrl('dft_site_menu'));
+        } else {
+            $response = $this->redirect(
+                $this->generateUrl('dft_site_menu_items', array("categoryId" => $categoryId))
+            );
+        }
+        return $response;
+    }
+
     public function indexAction($categoryId = null)
     {
         // _GET values.
@@ -17,6 +28,7 @@ class MenuController extends BaseController
         $cartAddItemId = $query->get('cart_add_item', false);
         $cartRemoveItemId = $query->get('cart_remove_item', false);
         $deliveryType = $query->get('delivery_type', false);
+        $discountId = $query->get('discount_id', false);
         if ($cartAddItemId
             || $cartRemoveItemId
             || $deliveryType) {
@@ -32,14 +44,13 @@ class MenuController extends BaseController
 
             // Once an item is added or removed or delivery type changed, redirect the user back to this page, excluding
             // the cart_add_item and cart_remove_item parameters.
-            if (is_null($categoryId)) {
-                $response = $this->redirect($this->generateUrl('dft_site_menu'));
-            } else {
-                $response = $this->redirect(
-                    $this->generateUrl('dft_site_menu_items', array("categoryId" => $categoryId))
-                );
-            }
-            return $response;
+            return $this->getRedirectResponseType($categoryId);
+        }
+
+        // Check if an 'option' type discount is selected. If so, store in session and do a similar process to above.
+        if ($discountId !== false) {
+            $shoppingCartService->setOptionDiscountId($discountId);
+            return $this->getRedirectResponseType($categoryId);
         }
 
         return $this->render(
@@ -58,7 +69,8 @@ class MenuController extends BaseController
                 "menu_items" => $this->getApiClientService()->getCategoryMenuItems(
                         $categoryId
                     ),
-                "delivery_type" => $shoppingCartService->getDeliveryType()
+                "delivery_type" => $shoppingCartService->getDeliveryType(),
+                "option_discount_id" => $shoppingCartService->getOptionDiscountId()
             )
         );
     }

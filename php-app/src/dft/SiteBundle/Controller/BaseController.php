@@ -131,6 +131,28 @@ class BaseController extends Controller {
         return $restaurantSettings->open_all_day == 1 ? false : (time() < strtotime($restaurantSettings->opening_time) || time() > strtotime($restaurantSettings->closing_time));
     }
 
+    // Method used for converting a standard list of dicounts, to a list of discounts groupped by
+    // 'option' or 'generic'. Generic discounts apply to everything, without giving to user an option to
+    // opt-out, option discounts give the user an option to choose which to apply - or none.
+    private function getDiscounts() {
+        $discounts = array(
+            "option" => array(),
+            "generic" => array()
+        );
+
+        $rawDiscounts = $this->getApiClientService()->getDiscounts();
+        for ($i = 0; $i < count($rawDiscounts); $i++) {
+            // TODO: Add constants.
+            if ($rawDiscounts[$i]->discount_type == 0) {
+                $discounts["generic"][] = $rawDiscounts[$i];
+            } else {
+                $discounts["option"][] = $rawDiscounts[$i];
+            }
+        }
+
+        return $discounts;
+    }
+
     /**
      * Renders a view.
      *
@@ -155,7 +177,7 @@ class BaseController extends Controller {
                "image_store_url" => $this->container->getParameter('foapi_image_store_url'),
                "restaurant_closed" => $this->isRestaurantClosed(),
                "lunch_break" => $this->isOnLunch(),
-               "discounts" => $this->getApiClientService()->getDiscounts()
+               "discounts" => $this->getDiscounts()
             )
         );
 

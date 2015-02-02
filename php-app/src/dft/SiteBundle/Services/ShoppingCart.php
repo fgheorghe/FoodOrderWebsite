@@ -266,4 +266,20 @@ class ShoppingCart {
 
         return $processedOrderIds;
     }
+
+    /**
+     * Method used for setting an option type discount id in the session.
+     * @param $discountId
+     */
+    public function setOptionDiscountId($discountId) {
+        $this->getContainer()->get('session')->set('option_discount_id', $discountId);
+    }
+
+    /**
+     * Method used for fetching the selected option type discount id from the session.
+     * @return Int
+     */
+    public function getOptionDiscountId() {
+        return (int) $this->getContainer()->get('session')->get('option_discount_id');
+    }
 }
