@@ -62,6 +62,18 @@ class PaymentController extends BaseController
                             // Prepare customer data.
                             $customer = $this->getLoginService()->getAuthenticatedCustomerData();
 
+                            // Prepare discount ids.
+                            $discountsToApply = $this->getShoppingCartService()->getDiscountsInLimbo($orderId);
+                            $discountIds = array();
+                            $discount = $discountsToApply['option_discount'];
+                            if (!is_null($discount)) {
+                                $discountIds[] = $discount->id;
+                            }
+                            foreach ($discountsToApply['generic'] as $discount) {
+                                if ($discount->discount_type == 0) {
+                                    $discountIds[] = $discount->id;
+                                }
+                            }
                             $items = array();
                             if (count($cartItems)) {
                                 foreach ($cartItems as $id => $count) {
@@ -86,11 +98,14 @@ class PaymentController extends BaseController
                                     $customer->name,
                                     $orderDeliveryOptions["delivery_type"],
                                     0, // TODO: Add discounts.
-                                    $orderId
+                                    $orderId,
+                                    json_encode($discountIds, JSON_NUMERIC_CHECK)
                                 );
 
                                 // Empty the cart.
                                 $this->getShoppingCartService()->emptyCart();
+                                // Remove discounts from limbo.
+                                $this->getShoppingCartService()->removeDiscountsInLimbo($orderId);
                                 // Remove order from limbo.
                                 $this->getShoppingCartService()->removeItemsFromLimbo($orderId);
                                 $this->getShoppingCartService()->setOrderAsProcessed($orderId);

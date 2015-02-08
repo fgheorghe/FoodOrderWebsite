@@ -47,7 +47,7 @@
                 <br/>
             {% endif %}
             {% if delivery_type == 1 and restaurant_settings.minimum_website_order_value %}
-                <div style="font-weight: bold; text-align: center; width: 100%;">Minimum delivery order value: {{ restaurant_settings.minimum_website_order_value }} GBP. Your cart value is {{ amount }} GBP.</div>
+                <div style="font-weight: bold; text-align: center; width: 100%;">Minimum delivery order value: {{ restaurant_settings.minimum_website_order_value }} GBP. Your cart value is {{ amount / 100 }} GBP.</div>
             {% endif %}
 
             <form action="" id="myForm" method="POST">

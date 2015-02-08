@@ -89,7 +89,10 @@ class DeliveryController extends BaseController
         // Prepare payment parameters.
         $paymentParameters = array(
             "ORDERID" => $orderId,
-            "AMOUNT" => $this->getShoppingCartService()->getTotal($shoppingCartItems) * 100
+            "AMOUNT" => $this->getShoppingCartService()->getTotal(
+                    $shoppingCartItems,
+                    $this->getShoppingCartService()->getDiscountsInLimbo($orderId)
+                ) * 100
         );
 
         // Create hash.

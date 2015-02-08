@@ -134,13 +134,38 @@ class ShoppingCart {
     /**
      * Gets the total of cart items.
      * @param $shoppingCartMenuItems Array returned by mapCartItemsToMenuItems
+     * @param $discountsToApply Array
      * @return Double
      */
-    public function getTotal($shoppingCartMenuItems) {
+    public function getTotal($shoppingCartMenuItems, $discountsToApply = array()) {
         $total = 0;
+
         foreach ($shoppingCartMenuItems as $item) {
             $total += $item->price;
         }
+
+        // Apply option discounts. TODO: Optimize.
+        foreach ($shoppingCartMenuItems as $item) {
+            $discount = $discountsToApply['option_discount'];
+            if (!is_null($discount)) {
+                if ($discount->discount_type == 1
+                    && $discount->discount_item_id == $item->id
+                    && $total > $discount->value ) {
+                        $total -= $item->price / $item->count;
+                }
+            }
+        }
+
+        // Last, apply generic discounts.
+        $totalToSubtract = 0;
+        foreach ($discountsToApply['generic'] as $discount) {
+            if ($discount->discount_type == 0) {
+                $totalToSubtract += $discount->value;
+            }
+        }
+
+        $total -= number_format(($total * $totalToSubtract/100), 2);
+
         return $total;
     }
 
@@ -326,5 +351,84 @@ class ShoppingCart {
      */
     public function getOptionDiscountId() {
         return (int) $this->getContainer()->get('session')->get('option_discount_id');
+    }
+
+    /**
+     * Method used for storing selected discounts in limbo. One is the default, the other is the option.
+     * @param $orderId
+     * @param $genericDiscountsArray
+     * @param $optionDiscount
+     */
+    public function storeDiscountsInLimbo($orderId, $genericDiscountsArray, $optionDiscount) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        // First, get the existing discounts.
+        $existingGenericDiscounts = $sessionService->get('limbo_generic_discounts');
+        $existingOptionDiscounts = $sessionService->get('limbo_option_discount');
+
+        if (!is_array($existingGenericDiscounts)) {
+            $existingGenericDiscounts = array();
+        }
+
+        $existingOptionDiscounts[$orderId] = $optionDiscount;
+        $existingGenericDiscounts[$orderId] = $genericDiscountsArray;
+
+        // Store generic discounts.
+        $sessionService->set('limbo_generic_discounts', $existingGenericDiscounts);
+        // Store optional discount.
+        $sessionService->set('limbo_option_discount', $existingOptionDiscounts);
+    }
+
+    /**
+     * Method used for fetching the limbo discounts, as an associative array with generic and option_discount_id id keys.
+     * @param $orderId
+     * @return Array
+     */
+    public function getDiscountsInLimbo($orderId) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        $existingGenericDiscounts = $sessionService->get('limbo_generic_discounts');
+        $existingOptionDiscounts = $sessionService->get('limbo_option_discount');
+
+        $genericDiscount = array();
+        $optionDiscounts = null;
+        if (is_array($existingGenericDiscounts) && array_key_exists($orderId, $existingGenericDiscounts)) {
+            $genericDiscount = $existingGenericDiscounts[$orderId];
+        }
+
+        if (is_array($existingOptionDiscounts) && array_key_exists($orderId, $existingOptionDiscounts)) {
+            $optionDiscounts = $existingOptionDiscounts[$orderId];
+        }
+
+        return array(
+            "generic" => $genericDiscount
+            ,"option_discount" => $optionDiscounts
+        );
+    }
+
+    /**
+     * Method used for removing discounts in limbo.
+     * @param $orderId
+     */
+    public function removeDiscountsInLimbo($orderId) {
+        // Get the session service.
+        $sessionService = $this->getContainer()->get('session');
+
+        $existingGenericDiscounts = $sessionService->get('limbo_generic_discounts');
+        $existingOptionDiscounts = $sessionService->get('limbo_option_discount');
+
+        if (array_key_exists($orderId, $existingOptionDiscounts)) {
+            unset($existingOptionDiscounts[$orderId]);
+        }
+        if (array_key_exists($orderId, $existingGenericDiscounts)) {
+            unset($existingGenericDiscounts[$orderId]);
+        }
+
+        // Store generic discounts.
+        $sessionService->set('limbo_generic_discounts', $existingGenericDiscounts);
+        // Store optional discount.
+        $sessionService->set('limbo_option_discount', $existingOptionDiscounts);
     }
 }

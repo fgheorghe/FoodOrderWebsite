@@ -34,12 +34,15 @@ class CartController extends BaseController
             return $response;
         }
 
+        // Get all discounts.
+        $discounts = $this->getApiClientService()->getDiscounts();
+
         // Prepare items to display.
         $shoppingCartItems = $shoppingCartService->mapCartItemsToMenuItems(
             $shoppingCartService->getItems(),
             // TODO: Optimise this bit.
             $this->getApiClientService()->getCategoryMenuItems(null),
-            $this->getApiClientService()->getDiscounts()
+            $discounts
         );
 
         // Create an order id - AKA reference.
@@ -48,6 +51,25 @@ class CartController extends BaseController
 
         // Update the 'limbo' mode.
         $shoppingCartService->storeItemsInLimbo($orderId);
+        // Prepare a list of generic discounts.
+        $genericDiscountsArray = array();
+        $optionDiscount = null;
+        // TODO: Use constants.
+        foreach ($discounts as $discount) {
+            if ($discount->discount_type == 0) {
+                $genericDiscountsArray[] = $discount;
+            }
+            if ($discount->id == $shoppingCartService->getOptionDiscountId()) {
+                $optionDiscount = $discount;
+            }
+        }
+
+        // ...same for discounts.
+        $shoppingCartService->storeDiscountsInLimbo(
+            $orderId,
+            $genericDiscountsArray,
+            $optionDiscount
+        );
 
         return $this->render('dftSiteBundle:Cart:cart.html.twig',
             array(

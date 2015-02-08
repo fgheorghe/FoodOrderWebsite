@@ -262,9 +262,10 @@ class ApiClient {
      * @param $deliveryType
      * @param $discount
      * @param $reference
+     * @param $discountIds
      * @return Mixed
      */
-    public function createOrder($customerId, $itemsJsonString, $deliveryAddress, $postCode, $notes, $orderType, $paymentStatus, $customerType, $customerPhoneNumber, $customerName, $deliveryType, $discount, $reference) {
+    public function createOrder($customerId, $itemsJsonString, $deliveryAddress, $postCode, $notes, $orderType, $paymentStatus, $customerType, $customerPhoneNumber, $customerName, $deliveryType, $discount, $reference, $discountIds) {
         return $this->post(
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_CREATE_ORDER_URL,
@@ -285,7 +286,8 @@ class ApiClient {
                 "customer_name" => $customerName,
                 "delivery_type" => $deliveryType,
                 "discount" => $discount,
-                "reference" => $reference
+                "reference" => $reference,
+                "front_end_discounts" => $discountIds
             )
         );
     }
