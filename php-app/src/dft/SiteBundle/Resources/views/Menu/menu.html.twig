@@ -239,6 +239,9 @@
                         {% endfor %}
                         {% if discounts.option|length > 0 %}
                             <tr>
+                                <td colspan="2">Select a discount and add the menu item to your shopping cart.</td>
+                            </tr>
+                            <tr>
                                 <td><input {{ option_discount_id == 0 ? 'checked' : '' }} type="radio" name="discount" value="0" /></td>
                                 <td style="text-align: left; padding-left: 3px; font-family: 'Open Sans', sans-serif; font-size: 12px;">None</td>
                             </tr>
