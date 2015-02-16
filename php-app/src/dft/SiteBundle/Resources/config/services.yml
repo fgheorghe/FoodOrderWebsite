@@ -21,3 +21,8 @@ services:
     dft_site.barclays_payment:
         class: %dft_site.barclays_payment.class%
         arguments: [@service_container]
+    kernel.listener.visitors_listener:
+        class: dft\SiteBundle\EventListener\VisitorListener
+        arguments: [@service_container]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

@@ -57,6 +57,7 @@ class ApiClient {
     const SERVICE_SERVICE_COVERAGE = 'service-coverage/check/%s/%s/%s';
     const SERVICE_BARCLAYS_PAYMENT_SETTINGS_URL = "barclays-payment-settings/";
     const SERVICE_GET_DISCOUNTS_URL = "front-end-discounts/";
+    const SERVICE_RECORD_VISITOR_URL = "record-visitor/";
 
     // Fetch api tokens upon instantiation.
     // If this code is made public, remove this.
@@ -320,6 +321,26 @@ class ApiClient {
             array(
                 "token_1" => self::$TOKEN_1,
                 "token_2" => self::$TOKEN_2
+            )
+        );
+    }
+
+    /**
+     * Record a visitor, for statistics.
+     *
+     * @param $ipAddress
+     * @return mixed
+     */
+    public function recordVisitor($ipAddress) {
+        return $this->post(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_RECORD_VISITOR_URL,
+            array(
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
+            ),
+            array(
+                "ip_address" => $ipAddress
             )
         );
     }
