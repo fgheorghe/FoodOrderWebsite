@@ -15,3 +15,7 @@ DocumentRoot "/usr/local/www/apache24/data/php-app/web"
 
 And enable:
 LoadModule rewrite_module libexec/apache24/mod_rewrite.so
+
+Configuration for parameters.yml:
+    foapi_services_root_url: http://admin.digitalfoodtechnologies.co.uk/api/
+    foapi_image_store_url: http://admin.digitalfoodtechnologies.co.uk/api/image/
