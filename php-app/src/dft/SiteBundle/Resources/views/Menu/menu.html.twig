@@ -209,7 +209,7 @@
 
     {% if menu_items.data is defined %}
         {% for menu_item in menu_items.data %}
-            <div class="menu-h4-left"><h4>{{ menu_item.item_name }}</h4></div><div class="menu-h4-right"><h3>£{{ menu_item.price }}</h3><a href="?cart_add_item={{ menu_item.id }}"><img src="/images/icon_cart_in.png" /></a></div>
+            <div class="menu-h4-left"><h4 style="color: black;">{{ menu_item.item_name }}</h4></div><div class="menu-h4-right"><h3>£{{ menu_item.price }}</h3><a href="?cart_add_item={{ menu_item.id }}"><img src="/images/icon_cart_in.png" /></a></div>
 
             {% if menu_item.item_description %}
                 <div class="clear padding10"></div>

@@ -941,7 +941,7 @@ font-family: 'MyriadPro-Bold';
 .menu_cat { width:100%;}
 .menu_cat ul { list-style:none;}
 .menu_cat ul li { line-height:20px; margin:10px 0;}
-.menu_cat ul li a { color:#878787; font-size:16px; font-family: 'Libre Baskerville', 'serif';}
+.menu_cat ul li a { color:black; font-weight: bold; font-size:16px; font-family: 'Libre Baskerville', 'serif';}
 .menu_cat ul li a:hover { color:#c6050b; text-decoration:underline;}
 
 .cart_box { border:1px solid #d8d8d8; border-radius:4px; padding:5px; margin:0!important; width:25%; float:right;}
@@ -1723,7 +1723,7 @@ a:hover.button.large {
 
 .review .col_1_4 { width:30%;}
 
-.menu_cat ul li a { font-size:14px;}
+.menu_cat ul li a { font-size:14px; color: black; font-weight: bold; }
 
 /* ================= Container and Columns ================= */
 	.container {
