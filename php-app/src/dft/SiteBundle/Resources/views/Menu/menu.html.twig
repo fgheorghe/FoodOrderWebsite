@@ -51,7 +51,14 @@
 {% endif %}
 
 <section class="container clearfix">
-    <div class="menu_list full_screen">
+    <script>
+        $(document).ready(function() {
+            $("#menu_list").stick_in_parent();
+            $("#cart_box").stick_in_parent();
+        });
+    </script>
+
+    <div id="menu_list" class="menu_list full_screen">
         <div class="clearfix">
             <!--------left area--------->
             <h2>Our Menu</h2>
@@ -135,7 +142,7 @@
         </script>
     {% endif %}
 
-    <div class="cart_box cart_hide">
+    <div id="cart_box" class="cart_box cart_hide">
         <div>
             <h4>Your Cart</h4>
             <h1 class="regular brown bottom_line"></h1>
