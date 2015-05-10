@@ -51,7 +51,6 @@
 {% endif %}
 
 <section class="container clearfix">
-
     <div class="menu_list full_screen">
         <div class="clearfix">
             <!--------left area--------->
@@ -77,135 +76,7 @@
 
         </div>
 
-        <div class="clear padding{% include 'dftSiteBundle:Common:top.html.twig' %}
-
-{# Include opening time and contact. #}
-{% include 'dftSiteBundle:Common:opening-time-contact.html.twig' %}
-
-<!-- Header -->
-<header class="header_bg clearfix">
-        <div class="container clearfix">
-            {# Include menu logo. #}
-            {% include 'dftSiteBundle:Common:menu-logo.html.twig' %}
-            {# Include top menu. #}
-            {% include 'dftSiteBundle:Common:top-menu.html.twig' %}
-        </div>
-        </header>
-        <!-- /Header -->
-
-        <div class="clear"></div>
-
-        <section class="banner_contact_bg clearfix">
-
-            <header class="container clearfix">
-                <div class="banner_contact">
-                    <h1>Contact Us</h1>
-                    <p class="text-white">Home > Contact Us</p>
-                </div>
-
-                <div class="clear"></div>
-            </header>
-        </section>
-
-        <!-- START CONTENT -->
-        <section class="container clearfix">
-            <!-- START PAGE INFO -->
-            <header class="container page_info clearfix">
-                <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><div style="overflow:hidden;height:280px;width:100%;"><div id="gmap_canvas" style="height:280px;width:100%;"></div><a class="google-map-code" href="http://www.addmap.org" id="get-map-data">www.addmap.org</a><style>#gmap_canvas img{max-width:none!important;background:none!important}</style><a class="google-map-data" href="http://www.stromleo.de" id="get-map-data">http://www.stromleo.de</a></div><script type="text/javascript"> function init_map(){var myOptions = {zoom:14,center:new google.maps.LatLng(40.8054567,-73.96547470000002),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(40.8054567, -73.96547470000002)});infowindow = new google.maps.InfoWindow({content:"<b>The Breslin</b><br/>2880 Broadway<br/> New York" });google.maps.event.addListener(marker, "click", function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
-                <h1 class="regular brown bottom_line"></h1>
-
-                <div class="clear"></div>
-            </header>
-
-            <!-- END PAGE INFO -->
-
-            <div class="padding15"></div>
-
-            <div class="contact">
-                <!-- START COL 1/3 -->
-                <div class="take_away">
-
-                    <h2>Take Away info</h2>
-                    <div class="padding20"></div>
-
-                    <p>Take Away Service Available
-                        Cheques & Credit Cards Are Not Accepted Under £10.00
-                    </p>
-                    <div class="padding20"></div>
-                    <p>Address: 8 Brick Lane, Bangla Town,<br  />
-                        London E1 6RL <br  />
-                        <br  />
-                        Telephone:  02072476606 , 73778767</p>
-
-                    <div class="clear"></div>
-
-                </div>
-                <!-- END COL 1/3 -->
-
-                <!-- START COL 2/3 LAST -->
-                <div class="fill_form">
-
-                    <h2>Contact Form</h2>
-
-                    <div class="padding20"></div>
-
-
-                    <!-- START CONTACT FORM -->
-                    <form action="#" class="contact_form"  id="myForm">
-                        <ul>
-                            <li>
-                                <input class="inputText" type="text" id="name" name="name" placeholder="Name:" />
-                            </li>
-
-                            <li>
-                                <input class="inputText" type="text" id="email" name="email" placeholder="Email:" />
-                            </li>
-
-                            <li>
-                                <input class="inputText" type="text" id="website" name="website" placeholder="Phone:" />
-                            </li>
-
-                            <li>
-                                <textarea class="inputTextarea" cols="88" rows="6" id="message" name="message" placeholder="Message:" ></textarea>
-                            </li>
-                            <div class="clear"></div>
-                            <li class="submit">
-                                <a href="javascript:void(0);" class="button" onclick="myFunction();">Reset</a>
-                            </li>
-
-                            <li class="submit">
-                                <a href="javascript:void(0);" class="button" onclick="$('.contact_form').submit();">Send</a>
-                            </li>
-
-                        </ul>
-                    </form>
-
-                    <script>
-                        function myFunction()
-                        {
-                            document.getElementById("myForm").reset();
-                        }
-                    </script>
-                    <!-- END CONTACT FORM -->
-
-                </div>
-                <!-- END COL 2/3 LAST -->
-
-            </div>
-
-            <div class="clear padding20"></div>
-
-
-        </section>
-        <!-- END CONTENT -->
-
-        <div class="clear padding40"></div>
-
-        {# Footer. #}
-        {% include 'dftSiteBundle:Common:footer.html.twig' %}
-
-        {# Bottom. #}
-        {% include 'dftSiteBundle:Common:bottom.html.twig' %}40"></div>
+        <div class="clear padding"></div>
 
     {% if menu_items.data is defined %}
         {% for menu_item in menu_items.data %}
