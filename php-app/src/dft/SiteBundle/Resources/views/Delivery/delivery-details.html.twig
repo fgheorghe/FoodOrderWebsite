@@ -126,7 +126,7 @@
                 }
             </script>
 
-            {% if continue_to_payment and service_coverage.success %}
+            {% if restaurant_settings.disable_online_payments != 1 and continue_to_payment and service_coverage.success %}
                 {# Payment form. #}
                 {% include 'dftSiteBundle:Payment:payment-form.html.twig' %}
             {% endif %}
