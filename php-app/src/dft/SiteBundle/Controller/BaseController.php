@@ -124,6 +124,12 @@ class BaseController extends Controller {
         return $restaurantSettings->lunch_break == 0 ? false : (time() >= strtotime($restaurantSettings->lunch_break_start) && time() <= strtotime($restaurantSettings->lunch_break_end));
     }
 
+    // Convenience method used for checking if a restaurant allows for...
+    protected function isAcceptingPaymentOnDeliveryOrCollectionForUnverifiedUsers() {
+        $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+        return $restaurantSettings->allow_unverified_pod_or_col_payment == 1 ? true : false;
+    }
+
     // Convenience method used for checking if a restaurant is closed or not.
     protected function isRestaurantClosed() {
         $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();

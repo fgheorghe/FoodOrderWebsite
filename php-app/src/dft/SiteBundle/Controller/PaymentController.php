@@ -44,8 +44,9 @@ class PaymentController extends BaseController
                     // Check the payment status. If not a verified customer, and 'Requested' or 'Authorised' then notify the user,
                     // and do not place an order.
                     $paymentStatus = $query->get('STATUS', 0);
-                    if (($pod && !$this->getLoginService()->getAuthenticatedCustomerData()->verified) &&
-                        !in_array($paymentStatus, array( BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED))) {
+                    if (($pod && !($this->getLoginService()->getAuthenticatedCustomerData()->verified
+                            || $this->isAcceptingPaymentOnDeliveryOrCollectionForUnverifiedUsers())) &&
+                        !in_array($paymentStatus, array(BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED))) {
                         $errorMessage = "Can not process payment. Please try again later.";
                     } else {
                         // Verify if the order has already been processed.
