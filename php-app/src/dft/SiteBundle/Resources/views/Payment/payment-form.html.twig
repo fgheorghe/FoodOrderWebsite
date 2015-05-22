@@ -1,5 +1,5 @@
 <div style="text-align: center;">OR</div>
-<FORM name="paymentform" id="paymentform" METHOD="POST" ACTION="https://mdepayments.epdq.co.uk/ncol/{{ live_payment_system ? 'prod' : 'test' }}/orderstandard.asp">
+<FORM name="paymentform" id="paymentform" METHOD="POST" ACTION="{{ live_payment_system ? 'https://payments.epdq.co.uk/ncol/prod' : 'https://mdepayments.epdq.co.uk/ncol/test' }}/orderstandard.asp">
     <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
     <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
     <INPUT type="hidden" NAME="AMOUNT" value="{{ amount }}">
