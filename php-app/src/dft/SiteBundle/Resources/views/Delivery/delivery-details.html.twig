@@ -130,7 +130,7 @@
                 {# Payment form. #}
                 {% include 'dftSiteBundle:Payment:payment-form.html.twig' %}
             {% endif %}
-            {% if (continue_to_payment and customer_data.verified) or (continue_to_payment and restaurant_settings.allow_unverified_pod_or_col_payment == 1) %}
+            {% if ((continue_to_payment and customer_data.verified) or (continue_to_payment and restaurant_settings.allow_unverified_pod_or_col_payment == 1)) and service_coverage.success %}
                 <div style="text-align: center;">OR</div><br/>
                 <div style="text-align: center;">
                     <form name="deliveryform" id="deliveryform" method="POST" action="{{ accepturl }}?pod=true&orderID={{ orderid }}">
