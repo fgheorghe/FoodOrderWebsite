@@ -139,12 +139,14 @@ class ShoppingCart {
      */
     public function getTotal($shoppingCartMenuItems, $discountsToApply = array()) {
         $total = 0;
+        $totalToSubtract = 0;
 
         foreach ($shoppingCartMenuItems as $item) {
             $total += $item->price;
         }
 
         // Apply option discounts. TODO: Optimize.
+        $alreadyApplied = array();
         foreach ($shoppingCartMenuItems as $item) {
             $discount = $discountsToApply['option_discount'];
             if (!is_null($discount)) {
@@ -153,11 +155,14 @@ class ShoppingCart {
                     && $total > $discount->value ) {
                         $total -= $item->price / $item->count;
                 }
+                if ($discount->discount_type == 3 && !in_array($discount->id, $alreadyApplied)) {
+                    $totalToSubtract += $discount->value;
+                    $alreadyApplied[] = $discount->id;
+                }
             }
         }
 
         // Last, apply generic discounts.
-        $totalToSubtract = 0;
         foreach ($discountsToApply['generic'] as $discount) {
             if ($discount->discount_type == 0) {
                 $totalToSubtract += $discount->value;
@@ -234,6 +239,17 @@ class ShoppingCart {
                         "name" => $discount->discount_name,
                         "count" => 1
                     );
+                }
+
+                if ($this->getOptionDiscountId() == $discount->id
+                    && $discount->discount_type == 3) {
+                    $response[] = (object) array(
+                        "id" => $itemId,
+                        "price" => "-" . number_format(($total * $discount->value/100), 2),
+                        "name" => $discount->discount_name,
+                        "count" => 1
+                    );
+                    $total -= $menuItem->price;
                 }
             }
         }
