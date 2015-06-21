@@ -61,7 +61,7 @@ class PaymentController extends BaseController
                         } else {
                             $paymentSuccessful = true;
                         }
-                    } elseif ($restaurantSettings->payment_gateway == 1) {
+                    } elseif ($restaurantSettings->payment_gateway == 1 && !$pod) {
                         try {
                             // Verify if the order has already been processed.
                             if (!in_array($orderId, $processedOrderIds)) {
