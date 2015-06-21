@@ -18,12 +18,14 @@ class PaymentController extends BaseController
         } else {
             // _GET values.
             $query = $this->container->get("request")->query;
+            // _POST
+            $request = $this->container->get("request");
 
             // Check if payment on delivery.
             $pod = $query->get('pod') == 'true' ? true : false;
 
             // If no payment id (reference) is set, redirect the user to menu page.
-            $orderId = $query->get('orderID');
+            $orderId = $query->get('orderID', $request->get('orderID'));
             if (!$orderId) {
                 // Redirect to menu page.
                 return $this->redirect(
@@ -41,14 +43,70 @@ class PaymentController extends BaseController
                         $this->generateUrl('dft_site_menu')
                     );
                 } else {
-                    // Check the payment status. If not a verified customer, and 'Requested' or 'Authorised' then notify the user,
-                    // and do not place an order.
-                    $paymentStatus = $query->get('STATUS', 0);
-                    if (($pod && !($this->getLoginService()->getAuthenticatedCustomerData()->verified
-                            || $this->isAcceptingPaymentOnDeliveryOrCollectionForUnverifiedUsers())) &&
-                        !in_array($paymentStatus, array(BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED))) {
-                        $errorMessage = "Can not process payment. Please try again later.";
-                    } else {
+                    $paymentSuccessful = false;
+                    $restaurantSettings = $this->getApiClientService()->getRestaurantSettings();
+                    // Prepare customer data.
+                    $customer = $this->getLoginService()->getAuthenticatedCustomerData();
+
+                    // Barclays payments.
+                    if ($restaurantSettings->payment_gateway == 2) {
+                        // Check the payment status. If not a verified customer, and 'Requested' or 'Authorised' then notify the user,
+                        // and do not place an order.
+                        $paymentStatus = $query->get('STATUS', 0);
+                        if (($pod && !($this->getLoginService()->getAuthenticatedCustomerData()->verified
+                                    || $this->isAcceptingPaymentOnDeliveryOrCollectionForUnverifiedUsers())) &&
+                            !in_array($paymentStatus, array(BarclaysPayment::PAYMENT_PAYMENT_REQUESTED, BarclaysPayment::PAYMENT_AUTHORISED))
+                        ) {
+                            $errorMessage = "Can not process payment. Please try again later.";
+                        } else {
+                            $paymentSuccessful = true;
+                        }
+                    } elseif ($restaurantSettings->payment_gateway == 1) {
+                        try {
+                            // Verify if the order has already been processed.
+                            if (!in_array($orderId, $processedOrderIds)) {
+                                // Get items and construct order.
+                                $cartItems = $limboOrders[$orderId];
+                                if (count($cartItems)) {
+                                    // Stripe payments.
+                                    $stripeSecretKey = null;
+                                    $stripeSettings = $this->getApiClientService()->getStripePaymentSettings();
+                                    $stripeSecretKey = $stripeSettings->stripe_secret_key;
+
+                                    // Load the shopping cart. Items can be added through this page.
+                                    $shoppingCartService = $this->getShoppingCartService();
+
+                                    // Prepare items to include.
+                                    $shoppingCartItems = $shoppingCartService->mapCartItemsToMenuItems(
+                                        $limboOrders[$orderId],
+                                        // TODO: Optimise this bit.
+                                        $this->getApiClientService()->getCategoryMenuItems(null)
+                                    );
+
+                                    $this->container->get("dft_site.stripe_payment")->processPayment(
+                                        $request->get('payment_token'),
+                                        $stripeSecretKey,
+                                        $orderId,
+                                        $customer->email,
+                                        $this->getShoppingCartService()->getTotal(
+                                            $shoppingCartItems,
+                                            $this->getShoppingCartService()->getDiscountsInLimbo($orderId)
+                                        ) * 100
+                                    );
+
+                                    $paymentSuccessful = true;
+                                } else {
+                                    $errorMessage = "Your cart is empty. Please add items.";
+                                }
+                            } else {
+                                $errorMessage = "Your order has been placed. Please check your inbox for delivery and time confirmation.";
+                            }
+                        } catch (\Exception $ex) {
+                            $errorMessage = "Can not process payment: " . $ex->getMessage();
+                        }
+                    }
+
+                    if ($paymentSuccessful) {
                         // Verify if the order has already been processed.
                         if (!in_array($orderId, $processedOrderIds)) {
                             // Get items and construct order.
@@ -59,9 +117,6 @@ class PaymentController extends BaseController
 
                             // And options for the current order id.
                             $orderDeliveryOptions = $deliveryOptions[$orderId];
-
-                            // Prepare customer data.
-                            $customer = $this->getLoginService()->getAuthenticatedCustomerData();
 
                             // Prepare discount ids.
                             $discountsToApply = $this->getShoppingCartService()->getDiscountsInLimbo($orderId);

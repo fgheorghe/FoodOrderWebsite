@@ -3,6 +3,7 @@ parameters:
     dft_site.shopping_cart.class: dft\SiteBundle\Services\ShoppingCart
     dft_site.login.class: dft\SiteBundle\Services\Login
     dft_site.barclays_payment.class: dft\SiteBundle\Services\BarclaysPayment
+    dft_site.stripe_payment.class: dft\SiteBundle\Services\StripePayment
     dft_site.form_validators.class: dft\SiteBundle\Services\FormValidators
 
 services:
@@ -20,6 +21,9 @@ services:
         arguments: [@service_container]
     dft_site.barclays_payment:
         class: %dft_site.barclays_payment.class%
+        arguments: [@service_container]
+    dft_site.stripe_payment:
+        class: %dft_site.stripe_payment.class%
         arguments: [@service_container]
     kernel.listener.visitors_listener:
         class: dft\SiteBundle\EventListener\VisitorListener

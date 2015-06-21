@@ -118,6 +118,15 @@ class DeliveryController extends BaseController
             $continueToPayment = false;
         }
 
+        // Get stripe payment settings.
+        $stripePublishableKey = null;
+        $stripeSecretKey = null;
+        if ($restaurantSettings->payment_gateway == 1) {
+            $stripeSettings = $this->getApiClientService()->getStripePaymentSettings();
+            $stripePublishableKey = $stripeSettings->stripe_publishable_key;
+            $stripeSecretKey = $stripeSettings->stripe_secret_key;
+        }
+
         return $this->render('dftSiteBundle:Delivery:delivery-details.html.twig', array(
                 "error_message" => $errorMessage,
                 "post_code" => $postCode,
@@ -140,7 +149,12 @@ class DeliveryController extends BaseController
                 "cancelurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
                 "backurl" => $this->getBarclaysPaymentService()->getPaymentReturnUrl(),
                 "live_payment_system" => $this->getBarclaysPaymentService()->getLive(),
-                "service_coverage" => $serviceCoverage
+                "service_coverage" => $serviceCoverage,
+                "payment_gateway" => $restaurantSettings->payment_gateway,
+                "restaurant_name" => $restaurantSettings->restaurant_name,
+                "stripe_publishable_key" => $stripePublishableKey,
+                "stripe_secret_key" => $stripeSecretKey,
+                "customer_email_address" => $customerData->email
             )
         );
     }

@@ -56,6 +56,7 @@ class ApiClient {
     const SERVICE_IMAGES_URL = "images/";
     const SERVICE_SERVICE_COVERAGE = 'service-coverage/check/%s/%s/%s';
     const SERVICE_BARCLAYS_PAYMENT_SETTINGS_URL = "barclays-payment-settings/";
+    const SERVICE_STRIPE_PAYMENT_SETTINGS_URL = "stripe-payment-settings/";
     const SERVICE_GET_DISCOUNTS_URL = "front-end-discounts/";
     const SERVICE_RECORD_VISITOR_URL = "record-visitor/";
 
@@ -189,6 +190,21 @@ class ApiClient {
         return $this->get(
             $this->getContainer()->getParameter('foapi_services_root_url'),
             self::SERVICE_BARCLAYS_PAYMENT_SETTINGS_URL,
+            array(
+                "token_1" => self::$TOKEN_1,
+                "token_2" => self::$TOKEN_2
+            )
+        );
+    }
+
+    /**
+     * Get stripe payment settings.
+     * @return mixed
+     */
+    public function getStripePaymentSettings() {
+        return $this->get(
+            $this->getContainer()->getParameter('foapi_services_root_url'),
+            self::SERVICE_STRIPE_PAYMENT_SETTINGS_URL,
             array(
                 "token_1" => self::$TOKEN_1,
                 "token_2" => self::$TOKEN_2

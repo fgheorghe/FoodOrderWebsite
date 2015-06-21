@@ -107,7 +107,7 @@ font-family: 'Libre Baskerville', 'serif';
 font-family: 'Libre Baskerville', 'serif';}
 
 .menu_list{ width:20%; float:left; margin:0 20px 0 0;}
-.menu_detail { width:50%; float:left; margin:0;}
+.menu_detail { width:50%; float:left; margin:0;min-height: 500px;}
 
 
 
@@ -2008,7 +2008,7 @@ background-color:#c6050b;
 }
 
 .cart_box { width:35%;}
-.menu_detail { width:60%;}
+.menu_detail { width:60%;min-height: 500px;}
 
 .menu_list { width:100%; text-align:center; margin:0 0 50px 0;}
 .hidden_list { width:50%; margin:0 auto; text-align:center; height:40px; border-radius:4px; border:1px solid #bb040a;
@@ -2136,7 +2136,7 @@ background: -webkit-linear-gradient(bottom,rgba(198,5,11,1),rgba(187,4,10,1)); /
 	.submit { width:20%!important;}
 	.review .col_1_4 { width:50%;}
 	.cart_hide { display:none;}
-	.menu_detail { width:100%;}
+	.menu_detail { width:100%;min-height: 500px;
 	
 	.login_box { width:90%;}
 .login_box form ul li {

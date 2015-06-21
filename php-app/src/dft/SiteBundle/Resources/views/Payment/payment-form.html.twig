@@ -1,27 +1,73 @@
-<div style="text-align: center;">OR</div>
-<FORM name="paymentform" id="paymentform" METHOD="POST" ACTION="{{ live_payment_system ? 'https://payments.epdq.co.uk/ncol/prod' : 'https://mdepayments.epdq.co.uk/ncol/test' }}/orderstandard.asp">
-    <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
-    <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
-    <INPUT type="hidden" NAME="AMOUNT" value="{{ amount }}">
-    <INPUT type="hidden" NAME="CURRENCY" value="{{ currency }}">
-    <INPUT type="hidden" NAME="LANGUAGE" value="{{ language }}">
-    <INPUT type="hidden" NAME="SHASIGN" value="{{ shasign }}">
+{# Barclays #}
+{% if payment_gateway == 2 %}
+    <div style="text-align: center;">OR</div>
+    <FORM name="paymentform" id="paymentform" METHOD="POST" ACTION="{{ live_payment_system ? 'https://payments.epdq.co.uk/ncol/prod' : 'https://mdepayments.epdq.co.uk/ncol/test' }}/orderstandard.asp">
+        <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
+        <INPUT type="hidden" NAME="ORDERID" value="{{ orderid }}">
+        <INPUT type="hidden" NAME="AMOUNT" value="{{ amount }}">
+        <INPUT type="hidden" NAME="CURRENCY" value="{{ currency }}">
+        <INPUT type="hidden" NAME="LANGUAGE" value="{{ language }}">
+        <INPUT type="hidden" NAME="SHASIGN" value="{{ shasign }}">
 
-    <INPUT type="hidden" NAME="ACCEPTURL" VALUE="{{ accepturl }}">
-    <INPUT type="hidden" NAME="DECLINEURL" VALUE="{{ declineurl }}">
-    <INPUT type="hidden" NAME="EXCEPTIONURL" VALUE="{{ exceptionurl }}">
-    <INPUT type="hidden" NAME="CANCELURL" VALUE="{{ cancelurl }}">
-    <INPUT type="hidden" NAME="BACKURL" VALUE="{{ backurl }}">
+        <INPUT type="hidden" NAME="ACCEPTURL" VALUE="{{ accepturl }}">
+        <INPUT type="hidden" NAME="DECLINEURL" VALUE="{{ declineurl }}">
+        <INPUT type="hidden" NAME="EXCEPTIONURL" VALUE="{{ exceptionurl }}">
+        <INPUT type="hidden" NAME="CANCELURL" VALUE="{{ cancelurl }}">
+        <INPUT type="hidden" NAME="BACKURL" VALUE="{{ backurl }}">
 
+        <br/>
+        <div style="text-align: center;">
+            <input style="visibility: hidden;" id="submitpaymentform" name="submitpaymentform" onclick="processDeliveryForm(0);" class="inputbutton" style="width: 240px;" type="button" value="CONTINUE TO PAYMENT"/>
+            <noscript>
+                <div name="enablejavascript" id="enablejavascript" style="font-weight: bold;">
+                        For full functionality of this site it is necessary to enable JavaScript.
+                        Here are the <a href="http://www.enable-javascript.com/" target="_blank">
+                            instructions how to enable JavaScript in your web browser</a>.
+                </div>
+            </noscript>
+        </div>
+    </form>
+{% endif %}
+{# Stripe #}
+{% if payment_gateway == 1 %}
+    <div style="text-align: center;">OR</div>
     <br/>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+
     <div style="text-align: center;">
-        <input style="visibility: hidden;" id="submitpaymentform" name="submitpaymentform" onclick="processDeliveryForm(0);" class="inputbutton" style="width: 240px;" type="button" value="CONTINUE TO PAYMENT">
-        <noscript>
-            <div name="enablejavascript" id="enablejavascript" style="font-weight: bold;">
-                    For full functionality of this site it is necessary to enable JavaScript.
-                    Here are the <a href="http://www.enable-javascript.com/" target="_blank">
-                        instructions how to enable JavaScript in your web browser</a>.
-            </div>
-        </noscript>
+        <input style="visibility: hidden;" id="submitpaymentform" class="inputbutton" style="width: 240px;" type="button" value="CONTINUE TO PAYMENT"/>
     </div>
-</form>
+
+    <FORM name="paymentform" id="paymentform" METHOD="POST" ACTION="/payment/">
+        <input name="payment_token" id="payment_token" type="hidden" name="token" value=""/>
+        <INPUT type="hidden" NAME="orderID" value="{{ orderid }}">
+    </FORM>
+
+
+    <script>
+        var handler = StripeCheckout.configure({
+            key: '{{ stripe_publishable_key }}',
+            token: function(token) {
+                $('#payment_token').val(token.id);
+                $('#paymentform').submit();
+            }
+        });
+
+        $('#submitpaymentform').on('click', function(e) {
+            // Open Checkout with further options
+            handler.open({
+                name: '{{ restaurant_name }}',
+                currency: "gbp",
+                amount: '{{ amount }}',
+                allowRememberMe: false,
+                email: '{{ customer_email_address }}'
+            });
+            e.preventDefault();
+        });
+
+        // Close Checkout on page navigation
+        $(window).on('popstate', function() {
+            handler.close();
+        });
+    </script>
+{% endif %}
