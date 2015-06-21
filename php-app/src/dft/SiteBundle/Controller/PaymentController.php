@@ -104,6 +104,9 @@ class PaymentController extends BaseController
                         } catch (\Exception $ex) {
                             $errorMessage = "Can not process payment: " . $ex->getMessage();
                         }
+                    } elseif (($pod && ($this->getLoginService()->getAuthenticatedCustomerData()->verified
+                            || $this->isAcceptingPaymentOnDeliveryOrCollectionForUnverifiedUsers()))) {
+                        $paymentSuccessful = true;
                     }
 
                     if ($paymentSuccessful) {
