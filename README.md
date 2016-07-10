@@ -3,7 +3,7 @@ Food Order Website v0.1.
 Do not forget to run (from the php-app folder), when deploying:
 php ../composer.phar update
 
-NOTE: This application is to be run on FreeBSD. Add the following to apache config, file:
+NOTE: If you run this application on FreeBSD, add the following to apache config, file:
 /usr/local/etc/apache24/httpd.conf
 
 At the end of file:
@@ -17,5 +17,5 @@ And enable:
 LoadModule rewrite_module libexec/apache24/mod_rewrite.so
 
 Configuration for parameters.yml:
-    foapi_services_root_url: http://admin.digitalfoodtechnologies.co.uk/api/
-    foapi_image_store_url: http://admin.digitalfoodtechnologies.co.uk/api/image/
+    foapi_services_root_url: http://admin.yourapi/api/
+    foapi_image_store_url: http://admin.yourapi/api/image/
